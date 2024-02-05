@@ -1,0 +1,8 @@
+/build
+bin
+obj
+.idea
+*user
+
+/llvm-build
+/llvm-prefix

@@ -1,0 +1,12 @@
+-f
+imgui-node-editor/imgui_node_editor.h
+-n
+ImguiNodeEditor
+-o
+./Output/Output.cs
+--test-output
+./TestOutput/Test.cs
+-I
+imgui
+--config
+generate-tests-nunit

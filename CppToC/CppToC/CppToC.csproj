@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup><!--      <PackageReference Include="ClangSharp" Version="17.0.1" />-->
+<!--      <PackageReference Include="libclang" Version="17.0.4" />-->
+<!--      <PackageReference Include="libClangSharp" Version="17.0.4" />-->
+    
+      <ProjectReference Include="..\ClangSharp\sources\ClangSharp\ClangSharp.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Content Include="libclang.dll;libclang.pdb;libClangSharp.dll;libClangSharp.pdb">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+</Project>

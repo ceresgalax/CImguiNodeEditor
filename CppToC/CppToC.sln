@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppToC", "CppToC\CppToC.csproj", "{AEF79144-8DF2-48A7-83BF-C01A1A592658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClangSharp", "ClangSharp\sources\ClangSharp\ClangSharp.csproj", "{6F543B40-DE61-4CD7-A87A-06F1FE43E5F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClangSharp.Interop", "ClangSharp\sources\ClangSharp.Interop\ClangSharp.Interop.csproj", "{93A53110-1888-4DA6-8442-511E8EE83B73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEF79144-8DF2-48A7-83BF-C01A1A592658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF79144-8DF2-48A7-83BF-C01A1A592658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF79144-8DF2-48A7-83BF-C01A1A592658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF79144-8DF2-48A7-83BF-C01A1A592658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F543B40-DE61-4CD7-A87A-06F1FE43E5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F543B40-DE61-4CD7-A87A-06F1FE43E5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F543B40-DE61-4CD7-A87A-06F1FE43E5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F543B40-DE61-4CD7-A87A-06F1FE43E5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A53110-1888-4DA6-8442-511E8EE83B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A53110-1888-4DA6-8442-511E8EE83B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A53110-1888-4DA6-8442-511E8EE83B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A53110-1888-4DA6-8442-511E8EE83B73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
