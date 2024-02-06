@@ -300,7 +300,7 @@ public class CUtil
         return builder.ToString();
     }
     
-    public static string GetCFunctionName(FunctionData function)
+    public static string GetCFunctionName(FunctionData function, RecordData? selfOf = null, bool withOverload = true)
     {
         string name;
         if (function.IsOperator) {
@@ -309,9 +309,15 @@ public class CUtil
             name = function.Name;
         }
 
-        if (function.OverloadIndex > 0) {
+        if (function.OverloadIndex > 0 && withOverload) {
             name += $"{function.OverloadIndex}";
         }
+        
+        if (selfOf != null) {
+            name = $"{GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArgs)}_{name}";
+        }
+        
+        name = GetNamespacedName(function.Namespace, name);
         
         return name;
     }
@@ -323,13 +329,7 @@ public class CUtil
             returnType = GetCType(data.ReturnType);
         }
 
-        string cFunctionName = GetCFunctionName(data);
-
-        if (selfOf != null) {
-            cFunctionName = $"{GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArgs)}_{cFunctionName}";
-        }
-        
-        string name = GetNamespacedName(data.Namespace, cFunctionName);
+        string name = GetCFunctionName(data, selfOf);
 
         IEnumerable<string> selfPrefix = Array.Empty<string>();
         if (selfOf != null) {

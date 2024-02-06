@@ -1,7 +1,7 @@
 #define FOR_WRAPPER_IMPL 1
 #include "imgui_node_editor.h" // This needs to be included first!
 #include "cimgui_node_editor.h"
-#include <utility> //std::move 
+#include <utility> // std::move 
 
 axNodeEditor_SaveReasonFlags axNodeEditor_operator_pipe(axNodeEditor_SaveReasonFlags lhs, axNodeEditor_SaveReasonFlags rhs) {
 	return ax::NodeEditor::operator|(lhs, rhs);

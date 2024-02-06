@@ -4,12 +4,16 @@ using System.Net;
 using ClangSharp;
 using ClangSharp.Interop;
 using CppToC;
+using CppToC.Generators;
 using CppToC.Model;
 
-string sourceFile = @"C:\Users\Ceres\Dev\ImguiNodeEditorClangSharp\imgui-node-editor\imgui_node_editor.h";
-string includeDirectory = @"C:\Users\Ceres\Dev\ImguiNodeEditorClangSharp\imgui";
-string headerOutputPath = @"C:\Users\Ceres\Dev\ImguiNodeEditorClangSharp\cimgui_node_editor.h";
-string sourceOutputPath = @"C:\Users\Ceres\Dev\ImguiNodeEditorClangSharp\cimgui_node_editor.cpp";
+string pwd = Directory.GetCurrentDirectory();
+
+string sourceFile = $"{pwd}/imgui-node-editor/imgui_node_editor.h";
+string includeDirectory = $"{pwd}/imgui";
+string headerOutputPath = $"{pwd}/cimgui_node_editor.h";
+string sourceOutputPath = $"{pwd}/cimgui_node_editor.cpp";
+string cimguiDefsOutputPath = $"{pwd}/definitions.json";
 
 
 string clangVersion;
@@ -64,5 +68,9 @@ CHeaderGenerator.Generate(headerWriter, builder);
 Console.WriteLine("Generator Source...");
 using StreamWriter sourceWriter = File.CreateText(sourceOutputPath);
 CSourceGenerator.Generate(sourceWriter, builder, Path.GetFileName(headerOutputPath),  Path.GetFileName(sourceFile));
+
+Console.WriteLine("Writing cimgui-style definitions.json...");
+using StreamWriter cimguiDefinitionsWriter = File.CreateText(cimguiDefsOutputPath);
+CimguiDefinitionsGenerator.Generate(cimguiDefinitionsWriter, builder);
 
 Console.WriteLine("Done!");
