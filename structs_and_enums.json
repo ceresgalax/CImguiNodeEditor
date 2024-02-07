@@ -1,0 +1,614 @@
+{
+  "enums": {
+    "axNodeEditor_PinKind": [
+      {
+        "calc_value": 0,
+        "name": "Input",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "Output",
+        "value": "1"
+      }
+    ],
+    "axNodeEditor_FlowDirection": [
+      {
+        "calc_value": 0,
+        "name": "Forward",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "Backward",
+        "value": "1"
+      }
+    ],
+    "axNodeEditor_CanvasSizeMode": [
+      {
+        "calc_value": 0,
+        "name": "FitVerticalView",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "FitHorizontalView",
+        "value": "1"
+      },
+      {
+        "calc_value": 2,
+        "name": "CenterOnly",
+        "value": "2"
+      }
+    ],
+    "axNodeEditor_SaveReasonFlags": [
+      {
+        "calc_value": 0,
+        "name": "None",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "Navigation",
+        "value": "1"
+      },
+      {
+        "calc_value": 2,
+        "name": "Position",
+        "value": "2"
+      },
+      {
+        "calc_value": 4,
+        "name": "Size",
+        "value": "4"
+      },
+      {
+        "calc_value": 8,
+        "name": "Selection",
+        "value": "8"
+      },
+      {
+        "calc_value": 16,
+        "name": "AddNode",
+        "value": "16"
+      },
+      {
+        "calc_value": 32,
+        "name": "RemoveNode",
+        "value": "32"
+      },
+      {
+        "calc_value": 64,
+        "name": "User",
+        "value": "64"
+      }
+    ],
+    "axNodeEditor_StyleColor": [
+      {
+        "calc_value": 0,
+        "name": "StyleColor_Bg",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "StyleColor_Grid",
+        "value": "1"
+      },
+      {
+        "calc_value": 2,
+        "name": "StyleColor_NodeBg",
+        "value": "2"
+      },
+      {
+        "calc_value": 3,
+        "name": "StyleColor_NodeBorder",
+        "value": "3"
+      },
+      {
+        "calc_value": 4,
+        "name": "StyleColor_HovNodeBorder",
+        "value": "4"
+      },
+      {
+        "calc_value": 5,
+        "name": "StyleColor_SelNodeBorder",
+        "value": "5"
+      },
+      {
+        "calc_value": 6,
+        "name": "StyleColor_NodeSelRect",
+        "value": "6"
+      },
+      {
+        "calc_value": 7,
+        "name": "StyleColor_NodeSelRectBorder",
+        "value": "7"
+      },
+      {
+        "calc_value": 8,
+        "name": "StyleColor_HovLinkBorder",
+        "value": "8"
+      },
+      {
+        "calc_value": 9,
+        "name": "StyleColor_SelLinkBorder",
+        "value": "9"
+      },
+      {
+        "calc_value": 10,
+        "name": "StyleColor_HighlightLinkBorder",
+        "value": "10"
+      },
+      {
+        "calc_value": 11,
+        "name": "StyleColor_LinkSelRect",
+        "value": "11"
+      },
+      {
+        "calc_value": 12,
+        "name": "StyleColor_LinkSelRectBorder",
+        "value": "12"
+      },
+      {
+        "calc_value": 13,
+        "name": "StyleColor_PinRect",
+        "value": "13"
+      },
+      {
+        "calc_value": 14,
+        "name": "StyleColor_PinRectBorder",
+        "value": "14"
+      },
+      {
+        "calc_value": 15,
+        "name": "StyleColor_Flow",
+        "value": "15"
+      },
+      {
+        "calc_value": 16,
+        "name": "StyleColor_FlowMarker",
+        "value": "16"
+      },
+      {
+        "calc_value": 17,
+        "name": "StyleColor_GroupBg",
+        "value": "17"
+      },
+      {
+        "calc_value": 18,
+        "name": "StyleColor_GroupBorder",
+        "value": "18"
+      },
+      {
+        "calc_value": 19,
+        "name": "StyleColor_Count",
+        "value": "19"
+      }
+    ],
+    "axNodeEditor_StyleVar": [
+      {
+        "calc_value": 0,
+        "name": "StyleVar_NodePadding",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "StyleVar_NodeRounding",
+        "value": "1"
+      },
+      {
+        "calc_value": 2,
+        "name": "StyleVar_NodeBorderWidth",
+        "value": "2"
+      },
+      {
+        "calc_value": 3,
+        "name": "StyleVar_HoveredNodeBorderWidth",
+        "value": "3"
+      },
+      {
+        "calc_value": 4,
+        "name": "StyleVar_SelectedNodeBorderWidth",
+        "value": "4"
+      },
+      {
+        "calc_value": 5,
+        "name": "StyleVar_PinRounding",
+        "value": "5"
+      },
+      {
+        "calc_value": 6,
+        "name": "StyleVar_PinBorderWidth",
+        "value": "6"
+      },
+      {
+        "calc_value": 7,
+        "name": "StyleVar_LinkStrength",
+        "value": "7"
+      },
+      {
+        "calc_value": 8,
+        "name": "StyleVar_SourceDirection",
+        "value": "8"
+      },
+      {
+        "calc_value": 9,
+        "name": "StyleVar_TargetDirection",
+        "value": "9"
+      },
+      {
+        "calc_value": 10,
+        "name": "StyleVar_ScrollDuration",
+        "value": "10"
+      },
+      {
+        "calc_value": 11,
+        "name": "StyleVar_FlowMarkerDistance",
+        "value": "11"
+      },
+      {
+        "calc_value": 12,
+        "name": "StyleVar_FlowSpeed",
+        "value": "12"
+      },
+      {
+        "calc_value": 13,
+        "name": "StyleVar_FlowDuration",
+        "value": "13"
+      },
+      {
+        "calc_value": 14,
+        "name": "StyleVar_PivotAlignment",
+        "value": "14"
+      },
+      {
+        "calc_value": 15,
+        "name": "StyleVar_PivotSize",
+        "value": "15"
+      },
+      {
+        "calc_value": 16,
+        "name": "StyleVar_PivotScale",
+        "value": "16"
+      },
+      {
+        "calc_value": 17,
+        "name": "StyleVar_PinCorners",
+        "value": "17"
+      },
+      {
+        "calc_value": 18,
+        "name": "StyleVar_PinRadius",
+        "value": "18"
+      },
+      {
+        "calc_value": 19,
+        "name": "StyleVar_PinArrowSize",
+        "value": "19"
+      },
+      {
+        "calc_value": 20,
+        "name": "StyleVar_PinArrowWidth",
+        "value": "20"
+      },
+      {
+        "calc_value": 21,
+        "name": "StyleVar_GroupRounding",
+        "value": "21"
+      },
+      {
+        "calc_value": 22,
+        "name": "StyleVar_GroupBorderWidth",
+        "value": "22"
+      },
+      {
+        "calc_value": 23,
+        "name": "StyleVar_HighlightConnectedLinks",
+        "value": "23"
+      },
+      {
+        "calc_value": 24,
+        "name": "StyleVar_SnapLinkToPinDir",
+        "value": "24"
+      },
+      {
+        "calc_value": 25,
+        "name": "StyleVar_HoveredNodeBorderOffset",
+        "value": "25"
+      },
+      {
+        "calc_value": 26,
+        "name": "StyleVar_SelectedNodeBorderOffset",
+        "value": "26"
+      },
+      {
+        "calc_value": 27,
+        "name": "StyleVar_Count",
+        "value": "27"
+      }
+    ]
+  },
+  "enumtypes": {
+    "axNodeEditor_PinKind": "int",
+    "axNodeEditor_FlowDirection": "int",
+    "axNodeEditor_CanvasSizeMode": "int",
+    "axNodeEditor_SaveReasonFlags": "int",
+    "axNodeEditor_StyleColor": "int",
+    "axNodeEditor_StyleVar": "int"
+  },
+  "locations": {
+    "axNodeEditor_PinKind": "",
+    "axNodeEditor_FlowDirection": "",
+    "axNodeEditor_CanvasSizeMode": "",
+    "axNodeEditor_SaveReasonFlags": "",
+    "axNodeEditor_StyleColor": "",
+    "axNodeEditor_StyleVar": "",
+    "axNodeEditor_Config": "",
+    "axNodeEditor_Style": "",
+    "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId": "",
+    "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId": "",
+    "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId": "",
+    "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId": "",
+    "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId": "",
+    "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId": "",
+    "axNodeEditor_NodeId": "",
+    "axNodeEditor_LinkId": "",
+    "axNodeEditor_PinId": ""
+  },
+  "structs": {
+    "axNodeEditor_Config": [
+      {
+        "name": "SettingsFile",
+        "template_type": "",
+        "type": "const char*"
+      },
+      {
+        "name": "BeginSaveSession",
+        "template_type": "",
+        "type": "void (*)(void*)"
+      },
+      {
+        "name": "EndSaveSession",
+        "template_type": "",
+        "type": "void (*)(void*)"
+      },
+      {
+        "name": "SaveSettings",
+        "template_type": "",
+        "type": "bool (*)(const char*,unsigned long long,axNodeEditor_SaveReasonFlags,void*)"
+      },
+      {
+        "name": "LoadSettings",
+        "template_type": "",
+        "type": "unsigned long long (*)(char*,void*)"
+      },
+      {
+        "name": "SaveNodeSettings",
+        "template_type": "",
+        "type": "bool (*)(axNodeEditor_NodeId,const char*,unsigned long long,axNodeEditor_SaveReasonFlags,void*)"
+      },
+      {
+        "name": "LoadNodeSettings",
+        "template_type": "",
+        "type": "unsigned long long (*)(axNodeEditor_NodeId,char*,void*)"
+      },
+      {
+        "name": "UserPointer",
+        "template_type": "",
+        "type": "void*"
+      },
+      {
+        "name": "CustomZoomLevels",
+        "template_type": "",
+        "type": "ImVector_float"
+      },
+      {
+        "name": "CanvasSizeMode",
+        "template_type": "",
+        "type": "axNodeEditor_CanvasSizeMode"
+      },
+      {
+        "name": "DragButtonIndex",
+        "template_type": "",
+        "type": "int"
+      },
+      {
+        "name": "SelectButtonIndex",
+        "template_type": "",
+        "type": "int"
+      },
+      {
+        "name": "NavigateButtonIndex",
+        "template_type": "",
+        "type": "int"
+      },
+      {
+        "name": "ContextMenuButtonIndex",
+        "template_type": "",
+        "type": "int"
+      },
+      {
+        "name": "EnableSmoothZoom",
+        "template_type": "",
+        "type": "bool"
+      },
+      {
+        "name": "SmoothZoomPower",
+        "template_type": "",
+        "type": "float"
+      }
+    ],
+    "axNodeEditor_Style": [
+      {
+        "name": "NodePadding",
+        "template_type": "",
+        "type": "ImVec4"
+      },
+      {
+        "name": "NodeRounding",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "NodeBorderWidth",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "HoveredNodeBorderWidth",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "HoverNodeBorderOffset",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "SelectedNodeBorderWidth",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "SelectedNodeBorderOffset",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "PinRounding",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "PinBorderWidth",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "LinkStrength",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "SourceDirection",
+        "template_type": "",
+        "type": "ImVec2"
+      },
+      {
+        "name": "TargetDirection",
+        "template_type": "",
+        "type": "ImVec2"
+      },
+      {
+        "name": "ScrollDuration",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "FlowMarkerDistance",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "FlowSpeed",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "FlowDuration",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "PivotAlignment",
+        "template_type": "",
+        "type": "ImVec2"
+      },
+      {
+        "name": "PivotSize",
+        "template_type": "",
+        "type": "ImVec2"
+      },
+      {
+        "name": "PivotScale",
+        "template_type": "",
+        "type": "ImVec2"
+      },
+      {
+        "name": "PinCorners",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "PinRadius",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "PinArrowSize",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "PinArrowWidth",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "GroupRounding",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "GroupBorderWidth",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "HighlightConnectedLinks",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "SnapLinkToPinDir",
+        "template_type": "",
+        "type": "float"
+      },
+      {
+        "name": "Colors",
+        "template_type": "",
+        "type": "ImVec4[19]"
+      }
+    ],
+    "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId": [
+      {
+        "name": "m_Value",
+        "template_type": "",
+        "type": "unsigned long long"
+      }
+    ],
+    "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId": [
+      {
+        "name": "m_Value",
+        "template_type": "",
+        "type": "unsigned long long"
+      }
+    ],
+    "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId": [
+      {
+        "name": "m_Value",
+        "template_type": "",
+        "type": "unsigned long long"
+      }
+    ],
+    "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId": [],
+    "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId": [],
+    "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId": [],
+    "axNodeEditor_NodeId": [],
+    "axNodeEditor_LinkId": [],
+    "axNodeEditor_PinId": []
+  },
+  "templated_structs": {},
+  "templates_done": {},
+  "typenames": {}
+}

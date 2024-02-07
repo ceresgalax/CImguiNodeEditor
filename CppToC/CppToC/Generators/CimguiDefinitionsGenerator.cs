@@ -32,17 +32,29 @@ public static class CimguiDefinitionsGenerator
 
     public static void Generate(TextWriter writer, Builder builder)
     {
-        Dictionary<string, CimguiDefinition> defs = new();
+        Dictionary<string, List<CimguiDefinition>> defs = new();
 
         foreach (FunctionData data in builder.Functions) {
             CimguiDefinition def = GetCimguiDefForFunction(data, selfOf: null);
-            defs[def.OvCimguiName] = def;
+
+            if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
+                defList = new List<CimguiDefinition>();
+                defs[def.CimguiName] = defList;
+            }
+
+            defList.Add(def);
         }
 
         foreach (RecordData record in builder.Records) {
             foreach (FunctionData method in record.Methods) {
                 CimguiDefinition def = GetCimguiDefForFunction(method, selfOf: record);
-                defs[def.OvCimguiName] = def;
+                
+                if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
+                    defList = new List<CimguiDefinition>();
+                    defs[def.CimguiName] = defList;
+                }
+
+                defList.Add(def);
             }
         }
 

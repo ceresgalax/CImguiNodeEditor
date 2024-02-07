@@ -14,6 +14,7 @@ string includeDirectory = $"{pwd}/imgui";
 string headerOutputPath = $"{pwd}/cimgui_node_editor.h";
 string sourceOutputPath = $"{pwd}/cimgui_node_editor.cpp";
 string cimguiDefsOutputPath = $"{pwd}/definitions.json";
+string cimguiStructsAndEnumsOutputPath = $"{pwd}/structs_and_enums.json";
 
 
 string clangVersion;
@@ -61,16 +62,28 @@ CursorVisitor.Visit(translationUnit.TranslationUnitDecl, builder);
 
 OverloadUtil.ProcessOverloads(builder);
 
-Console.WriteLine("Generating Header...");
-using StreamWriter headerWriter = File.CreateText(headerOutputPath);
-CHeaderGenerator.Generate(headerWriter, builder);
+{
+    Console.WriteLine("Generating Header...");
+    using StreamWriter writer = File.CreateText(headerOutputPath);
+    CHeaderGenerator.Generate(writer, builder);
+}
 
-Console.WriteLine("Generator Source...");
-using StreamWriter sourceWriter = File.CreateText(sourceOutputPath);
-CSourceGenerator.Generate(sourceWriter, builder, Path.GetFileName(headerOutputPath),  Path.GetFileName(sourceFile));
+{
+    Console.WriteLine("Generator Source...");
+    using StreamWriter writer = File.CreateText(sourceOutputPath);
+    CSourceGenerator.Generate(writer, builder, Path.GetFileName(headerOutputPath),  Path.GetFileName(sourceFile));
+}
 
-Console.WriteLine("Writing cimgui-style definitions.json...");
-using StreamWriter cimguiDefinitionsWriter = File.CreateText(cimguiDefsOutputPath);
-CimguiDefinitionsGenerator.Generate(cimguiDefinitionsWriter, builder);
+{
+    Console.WriteLine("Writing cimgui-style definitions.json...");
+    using StreamWriter writer = File.CreateText(cimguiDefsOutputPath);
+    CimguiDefinitionsGenerator.Generate(writer, builder);
+}
+
+{
+    Console.WriteLine("Writing cimgui-style structs_and_enums.json...");
+    using StreamWriter writer = File.CreateText(cimguiStructsAndEnumsOutputPath);
+    CImguiStructsAndEnumsGenerator.Generate(writer, builder);
+}
 
 Console.WriteLine("Done!");
