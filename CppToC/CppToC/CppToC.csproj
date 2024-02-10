@@ -15,13 +15,50 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Content Include="libclang.dll;libclang.pdb;libClangSharp.dll;libClangSharp.pdb">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <PackageReference Include="CeresCubeb-native" Version="1.0.4" />
     </ItemGroup>
     
-    <ItemGroup>
-      <Folder Include="CimguiMetadata\" />
+    <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
+        <CmakeArch>x86_64</CmakeArch>
+        <RidArch>x64</RidArch>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'ARM64'">
+        <CmakeArch>arm64</CmakeArch>
+        <RidArch>arm64</RidArch>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <IsWindows>false</IsWindows>
+        <IsOsx>false</IsOsx>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+        <IsWindows>true</IsWindows>
+        <OutRid>win-$(RidArch)</OutRid>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+        <IsOsx>true</IsOsx>
+        <OutRid>osx-$(RidArch)</OutRid>
+    </PropertyGroup>
+    
+    <ItemGroup Condition="$(IsWindows)">
+        <Content Include="libclang.dll;libclang.pdb;libClangSharp.dll;libClangSharp.pdb">
+            <PackagePath>runtimes/$(OutRid)/native/libnativeaudio.dylib</PackagePath>
+            <Pack>true</Pack>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <LinkBase>runtimes\$(OutRid)\native</LinkBase>
+            <PublishState>Included</PublishState>
+        </Content>
+    </ItemGroup>
+    <ItemGroup Condition="$(IsOsx)">
+        <Content Include="../../llvm-prefix/lib/libclang.dylib;../ClangSharp/build/lib/libClangSharp.dylib">
+            <PackagePath>runtimes/$(OutRid)/native/libnativeaudio.dylib</PackagePath>
+            <Pack>true</Pack>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <LinkBase>runtimes\$(OutRid)\native</LinkBase>
+            <PublishState>Included</PublishState>
+        </Content>
     </ItemGroup>
 
 </Project>
