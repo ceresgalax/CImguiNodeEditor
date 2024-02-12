@@ -25,6 +25,7 @@ public class CimguiDefinition
     [JsonPropertyName("ret")] public string Ret = "";
     [JsonPropertyName("signature")] public string Signature = "";
     [JsonPropertyName("stname")] public string StName = "";
+    [JsonPropertyName("templated")] public bool Templated;
 }
 
 public static class CimguiDefinitionsGenerator
@@ -35,7 +36,7 @@ public static class CimguiDefinitionsGenerator
         Dictionary<string, List<CimguiDefinition>> defs = new();
 
         foreach (FunctionData data in builder.Functions) {
-            CimguiDefinition def = GetCimguiDefForFunction(data, selfOf: null);
+            CimguiDefinition def = GetCimguiDefForFunction(data, selfOf: null, isTemplated: false);
 
             if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
                 defList = new List<CimguiDefinition>();
@@ -45,10 +46,26 @@ public static class CimguiDefinitionsGenerator
             defList.Add(def);
         }
 
+        RecordMethodOwner recordMethodOwner = new RecordMethodOwner(new RecordData());
         foreach (RecordData record in builder.Records) {
+            recordMethodOwner.SetRecord(record);
             foreach (FunctionData method in record.Methods) {
-                CimguiDefinition def = GetCimguiDefForFunction(method, selfOf: record);
+                CimguiDefinition def = GetCimguiDefForFunction(method, recordMethodOwner, isTemplated: false);
                 
+                if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
+                    defList = new List<CimguiDefinition>();
+                    defs[def.CimguiName] = defList;
+                }
+
+                defList.Add(def);
+            }
+        }
+        
+        foreach (TemplateRecordData templateRecord in builder.TemplateRecords.Values) {
+            recordMethodOwner.SetRecord(templateRecord.Inner);
+            foreach (FunctionData method in templateRecord.Inner.Methods) {
+                CimguiDefinition def = GetCimguiDefForFunction(method, recordMethodOwner, isTemplated: true);
+            
                 if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
                     defList = new List<CimguiDefinition>();
                     defs[def.CimguiName] = defList;
@@ -64,11 +81,13 @@ public static class CimguiDefinitionsGenerator
         writer.Write(JsonSerializer.Serialize(defs, opts));
     }
 
-    public static CimguiDefinition GetCimguiDefForFunction(FunctionData data, RecordData? selfOf)
+    public static CimguiDefinition GetCimguiDefForFunction(FunctionData data, RecordMethodOwner? selfOf, bool isTemplated)
     {
         IEnumerable<string> parameters = CUtil.GetParameters(data);
+        string selfOfCName = "";
         if (selfOf != null) {
-            parameters = Enumerable.Repeat($"{CUtil.GetCType(selfOf.Type)}* __self", 1).Concat(parameters);
+            selfOfCName = CUtil.GetNamespacedName(selfOf.Namespace, selfOf.Name);
+            parameters = Enumerable.Repeat($"{selfOfCName}* __self", 1).Concat(parameters);
         }
         
         IEnumerable<string> cppArgs = data.Parameters
@@ -78,13 +97,13 @@ public static class CimguiDefinitionsGenerator
             .Select(p => new CimguiDefinition.ArgType() { Name = p.Name, Type = CUtil.GetCType(p.Type.ClangType) });
         if (selfOf != null) {
             argsT = Enumerable.Repeat(new CimguiDefinition.ArgType
-                    { Name = "__self", Type = $"{CUtil.GetCType(selfOf.Type)}*" }, 1)
+                    { Name = "__self", Type = $"{selfOfCName}*" }, 1)
                 .Concat(argsT);
         }
 
         IEnumerable<string> sigParts = data.Parameters.Select(p => CUtil.GetCType(p.Type));
         if (selfOf != null) {
-            sigParts = Enumerable.Repeat<string>($"{CUtil.GetCType(selfOf.Type)}*", 1).Concat(sigParts);
+            sigParts = Enumerable.Repeat<string>($"{selfOfCName}*", 1).Concat(sigParts);
         }
         
         CimguiDefinition def = new() {
@@ -100,7 +119,8 @@ public static class CimguiDefinitionsGenerator
             OvCimguiName = CUtil.GetCFunctionName(data, selfOf),
             Ret = data.ReturnType == null ? "void" : CUtil.GetCType(data.ReturnType),
             Signature = $"({string.Join(",", sigParts)})",
-            StName = "" // TODO
+            StName = selfOf == null ? "" : CUtil.GetNamespacedName(selfOf),
+            Templated = isTemplated
         };
 
         return def;

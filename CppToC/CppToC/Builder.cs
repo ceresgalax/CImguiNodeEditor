@@ -11,10 +11,22 @@ public class Builder
     private readonly List<string> _namespaceStack = new();
 
     public readonly List<RecordData> Records = new();
+    public readonly Dictionary<TemplateDecl, TemplateRecordData> TemplateRecords = new();
     public readonly List<EnumData> Enums = new();
     public readonly List<FunctionData> Functions = new();
     public readonly List<ForwardDeclaredRecordData> ForwardDeclaredRecords = new();
 
+    public TemplateRecordData GetOrCreateTemplateRecordData(TemplateDecl templateDecl)
+    {
+        if (!TemplateRecords.TryGetValue(templateDecl, out TemplateRecordData? data)) {
+            data = new TemplateRecordData();
+            TemplateRecords[templateDecl] = data;
+            data.Inner.Namespace = CUtil.GetNsFromCursor(templateDecl);
+            data.Inner.Name = templateDecl.Name;
+        }
+        return data;
+    }
+    
     private static string NormalizePath(string? path)
     {
         if (string.IsNullOrEmpty(path)) {

@@ -10,6 +10,9 @@ namespace CppToC;
 
 public class CUtil
 {
+    // TODO: Refactor to be non-global once this is proven to work.
+    public static readonly List<TemplateArgumentSet> TemplateArgumentStack = new();
+    
     public static string GetNamespacePrefix(string[] ns)
     {
         return string.Join("", ns);
@@ -24,7 +27,7 @@ public class CUtil
         return $"{prefix}_{name}";
     }
 
-    public static string GetNamespacedName(string[] ns, string name, TemplateArgument[] templateArgs)
+    public static string GetNamespacedName(string[] ns, string name, IReadOnlyList<TemplateArgument> templateArgs)
     {
         string prefix = GetNamespacedName(ns, name);
         string postfix = GetTemplateParamCtypePostfix(templateArgs);
@@ -32,6 +35,11 @@ public class CUtil
             return prefix;
         }
         return $"{prefix}_{postfix}";
+    }
+
+    public static string GetNamespacedName(IMethodOwner methodOwner)
+    {
+        return GetNamespacedName(methodOwner.Namespace, methodOwner.Name, methodOwner.TemplateArguments);
     }
 
     public static string GetNamespacedName(NamedDecl decl)
@@ -134,7 +142,7 @@ public class CUtil
                 return prefix + GetNamespacedName(GetNsFromCursor(tagType.Decl), tagType.Decl.Name);
             }
             case CXType_Typedef:
-                throw new NotImplementedException();
+                return GetTypedefCType((TypedefType)type);
             case CXType_ObjCInterface:
             case CXType_ObjCObjectPointer:
             case CXType_FunctionNoProto:
@@ -151,8 +159,10 @@ public class CUtil
             case CXType_MemberPointer:
             case CXType_Auto:
                 throw new NotImplementedException();
-            case CXType_Elaborated:
-                return GetCType(type.CanonicalType);
+            case CXType_Elaborated: {
+                ElaboratedType et = (ElaboratedType)type;
+                return GetCType(et.NamedType);
+            }
             case CXType_Pipe:
                 throw new NotImplementedException();
             case CXType_ExtVector:
@@ -164,8 +174,16 @@ public class CUtil
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
+        
         return type.AsString;
+    }
+
+    public static string GetTypedefCType(TypedefType type)
+    {
+        if (type.AsString == "uintptr_t" || type.AsString == "size_t") {
+            return "void*";
+        }
+        return GetCType(type.Desugar);
     }
 
     public static string GetUnexposedCType(ClangSharp.Type type)
@@ -175,21 +193,22 @@ public class CUtil
                 SubstTemplateTypeParmType substType = (SubstTemplateTypeParmType)type;
                 return GetCType(substType.ReplacementType);
             }
-            // case CX_TypeClass_TemplateSpecialization: {
-            //     TemplateSpecializationType specializationType = (TemplateSpecializationType)type;
-            //     return GetTemplateSpecializationCType(specializationType.TemplateName.AsTemplateDecl, specializationType.Args);
-            // }
-            // case CX_TypeClass_TemplateTypeParm: {
-            //     if (templateArgumentSet == null) {
-            //         return "<missing template argument set>";
-            //     }
-            //     TemplateTypeParmType typeParamType = (TemplateTypeParmType)type;
-            //     TemplateArgument arg = templateArgumentSet.Args[(int)typeParamType.Index];
-            //     return GetCType(arg.AsType, templateArgumentSet);
-            //     // Console.WriteLine(arg);
-            //     // return "";
-            //     // break;
-            // }
+            case CX_TypeClass_TemplateSpecialization: {
+                TemplateSpecializationType specializationType = (TemplateSpecializationType)type;
+                return GetTemplateSpecializationCType(specializationType.TemplateName.AsTemplateDecl, specializationType.Args);
+            }
+            case CX_TypeClass_TemplateTypeParm: {
+                TemplateTypeParmType typeParamType = (TemplateTypeParmType)type;
+
+                if (TemplateArgumentStack.Count > 0) {
+                    TemplateArgumentSet set = TemplateArgumentStack[(int)typeParamType.Depth];
+                    return GetCType(set.Args[(int)typeParamType.Index].AsType);    
+                }
+
+                return typeParamType.AsString;
+            }
+            case CX_TypeClass_InjectedClassName:
+                return GetUnexposedCType(((InjectedClassNameType)type).InjectedTST);
             default:
                 throw new NotImplementedException();
         }
@@ -212,6 +231,7 @@ public class CUtil
 
             string cType = GetCType(arg.AsType);
             cType = cType.Replace(" ", "");
+            cType = cType.Replace("*", "ptr");
             
             builder.Append(cType);
             if (i + 1 < ilen) {
@@ -226,7 +246,7 @@ public class CUtil
         return GetTemplateSpecializationCType(decl, decl.TemplateArgs);
     }
 
-    private static string[] GetNsFromCursor(Cursor cursor)
+    public static string[] GetNsFromCursor(Cursor cursor)
     {
         Stack<string> parts = new();
         Cursor? lexicalParent = cursor.LexicalParentCursor;
@@ -247,10 +267,10 @@ public class CUtil
 
     public static string GetRecordCppSpelling(RecordData record)
     {
-        return GetRecordCppSpelling(record.Namespace, record.Name, record.TemplateArgs);
+        return GetRecordCppSpelling(record.Namespace, record.Name, Array.Empty<TemplateArgument>());
     }
     
-    public static string GetRecordCppSpelling(string[] ns, string name, TemplateArgument[] templateArgs)
+    public static string GetRecordCppSpelling(string[] ns, string name, IReadOnlyList<TemplateArgument> templateArgs)
     {
         StringBuilder builder = new();
         
@@ -262,11 +282,11 @@ public class CUtil
         }
 
         builder.Append(name);
-
-        if (templateArgs.Length > 0) {
+        
+        if (templateArgs.Count > 0) {
             builder.Append('<');
 
-            for (int i = 0, ilen = templateArgs.Length; i < ilen; ++i) {
+            for (int i = 0, ilen = templateArgs.Count; i < ilen; ++i) {
                 TemplateArgument arg = templateArgs[i];
                 builder.Append(arg.AsType.AsString);
                 if (i + 1 < ilen) {
@@ -300,7 +320,7 @@ public class CUtil
         return builder.ToString();
     }
     
-    public static string GetCFunctionName(FunctionData function, RecordData? selfOf = null, bool withOverload = true)
+    public static string GetCFunctionName(FunctionData function, IMethodOwner? selfOf, bool withOverload = true)
     {
         string name;
         if (function.IsOperator) {
@@ -314,7 +334,7 @@ public class CUtil
         }
         
         if (selfOf != null) {
-            name = $"{GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArgs)}_{name}";
+            name = $"{GetNamespacedName(selfOf)}_{name}";
         }
         
         name = GetNamespacedName(function.Namespace, name);
@@ -322,7 +342,7 @@ public class CUtil
         return name;
     }
 
-    public static string GetCFunctionLine(FunctionData data, RecordData? selfOf)
+    public static string GetCFunctionLine(FunctionData data, IMethodOwner? selfOf)
     {
         string returnType = "void";
         if (data.ReturnType != null) {
@@ -334,7 +354,7 @@ public class CUtil
         IEnumerable<string> selfPrefix = Array.Empty<string>();
         if (selfOf != null) {
             // TODO: If this is a const function, make the self pointer const.
-            selfPrefix = Enumerable.Repeat($"{GetCType(selfOf.Type)}* __self", 1);
+            selfPrefix = Enumerable.Repeat($"{GetNamespacedName(selfOf)}* __self", 1);
         }
         
         string parameters = string.Join(", ", selfPrefix.Concat(GetParameters(data)));

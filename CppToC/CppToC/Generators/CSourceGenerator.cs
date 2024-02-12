@@ -48,28 +48,25 @@ public static class CSourceGenerator
         }
         
         // Method impls
+        RecordMethodOwner recordMethodOwner = new(new RecordData());
         foreach (RecordData data in builder.Records) {
+            recordMethodOwner.SetRecord(data);
             foreach (FunctionData function in data.Methods) {
-                writer.WriteLine($"{CUtil.GetCFunctionLine(function, selfOf: data)} {{");
-                writer.Write("\t");
+                WriteMethod(writer, function, recordMethodOwner);
+            }
+        }
 
-                (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType);
-                writer.Write(prefix);
-
-                string cppFuncSpelling = CUtil.GetCppFunctionSpelling(function); 
-                writer.Write($"__self->{cppFuncSpelling}(");
+        InstantiatedTemplateRecordMethodOwner itrMethodOwner = new();
+        foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
+            foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
+                itrMethodOwner.Set(templateRecordData.Inner, set);
+                CUtil.TemplateArgumentStack.Add(set);
                 
-                for (int i = 0, ilen = function.Parameters.Count; i < ilen; ++i) {
-                    writer.Write(GetParameterPass(function.Parameters[i]));
-                    if (i + 1 < ilen) {
-                        writer.Write(", ");
-                    }
+                foreach (FunctionData function in templateRecordData.Inner.Methods) {
+                    WriteMethod(writer, function, recordMethodOwner);    
                 }
-                writer.Write(")");
-                writer.Write(postfix);
-                writer.WriteLine(";");
-                writer.WriteLine("}");
-                writer.WriteLine();
+                
+                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
             }
         }
         
@@ -105,5 +102,29 @@ public static class CSourceGenerator
             return $"std::move(*{parameter.Name})";
         }
         return parameter.Name;
+    }
+
+    private static void WriteMethod(TextWriter writer, FunctionData function, IMethodOwner selfOf)
+    {
+        writer.WriteLine($"{CUtil.GetCFunctionLine(function, selfOf)} {{");
+        writer.Write("\t");
+
+        (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType);
+        writer.Write(prefix);
+
+        string cppFuncSpelling = CUtil.GetCppFunctionSpelling(function); 
+        writer.Write($"__self->{cppFuncSpelling}(");
+                
+        for (int i = 0, ilen = function.Parameters.Count; i < ilen; ++i) {
+            writer.Write(GetParameterPass(function.Parameters[i]));
+            if (i + 1 < ilen) {
+                writer.Write(", ");
+            }
+        }
+        writer.Write(")");
+        writer.Write(postfix);
+        writer.WriteLine(";");
+        writer.WriteLine("}");
+        writer.WriteLine();
     }
 }

@@ -86,24 +86,24 @@ struct axNodeEditor_Config;
 typedef struct axNodeEditor_Config axNodeEditor_Config;
 struct axNodeEditor_Style;
 typedef struct axNodeEditor_Style axNodeEditor_Style;
-struct axNodeEditorDetails_SafeType;
-typedef struct axNodeEditorDetails_SafeType axNodeEditorDetails_SafeType;
-struct axNodeEditorDetails_SafeType;
-typedef struct axNodeEditorDetails_SafeType axNodeEditorDetails_SafeType;
-struct axNodeEditorDetails_SafeType;
-typedef struct axNodeEditorDetails_SafeType axNodeEditorDetails_SafeType;
-struct axNodeEditorDetails_SafePointerType;
-typedef struct axNodeEditorDetails_SafePointerType axNodeEditorDetails_SafePointerType;
-struct axNodeEditorDetails_SafePointerType;
-typedef struct axNodeEditorDetails_SafePointerType axNodeEditorDetails_SafePointerType;
-struct axNodeEditorDetails_SafePointerType;
-typedef struct axNodeEditorDetails_SafePointerType axNodeEditorDetails_SafePointerType;
 struct axNodeEditor_NodeId;
 typedef struct axNodeEditor_NodeId axNodeEditor_NodeId;
 struct axNodeEditor_LinkId;
 typedef struct axNodeEditor_LinkId axNodeEditor_LinkId;
 struct axNodeEditor_PinId;
 typedef struct axNodeEditor_PinId axNodeEditor_PinId;
+struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId;
+typedef struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId;
+struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId;
+typedef struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId;
+struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId;
+typedef struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId;
+struct axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId;
+typedef struct axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId;
+struct axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId;
+typedef struct axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId;
+struct axNodeEditorDetails_SafePointerType_axNodeEditor_PinId;
+typedef struct axNodeEditorDetails_SafePointerType_axNodeEditor_PinId axNodeEditorDetails_SafePointerType_axNodeEditor_PinId;
 struct axNodeEditor_EditorContext;
 typedef struct axNodeEditor_EditorContext axNodeEditor_EditorContext;
 
@@ -111,10 +111,10 @@ struct axNodeEditor_Config {
 	const char*          SettingsFile;
 	void (*)(void*)      BeginSaveSession;
 	void (*)(void*)      EndSaveSession;
-	bool (*)(const char*,unsigned long long,axNodeEditor_SaveReasonFlags,void*) SaveSettings;
-	unsigned long long (*)(char*,void*) LoadSettings;
-	bool (*)(axNodeEditor_NodeId,const char*,unsigned long long,axNodeEditor_SaveReasonFlags,void*) SaveNodeSettings;
-	unsigned long long (*)(axNodeEditor_NodeId,char*,void*) LoadNodeSettings;
+	bool (*)(const char*,void*,axNodeEditor_SaveReasonFlags,void*) SaveSettings;
+	void* (*)(char*,void*) LoadSettings;
+	bool (*)(axNodeEditor_NodeId,const char*,void*,axNodeEditor_SaveReasonFlags,void*) SaveNodeSettings;
+	void* (*)(axNodeEditor_NodeId,char*,void*) LoadNodeSettings;
 	void*                UserPointer;
 	ImVector_float       CustomZoomLevels;
 	axNodeEditor_CanvasSizeMode CanvasSizeMode;
@@ -157,33 +157,6 @@ struct axNodeEditor_Style {
 	ImVec4[19]           Colors;
 };
 
-struct axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId {
-	unsigned long long   m_Value;
-};
-
-struct axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId {
-	unsigned long long   m_Value;
-};
-
-struct axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId {
-	unsigned long long   m_Value;
-};
-
-struct axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId {
-	axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId _base_axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId
-
-};
-
-struct axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId {
-	axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId _base_axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId
-
-};
-
-struct axNodeEditorDetails_SafePointerType_axNodeEditor_PinId {
-	axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId _base_axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId
-
-};
-
 struct axNodeEditor_NodeId {
 	axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId _base_axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId
 
@@ -199,6 +172,33 @@ struct axNodeEditor_PinId {
 
 };
 
+struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId {
+	void*                m_Value;
+};
+
+struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId {
+	void*                m_Value;
+};
+
+struct axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId {
+	void*                m_Value;
+};
+
+struct axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId {
+	axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId _base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId
+
+};
+
+struct axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId {
+	axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId _base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId
+
+};
+
+struct axNodeEditorDetails_SafePointerType_axNodeEditor_PinId {
+	axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId _base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId
+
+};
+
 #else
 typedef ax::NodeEditor::PinKind axNodeEditor_PinKind;
 typedef ax::NodeEditor::FlowDirection axNodeEditor_FlowDirection;
@@ -208,15 +208,15 @@ typedef ax::NodeEditor::StyleColor axNodeEditor_StyleColor;
 typedef ax::NodeEditor::StyleVar axNodeEditor_StyleVar;
 typedef ax::NodeEditor::Config axNodeEditor_Config;
 typedef ax::NodeEditor::Style axNodeEditor_Style;
-typedef ax::NodeEditor::Details::SafeType<unsigned long long, ax::NodeEditor::NodeId> axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId;
-typedef ax::NodeEditor::Details::SafeType<unsigned long long, ax::NodeEditor::LinkId> axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId;
-typedef ax::NodeEditor::Details::SafeType<unsigned long long, ax::NodeEditor::PinId> axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId;
-typedef ax::NodeEditor::Details::SafePointerType<ax::NodeEditor::NodeId> axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId;
-typedef ax::NodeEditor::Details::SafePointerType<ax::NodeEditor::LinkId> axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId;
-typedef ax::NodeEditor::Details::SafePointerType<ax::NodeEditor::PinId> axNodeEditorDetails_SafePointerType_axNodeEditor_PinId;
 typedef ax::NodeEditor::NodeId axNodeEditor_NodeId;
 typedef ax::NodeEditor::LinkId axNodeEditor_LinkId;
 typedef ax::NodeEditor::PinId axNodeEditor_PinId;
+typedef ax::NodeEditor::Details::SafeType<uintptr_t, NodeId> axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId;
+typedef ax::NodeEditor::Details::SafeType<uintptr_t, LinkId> axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId;
+typedef ax::NodeEditor::Details::SafeType<uintptr_t, PinId> axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId;
+typedef ax::NodeEditor::Details::SafePointerType<NodeId> axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId;
+typedef ax::NodeEditor::Details::SafePointerType<LinkId> axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId;
+typedef ax::NodeEditor::Details::SafePointerType<PinId> axNodeEditorDetails_SafePointerType_axNodeEditor_PinId;
 typedef ax::NodeEditor::EditorContext axNodeEditor_EditorContext;
 #endif // !FOR_WRAPPER_IMPL
 
@@ -224,28 +224,28 @@ axNodeEditor_SaveReasonFlags axNodeEditor_operator_pipe(axNodeEditor_SaveReasonF
 axNodeEditor_SaveReasonFlags axNodeEditor_operator_amp(axNodeEditor_SaveReasonFlags lhs, axNodeEditor_SaveReasonFlags rhs);
 void axNodeEditor_SetCurrentEditor(axNodeEditor_EditorContext* ctx);
 axNodeEditor_EditorContext* axNodeEditor_GetCurrentEditor();
-axNodeEditor_EditorContext* axNodeEditor_CreateEditor(const axNodeEditor_Config* config);
+axNodeEditor_EditorContext* axNodeEditor_CreateEditor(axNodeEditor_Config* config);
 void axNodeEditor_DestroyEditor(axNodeEditor_EditorContext* ctx);
-const axNodeEditor_Config* axNodeEditor_GetConfig(axNodeEditor_EditorContext* ctx);
+axNodeEditor_Config* axNodeEditor_GetConfig(axNodeEditor_EditorContext* ctx);
 axNodeEditor_Style* axNodeEditor_GetStyle();
 const char* axNodeEditor_GetStyleColorName(axNodeEditor_StyleColor colorIndex);
-void axNodeEditor_PushStyleColor(axNodeEditor_StyleColor colorIndex, const ImVec4* color);
+void axNodeEditor_PushStyleColor(axNodeEditor_StyleColor colorIndex, ImVec4* color);
 void axNodeEditor_PopStyleColor(int count);
 void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, float value);
-void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, const ImVec2* value);
-void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, const ImVec4* value);
+void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, ImVec2* value);
+void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, ImVec4* value);
 void axNodeEditor_PopStyleVar(int count);
-void axNodeEditor_Begin(const char* id, const ImVec2* size);
+void axNodeEditor_Begin(const char* id, ImVec2* size);
 void axNodeEditor_End();
 void axNodeEditor_BeginNode(axNodeEditor_NodeId id);
 void axNodeEditor_BeginPin(axNodeEditor_PinId id, axNodeEditor_PinKind kind);
-void axNodeEditor_PinRect(const ImVec2* a, const ImVec2* b);
-void axNodeEditor_PinPivotRect(const ImVec2* a, const ImVec2* b);
-void axNodeEditor_PinPivotSize(const ImVec2* size);
-void axNodeEditor_PinPivotScale(const ImVec2* scale);
-void axNodeEditor_PinPivotAlignment(const ImVec2* alignment);
+void axNodeEditor_PinRect(ImVec2* a, ImVec2* b);
+void axNodeEditor_PinPivotRect(ImVec2* a, ImVec2* b);
+void axNodeEditor_PinPivotSize(ImVec2* size);
+void axNodeEditor_PinPivotScale(ImVec2* scale);
+void axNodeEditor_PinPivotAlignment(ImVec2* alignment);
 void axNodeEditor_EndPin();
-void axNodeEditor_Group(const ImVec2* size);
+void axNodeEditor_Group(ImVec2* size);
 void axNodeEditor_EndNode();
 bool axNodeEditor_BeginGroupHint(axNodeEditor_NodeId nodeId);
 ImVec2 axNodeEditor_GetGroupMin();
@@ -254,17 +254,17 @@ ImDrawList* axNodeEditor_GetHintForegroundDrawList();
 ImDrawList* axNodeEditor_GetHintBackgroundDrawList();
 void axNodeEditor_EndGroupHint();
 ImDrawList* axNodeEditor_GetNodeBackgroundDrawList(axNodeEditor_NodeId nodeId);
-bool axNodeEditor_Link(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, const ImVec4* color, float thickness);
+bool axNodeEditor_Link(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, ImVec4* color, float thickness);
 void axNodeEditor_Flow(axNodeEditor_LinkId linkId, axNodeEditor_FlowDirection direction);
-bool axNodeEditor_BeginCreate(const ImVec4* color, float thickness);
+bool axNodeEditor_BeginCreate(ImVec4* color, float thickness);
 bool axNodeEditor_QueryNewLink(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId);
-bool axNodeEditor_QueryNewLink(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, const ImVec4* color, float thickness);
+bool axNodeEditor_QueryNewLink(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, ImVec4* color, float thickness);
 bool axNodeEditor_QueryNewNode(axNodeEditor_PinId* pinId);
-bool axNodeEditor_QueryNewNode(axNodeEditor_PinId* pinId, const ImVec4* color, float thickness);
+bool axNodeEditor_QueryNewNode(axNodeEditor_PinId* pinId, ImVec4* color, float thickness);
 bool axNodeEditor_AcceptNewItem();
-bool axNodeEditor_AcceptNewItem(const ImVec4* color, float thickness);
+bool axNodeEditor_AcceptNewItem(ImVec4* color, float thickness);
 void axNodeEditor_RejectNewItem();
-void axNodeEditor_RejectNewItem(const ImVec4* color, float thickness);
+void axNodeEditor_RejectNewItem(ImVec4* color, float thickness);
 void axNodeEditor_EndCreate();
 bool axNodeEditor_BeginDelete();
 bool axNodeEditor_QueryDeletedLink(axNodeEditor_LinkId* linkId, axNodeEditor_PinId* startId, axNodeEditor_PinId* endId);
@@ -272,8 +272,8 @@ bool axNodeEditor_QueryDeletedNode(axNodeEditor_NodeId* nodeId);
 bool axNodeEditor_AcceptDeletedItem(bool deleteDependencies);
 void axNodeEditor_RejectDeletedItem();
 void axNodeEditor_EndDelete();
-void axNodeEditor_SetNodePosition(axNodeEditor_NodeId nodeId, const ImVec2* editorPosition);
-void axNodeEditor_SetGroupSize(axNodeEditor_NodeId nodeId, const ImVec2* size);
+void axNodeEditor_SetNodePosition(axNodeEditor_NodeId nodeId, ImVec2* editorPosition);
+void axNodeEditor_SetGroupSize(axNodeEditor_NodeId nodeId, ImVec2* size);
 ImVec2 axNodeEditor_GetNodePosition(axNodeEditor_NodeId nodeId);
 ImVec2 axNodeEditor_GetNodeSize(axNodeEditor_NodeId nodeId);
 void axNodeEditor_CenterNodeOnScreen(axNodeEditor_NodeId nodeId);
@@ -333,19 +333,13 @@ int axNodeEditor_GetBackgroundDoubleClickButtonIndex();
 bool axNodeEditor_GetLinkPins(axNodeEditor_LinkId linkId, axNodeEditor_PinId* startPinId, axNodeEditor_PinId* endPinId);
 bool axNodeEditor_PinHadAnyLinks(axNodeEditor_PinId pinId);
 ImVec2 axNodeEditor_GetScreenSize();
-ImVec2 axNodeEditor_ScreenToCanvas(const ImVec2* pos);
-ImVec2 axNodeEditor_CanvasToScreen(const ImVec2* pos);
+ImVec2 axNodeEditor_ScreenToCanvas(ImVec2* pos);
+ImVec2 axNodeEditor_CanvasToScreen(ImVec2* pos);
 int axNodeEditor_GetNodeCount();
 int axNodeEditor_GetOrderedNodeIds(axNodeEditor_NodeId* nodes, int size);
-axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_operator_equal(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* __0);
-unsigned long long axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_Get(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* __self);
-axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_operator_equal(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* __0);
-unsigned long long axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_Get(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* __self);
-axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_operator_equal(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* __self, axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* __0);
-unsigned long long axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_Get(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* __self);
-axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal(axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __0);
-axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal1(axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __0);
-axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal(axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __0);
-axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal1(axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __0);
-axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal(axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __0);
-axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal1(axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __0);
+axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __0);
+void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self);
+axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __0);
+void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __self);
+axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __self, axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __0);
+void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __self);

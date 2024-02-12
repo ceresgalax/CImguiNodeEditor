@@ -4,7 +4,7 @@ namespace CppToC.Model;
 
 public class RecordData
 {
-    public TypeRef Type;
+    //public TypeRef Type;
     public string Name = "";
     public string[] Namespace = Array.Empty<string>();
     public List<FieldData> Fields = new();
@@ -21,8 +21,8 @@ public class RecordData
 
     public List<TypeRef> BaseTypes = new();
 
-    /// <summary>
-    /// If this record was instantiated by a template, these are the template arguments that were used to instantiate it!
-    /// </summary>
-    public TemplateArgument[] TemplateArgs = Array.Empty<TemplateArgument>();
+    // /// <summary>
+    // /// If this record was instantiated by a template, these are the template arguments that were used to instantiate it!
+    // /// </summary>
+    // public TemplateArgument[] TemplateArgs = Array.Empty<TemplateArgument>();
 }

@@ -1,5 +1,4 @@
 ﻿using ClangSharp;
-using ClangSharp.Interop;
 using CppToC.Model;
 using static ClangSharp.Interop.CX_DeclKind;
 using static ClangSharp.Interop.CXCursorKind;
@@ -20,9 +19,9 @@ public class RecordVisitor : ICursorVisitor
     {
         if (cursor is Decl decl) {
             switch (decl.Kind) {
-                case CX_DeclKind_ClassTemplateSpecialization:
-                    VisitClassTemplateSpecialization((ClassTemplateSpecializationDecl)cursor);
-                    break;
+                // case CX_DeclKind_ClassTemplateSpecialization:
+                //     VisitClassTemplateSpecialization((ClassTemplateSpecializationDecl)cursor);
+                //     break;
                 case CX_DeclKind_CXXRecord:
                     VisitRecord((CXXRecordDecl)decl);
                     break;
@@ -79,24 +78,24 @@ public class RecordVisitor : ICursorVisitor
         }
     }
 
-    public void VisitClassTemplateSpecialization(ClassTemplateSpecializationDecl decl)
-    {
-        Data.TemplateArgs = decl.TemplateArgs.ToArray();
-        
-        // Oddly, these cursors do not have children. Maybe that is a ClangSharp bug?
-        // Anyways, use the properties instead to gather the members of the class template specialization.
-        CursorVisitor.VisitManyWithExceptions(decl.Decls, Array.Empty<Cursor>(), this);
-        CursorVisitor.VisitManyWithExceptions(decl.Bases, Array.Empty<Cursor>(), this);
-        
-        //VisitRecord(decl);
-    }
+    // public void VisitClassTemplateSpecialization(ClassTemplateSpecializationDecl decl)
+    // {
+    //     Data.TemplateArgs = decl.TemplateArgs.ToArray();
+    //     
+    //     // Oddly, these cursors do not have children. Maybe that is a ClangSharp bug?
+    //     // Anyways, use the properties instead to gather the members of the class template specialization.
+    //     CursorVisitor.VisitManyWithExceptions(decl.Decls, Array.Empty<Cursor>(), this);
+    //     CursorVisitor.VisitManyWithExceptions(decl.Bases, Array.Empty<Cursor>(), this);
+    //     
+    //     //VisitRecord(decl);
+    // }
 
     public void VisitRecord(CXXRecordDecl decl)
     {
         if (!string.IsNullOrEmpty(Data.Name)) {
             throw new InvalidOperationException("Visiting a record twice!?");
         }
-        Data.Type = new TypeRef(decl.TypeForDecl);
+        //Data.Type = new TypeRef(decl.TypeForDecl);
         Data.Name = decl.Name;
         Data.Namespace = _builder.GetCurrentNamespace();
         
@@ -175,12 +174,20 @@ public class RecordVisitor : ICursorVisitor
 
     public void VisitField(FieldDecl decl)
     {
+        //CheckForTemplateSpecialization(decl.Type);
+        // TemplateInstantiationVisitor visitor = new(_builder);
+        // visitor.CheckType(decl.Type);
+        
         FieldData data = new(decl.Name, new TypeRef(decl.Type));
         Data.Fields.Add(data);
     }
 
     public void VisitBaseSpecifier(CXXBaseSpecifier baseSpecifier)
     {
+        // TemplateInstantiationVisitor visitor = new(_builder);
+        // visitor.CheckType(baseSpecifier.Type);
+        
+        //CheckForTemplateSpecialization(baseSpecifier.Type);
         Data.BaseTypes.Add(new TypeRef(baseSpecifier.Type));
     }
 
@@ -198,5 +205,40 @@ public class RecordVisitor : ICursorVisitor
             break;
         }
     }
+
+    // public void CheckForTemplateSpecialization(ClangSharp.Type type)
+    // {
+    //     if (type is ElaboratedType elaboratedType) {
+    //         type = elaboratedType.NamedType;
+    //     }
+    //     if (type is TemplateSpecializationType tsType) {
+    //         ClassTemplateDecl decl = (ClassTemplateDecl) tsType.TemplateName.AsTemplateDecl;
+    //         if (!_builder.IsDeclPartOfSourceFile(decl)) {
+    //             return;
+    //         }
+    //         
+    //         Console.WriteLine($"** SPEC TYPE!! {tsType} **");
+    //         TemplateRecordData data = _builder.GetOrCreateTemplateRecordData(decl);
+    //
+    //         TemplateArgumentSet newSet = new TemplateArgumentSet(tsType.Args);
+    //
+    //         if (data.Instantiations.Contains(newSet)) {
+    //             Console.WriteLine("** We've already noted this specialization.");
+    //             return;
+    //         }
+    //         
+    //         // Push to the stack.
+    //         CUtil.TemplateArgumentStack.Add(newSet);
+    //         
+    //         
+    //         
+    //         // Pop it off.
+    //         CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+    //         
+    //         
+    //         
+    //         
+    //     }
+    // }
 
 }

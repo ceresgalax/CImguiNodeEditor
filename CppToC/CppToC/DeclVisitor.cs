@@ -89,6 +89,11 @@ public static class DeclVisitor
         RecordVisitor visitor = new(builder);
         visitor.Visit(decl);
         builder.Records.Add(visitor.Data);
+        
+        // Check if this record needs us to instantiate any template records.
+        TemplateInstantiationVisitor templateInstantiationVisitor = new(builder);
+        templateInstantiationVisitor.Visit(decl);
+        CursorVisitor.VisitManyWithExceptions(decl.Bases, Array.Empty<Cursor>(), templateInstantiationVisitor);
     }
 
     public static void VisitEnum(EnumDecl decl, Builder builder)
@@ -149,11 +154,14 @@ public static class DeclVisitor
 
     public static void VisitClassTemplate(ClassTemplateDecl decl, Builder builder)
     {
-        foreach (ClassTemplateSpecializationDecl specialization in decl.Specializations) {
-            RecordVisitor recordVisitor = new(builder);
-            recordVisitor.Visit(specialization);
-            builder.Records.Add(recordVisitor.Data);
-        }
+        RecordVisitor recordVisitor = new(builder);
+        CursorVisitor.VisitManyWithExceptions(decl.CursorChildren, decl.TemplateParameters, recordVisitor);
+        RecordData data = recordVisitor.Data;
+        TemplateRecordData templateRecordData = builder.GetOrCreateTemplateRecordData(decl);
+        templateRecordData.Parameters = decl.TemplateParameters;
+        templateRecordData.Inner = data;
+        data.Namespace = builder.GetCurrentNamespace();
+        data.Name = decl.Name;
     }
 
     public static void VisitVarDecl(VarDecl decl, Builder builder)

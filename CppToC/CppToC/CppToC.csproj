@@ -15,6 +15,7 @@
     </ItemGroup>
     
     <ItemGroup>
+        <!-- This package reference is a DIRTY DISGUSTING HACK to make nuget update deps.json with the standard runtimes/ native library load directories. -->
         <PackageReference Include="CeresCubeb-native" Version="1.0.4" />
     </ItemGroup>
     
@@ -43,9 +44,7 @@
     </PropertyGroup>
     
     <ItemGroup Condition="$(IsWindows)">
-        <Content Include="libclang.dll;libclang.pdb;libClangSharp.dll;libClangSharp.pdb">
-            <PackagePath>runtimes/$(OutRid)/native/libnativeaudio.dylib</PackagePath>
-            <Pack>true</Pack>
+        <Content Include="../../llvm-prefix/bin/libclang.dll;../ClangSharp/build/bin/Debug/libClangSharp.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <LinkBase>runtimes\$(OutRid)\native</LinkBase>
             <PublishState>Included</PublishState>
@@ -53,8 +52,6 @@
     </ItemGroup>
     <ItemGroup Condition="$(IsOsx)">
         <Content Include="../../llvm-prefix/lib/libclang.dylib;../ClangSharp/build/lib/libClangSharp.dylib">
-            <PackagePath>runtimes/$(OutRid)/native/libnativeaudio.dylib</PackagePath>
-            <Pack>true</Pack>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <LinkBase>runtimes\$(OutRid)\native</LinkBase>
             <PublishState>Included</PublishState>

@@ -22,7 +22,8 @@
       "ov_cimguiname": "axNodeEditor_operator_pipe",
       "ret": "axNodeEditor_SaveReasonFlags",
       "signature": "(axNodeEditor_SaveReasonFlags,axNodeEditor_SaveReasonFlags)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_operator_amp": [
@@ -48,7 +49,8 @@
       "ov_cimguiname": "axNodeEditor_operator_amp",
       "ret": "axNodeEditor_SaveReasonFlags",
       "signature": "(axNodeEditor_SaveReasonFlags,axNodeEditor_SaveReasonFlags)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_SetCurrentEditor": [
@@ -70,7 +72,8 @@
       "ov_cimguiname": "axNodeEditor_SetCurrentEditor",
       "ret": "void",
       "signature": "(axNodeEditor_EditorContext*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetCurrentEditor": [
@@ -87,16 +90,17 @@
       "ov_cimguiname": "axNodeEditor_GetCurrentEditor",
       "ret": "axNodeEditor_EditorContext*",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_CreateEditor": [
     {
-      "args": "(const axNodeEditor_Config* config)",
+      "args": "(axNodeEditor_Config* config)",
       "argsT": [
         {
           "name": "config",
-          "type": "const axNodeEditor_Config*"
+          "type": "axNodeEditor_Config*"
         }
       ],
       "argsoriginal": "(const Config * config)",
@@ -108,8 +112,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_CreateEditor",
       "ret": "axNodeEditor_EditorContext*",
-      "signature": "(const axNodeEditor_Config*)",
-      "stname": ""
+      "signature": "(axNodeEditor_Config*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_DestroyEditor": [
@@ -131,7 +136,8 @@
       "ov_cimguiname": "axNodeEditor_DestroyEditor",
       "ret": "void",
       "signature": "(axNodeEditor_EditorContext*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetConfig": [
@@ -151,9 +157,10 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetConfig",
-      "ret": "const axNodeEditor_Config*",
+      "ret": "axNodeEditor_Config*",
       "signature": "(axNodeEditor_EditorContext*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetStyle": [
@@ -170,7 +177,8 @@
       "ov_cimguiname": "axNodeEditor_GetStyle",
       "ret": "axNodeEditor_Style*",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetStyleColorName": [
@@ -192,12 +200,13 @@
       "ov_cimguiname": "axNodeEditor_GetStyleColorName",
       "ret": "const char*",
       "signature": "(axNodeEditor_StyleColor)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PushStyleColor": [
     {
-      "args": "(axNodeEditor_StyleColor colorIndex, const ImVec4* color)",
+      "args": "(axNodeEditor_StyleColor colorIndex, ImVec4* color)",
       "argsT": [
         {
           "name": "colorIndex",
@@ -205,7 +214,7 @@
         },
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         }
       ],
       "argsoriginal": "(StyleColor colorIndex,const ImVec4 \u0026 color)",
@@ -217,8 +226,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PushStyleColor",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleColor,const ImVec4*)",
-      "stname": ""
+      "signature": "(axNodeEditor_StyleColor,ImVec4*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PopStyleColor": [
@@ -240,7 +250,8 @@
       "ov_cimguiname": "axNodeEditor_PopStyleColor",
       "ret": "void",
       "signature": "(int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PushStyleVar": [
@@ -266,10 +277,11 @@
       "ov_cimguiname": "axNodeEditor_PushStyleVar",
       "ret": "void",
       "signature": "(axNodeEditor_StyleVar,float)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
-      "args": "(axNodeEditor_StyleVar varIndex, const ImVec2* value)",
+      "args": "(axNodeEditor_StyleVar varIndex, ImVec2* value)",
       "argsT": [
         {
           "name": "varIndex",
@@ -277,7 +289,7 @@
         },
         {
           "name": "value",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(StyleVar varIndex,const ImVec2 \u0026 value)",
@@ -289,11 +301,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PushStyleVar",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleVar,const ImVec2*)",
-      "stname": ""
+      "signature": "(axNodeEditor_StyleVar,ImVec2*)",
+      "stname": "",
+      "templated": false
     },
     {
-      "args": "(axNodeEditor_StyleVar varIndex, const ImVec4* value)",
+      "args": "(axNodeEditor_StyleVar varIndex, ImVec4* value)",
       "argsT": [
         {
           "name": "varIndex",
@@ -301,7 +314,7 @@
         },
         {
           "name": "value",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         }
       ],
       "argsoriginal": "(StyleVar varIndex,const ImVec4 \u0026 value)",
@@ -313,8 +326,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PushStyleVar",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleVar,const ImVec4*)",
-      "stname": ""
+      "signature": "(axNodeEditor_StyleVar,ImVec4*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PopStyleVar": [
@@ -336,12 +350,13 @@
       "ov_cimguiname": "axNodeEditor_PopStyleVar",
       "ret": "void",
       "signature": "(int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_Begin": [
     {
-      "args": "(const char* id, const ImVec2* size)",
+      "args": "(const char* id, ImVec2* size)",
       "argsT": [
         {
           "name": "id",
@@ -349,7 +364,7 @@
         },
         {
           "name": "size",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const char * id,const ImVec2 \u0026 size)",
@@ -361,8 +376,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Begin",
       "ret": "void",
-      "signature": "(const char*,const ImVec2*)",
-      "stname": ""
+      "signature": "(const char*,ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_End": [
@@ -379,7 +395,8 @@
       "ov_cimguiname": "axNodeEditor_End",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BeginNode": [
@@ -401,7 +418,8 @@
       "ov_cimguiname": "axNodeEditor_BeginNode",
       "ret": "void",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BeginPin": [
@@ -427,20 +445,21 @@
       "ov_cimguiname": "axNodeEditor_BeginPin",
       "ret": "void",
       "signature": "(axNodeEditor_PinId,axNodeEditor_PinKind)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PinRect": [
     {
-      "args": "(const ImVec2* a, const ImVec2* b)",
+      "args": "(ImVec2* a, ImVec2* b)",
       "argsT": [
         {
           "name": "a",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         },
         {
           "name": "b",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 a,const ImVec2 \u0026 b)",
@@ -452,21 +471,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinRect",
       "ret": "void",
-      "signature": "(const ImVec2*,const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*,ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PinPivotRect": [
     {
-      "args": "(const ImVec2* a, const ImVec2* b)",
+      "args": "(ImVec2* a, ImVec2* b)",
       "argsT": [
         {
           "name": "a",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         },
         {
           "name": "b",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 a,const ImVec2 \u0026 b)",
@@ -478,17 +498,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotRect",
       "ret": "void",
-      "signature": "(const ImVec2*,const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*,ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PinPivotSize": [
     {
-      "args": "(const ImVec2* size)",
+      "args": "(ImVec2* size)",
       "argsT": [
         {
           "name": "size",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 size)",
@@ -500,17 +521,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotSize",
       "ret": "void",
-      "signature": "(const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PinPivotScale": [
     {
-      "args": "(const ImVec2* scale)",
+      "args": "(ImVec2* scale)",
       "argsT": [
         {
           "name": "scale",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 scale)",
@@ -522,17 +544,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotScale",
       "ret": "void",
-      "signature": "(const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PinPivotAlignment": [
     {
-      "args": "(const ImVec2* alignment)",
+      "args": "(ImVec2* alignment)",
       "argsT": [
         {
           "name": "alignment",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 alignment)",
@@ -544,8 +567,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotAlignment",
       "ret": "void",
-      "signature": "(const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EndPin": [
@@ -562,16 +586,17 @@
       "ov_cimguiname": "axNodeEditor_EndPin",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_Group": [
     {
-      "args": "(const ImVec2* size)",
+      "args": "(ImVec2* size)",
       "argsT": [
         {
           "name": "size",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 size)",
@@ -583,8 +608,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Group",
       "ret": "void",
-      "signature": "(const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EndNode": [
@@ -601,7 +627,8 @@
       "ov_cimguiname": "axNodeEditor_EndNode",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BeginGroupHint": [
@@ -623,7 +650,8 @@
       "ov_cimguiname": "axNodeEditor_BeginGroupHint",
       "ret": "bool",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetGroupMin": [
@@ -640,7 +668,8 @@
       "ov_cimguiname": "axNodeEditor_GetGroupMin",
       "ret": "ImVec2",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetGroupMax": [
@@ -657,7 +686,8 @@
       "ov_cimguiname": "axNodeEditor_GetGroupMax",
       "ret": "ImVec2",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetHintForegroundDrawList": [
@@ -674,7 +704,8 @@
       "ov_cimguiname": "axNodeEditor_GetHintForegroundDrawList",
       "ret": "ImDrawList*",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetHintBackgroundDrawList": [
@@ -691,7 +722,8 @@
       "ov_cimguiname": "axNodeEditor_GetHintBackgroundDrawList",
       "ret": "ImDrawList*",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EndGroupHint": [
@@ -708,7 +740,8 @@
       "ov_cimguiname": "axNodeEditor_EndGroupHint",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetNodeBackgroundDrawList": [
@@ -730,12 +763,13 @@
       "ov_cimguiname": "axNodeEditor_GetNodeBackgroundDrawList",
       "ret": "ImDrawList*",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_Link": [
     {
-      "args": "(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, const ImVec4* color, float thickness)",
+      "args": "(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "id",
@@ -751,7 +785,7 @@
         },
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         },
         {
           "name": "thickness",
@@ -767,8 +801,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Link",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId,axNodeEditor_PinId,axNodeEditor_PinId,const ImVec4*,float)",
-      "stname": ""
+      "signature": "(axNodeEditor_LinkId,axNodeEditor_PinId,axNodeEditor_PinId,ImVec4*,float)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_Flow": [
@@ -794,16 +829,17 @@
       "ov_cimguiname": "axNodeEditor_Flow",
       "ret": "void",
       "signature": "(axNodeEditor_LinkId,axNodeEditor_FlowDirection)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BeginCreate": [
     {
-      "args": "(const ImVec4* color, float thickness)",
+      "args": "(ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         },
         {
           "name": "thickness",
@@ -819,8 +855,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_BeginCreate",
       "ret": "bool",
-      "signature": "(const ImVec4*,float)",
-      "stname": ""
+      "signature": "(ImVec4*,float)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_QueryNewLink": [
@@ -846,10 +883,11 @@
       "ov_cimguiname": "axNodeEditor_QueryNewLink",
       "ret": "bool",
       "signature": "(axNodeEditor_PinId*,axNodeEditor_PinId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
-      "args": "(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, const ImVec4* color, float thickness)",
+      "args": "(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "startId",
@@ -861,7 +899,7 @@
         },
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         },
         {
           "name": "thickness",
@@ -877,8 +915,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_QueryNewLink",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*,axNodeEditor_PinId*,const ImVec4*,float)",
-      "stname": ""
+      "signature": "(axNodeEditor_PinId*,axNodeEditor_PinId*,ImVec4*,float)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_QueryNewNode": [
@@ -900,10 +939,11 @@
       "ov_cimguiname": "axNodeEditor_QueryNewNode",
       "ret": "bool",
       "signature": "(axNodeEditor_PinId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
-      "args": "(axNodeEditor_PinId* pinId, const ImVec4* color, float thickness)",
+      "args": "(axNodeEditor_PinId* pinId, ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "pinId",
@@ -911,7 +951,7 @@
         },
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         },
         {
           "name": "thickness",
@@ -927,8 +967,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_QueryNewNode",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*,const ImVec4*,float)",
-      "stname": ""
+      "signature": "(axNodeEditor_PinId*,ImVec4*,float)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptNewItem": [
@@ -945,14 +986,15 @@
       "ov_cimguiname": "axNodeEditor_AcceptNewItem",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
-      "args": "(const ImVec4* color, float thickness)",
+      "args": "(ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         },
         {
           "name": "thickness",
@@ -968,8 +1010,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_AcceptNewItem",
       "ret": "bool",
-      "signature": "(const ImVec4*,float)",
-      "stname": ""
+      "signature": "(ImVec4*,float)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_RejectNewItem": [
@@ -986,14 +1029,15 @@
       "ov_cimguiname": "axNodeEditor_RejectNewItem",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
-      "args": "(const ImVec4* color, float thickness)",
+      "args": "(ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "color",
-          "type": "const ImVec4*"
+          "type": "ImVec4*"
         },
         {
           "name": "thickness",
@@ -1009,8 +1053,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_RejectNewItem",
       "ret": "void",
-      "signature": "(const ImVec4*,float)",
-      "stname": ""
+      "signature": "(ImVec4*,float)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EndCreate": [
@@ -1027,7 +1072,8 @@
       "ov_cimguiname": "axNodeEditor_EndCreate",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BeginDelete": [
@@ -1044,7 +1090,8 @@
       "ov_cimguiname": "axNodeEditor_BeginDelete",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_QueryDeletedLink": [
@@ -1074,7 +1121,8 @@
       "ov_cimguiname": "axNodeEditor_QueryDeletedLink",
       "ret": "bool",
       "signature": "(axNodeEditor_LinkId*,axNodeEditor_PinId*,axNodeEditor_PinId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_QueryDeletedNode": [
@@ -1096,7 +1144,8 @@
       "ov_cimguiname": "axNodeEditor_QueryDeletedNode",
       "ret": "bool",
       "signature": "(axNodeEditor_NodeId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptDeletedItem": [
@@ -1118,7 +1167,8 @@
       "ov_cimguiname": "axNodeEditor_AcceptDeletedItem",
       "ret": "bool",
       "signature": "(bool)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_RejectDeletedItem": [
@@ -1135,7 +1185,8 @@
       "ov_cimguiname": "axNodeEditor_RejectDeletedItem",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EndDelete": [
@@ -1152,12 +1203,13 @@
       "ov_cimguiname": "axNodeEditor_EndDelete",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_SetNodePosition": [
     {
-      "args": "(axNodeEditor_NodeId nodeId, const ImVec2* editorPosition)",
+      "args": "(axNodeEditor_NodeId nodeId, ImVec2* editorPosition)",
       "argsT": [
         {
           "name": "nodeId",
@@ -1165,7 +1217,7 @@
         },
         {
           "name": "editorPosition",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(NodeId nodeId,const ImVec2 \u0026 editorPosition)",
@@ -1177,13 +1229,14 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SetNodePosition",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId,const ImVec2*)",
-      "stname": ""
+      "signature": "(axNodeEditor_NodeId,ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_SetGroupSize": [
     {
-      "args": "(axNodeEditor_NodeId nodeId, const ImVec2* size)",
+      "args": "(axNodeEditor_NodeId nodeId, ImVec2* size)",
       "argsT": [
         {
           "name": "nodeId",
@@ -1191,7 +1244,7 @@
         },
         {
           "name": "size",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(NodeId nodeId,const ImVec2 \u0026 size)",
@@ -1203,8 +1256,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SetGroupSize",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId,const ImVec2*)",
-      "stname": ""
+      "signature": "(axNodeEditor_NodeId,ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetNodePosition": [
@@ -1226,7 +1280,8 @@
       "ov_cimguiname": "axNodeEditor_GetNodePosition",
       "ret": "ImVec2",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetNodeSize": [
@@ -1248,7 +1303,8 @@
       "ov_cimguiname": "axNodeEditor_GetNodeSize",
       "ret": "ImVec2",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_CenterNodeOnScreen": [
@@ -1270,7 +1326,8 @@
       "ov_cimguiname": "axNodeEditor_CenterNodeOnScreen",
       "ret": "void",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_SetNodeZPosition": [
@@ -1296,7 +1353,8 @@
       "ov_cimguiname": "axNodeEditor_SetNodeZPosition",
       "ret": "void",
       "signature": "(axNodeEditor_NodeId,float)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetNodeZPosition": [
@@ -1318,7 +1376,8 @@
       "ov_cimguiname": "axNodeEditor_GetNodeZPosition",
       "ret": "float",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_RestoreNodeState": [
@@ -1340,7 +1399,8 @@
       "ov_cimguiname": "axNodeEditor_RestoreNodeState",
       "ret": "void",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_Suspend": [
@@ -1357,7 +1417,8 @@
       "ov_cimguiname": "axNodeEditor_Suspend",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_Resume": [
@@ -1374,7 +1435,8 @@
       "ov_cimguiname": "axNodeEditor_Resume",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_IsSuspended": [
@@ -1391,7 +1453,8 @@
       "ov_cimguiname": "axNodeEditor_IsSuspended",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_IsActive": [
@@ -1408,7 +1471,8 @@
       "ov_cimguiname": "axNodeEditor_IsActive",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_HasSelectionChanged": [
@@ -1425,7 +1489,8 @@
       "ov_cimguiname": "axNodeEditor_HasSelectionChanged",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetSelectedObjectCount": [
@@ -1442,7 +1507,8 @@
       "ov_cimguiname": "axNodeEditor_GetSelectedObjectCount",
       "ret": "int",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetSelectedNodes": [
@@ -1468,7 +1534,8 @@
       "ov_cimguiname": "axNodeEditor_GetSelectedNodes",
       "ret": "int",
       "signature": "(axNodeEditor_NodeId*,int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetSelectedLinks": [
@@ -1494,7 +1561,8 @@
       "ov_cimguiname": "axNodeEditor_GetSelectedLinks",
       "ret": "int",
       "signature": "(axNodeEditor_LinkId*,int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_IsNodeSelected": [
@@ -1516,7 +1584,8 @@
       "ov_cimguiname": "axNodeEditor_IsNodeSelected",
       "ret": "bool",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_IsLinkSelected": [
@@ -1538,7 +1607,8 @@
       "ov_cimguiname": "axNodeEditor_IsLinkSelected",
       "ret": "bool",
       "signature": "(axNodeEditor_LinkId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_ClearSelection": [
@@ -1555,7 +1625,8 @@
       "ov_cimguiname": "axNodeEditor_ClearSelection",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_SelectNode": [
@@ -1581,7 +1652,8 @@
       "ov_cimguiname": "axNodeEditor_SelectNode",
       "ret": "void",
       "signature": "(axNodeEditor_NodeId,bool)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_SelectLink": [
@@ -1607,7 +1679,8 @@
       "ov_cimguiname": "axNodeEditor_SelectLink",
       "ret": "void",
       "signature": "(axNodeEditor_LinkId,bool)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_DeselectNode": [
@@ -1629,7 +1702,8 @@
       "ov_cimguiname": "axNodeEditor_DeselectNode",
       "ret": "void",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_DeselectLink": [
@@ -1651,7 +1725,8 @@
       "ov_cimguiname": "axNodeEditor_DeselectLink",
       "ret": "void",
       "signature": "(axNodeEditor_LinkId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_DeleteNode": [
@@ -1673,7 +1748,8 @@
       "ov_cimguiname": "axNodeEditor_DeleteNode",
       "ret": "bool",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_DeleteLink": [
@@ -1695,7 +1771,8 @@
       "ov_cimguiname": "axNodeEditor_DeleteLink",
       "ret": "bool",
       "signature": "(axNodeEditor_LinkId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_HasAnyLinks": [
@@ -1717,7 +1794,8 @@
       "ov_cimguiname": "axNodeEditor_HasAnyLinks",
       "ret": "bool",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
       "args": "(axNodeEditor_PinId pinId)",
@@ -1737,7 +1815,8 @@
       "ov_cimguiname": "axNodeEditor_HasAnyLinks",
       "ret": "bool",
       "signature": "(axNodeEditor_PinId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BreakLinks": [
@@ -1759,7 +1838,8 @@
       "ov_cimguiname": "axNodeEditor_BreakLinks",
       "ret": "int",
       "signature": "(axNodeEditor_NodeId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     },
     {
       "args": "(axNodeEditor_PinId pinId)",
@@ -1779,7 +1859,8 @@
       "ov_cimguiname": "axNodeEditor_BreakLinks",
       "ret": "int",
       "signature": "(axNodeEditor_PinId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_NavigateToContent": [
@@ -1801,7 +1882,8 @@
       "ov_cimguiname": "axNodeEditor_NavigateToContent",
       "ret": "void",
       "signature": "(float)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_NavigateToSelection": [
@@ -1827,7 +1909,8 @@
       "ov_cimguiname": "axNodeEditor_NavigateToSelection",
       "ret": "void",
       "signature": "(bool,float)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_ShowNodeContextMenu": [
@@ -1849,7 +1932,8 @@
       "ov_cimguiname": "axNodeEditor_ShowNodeContextMenu",
       "ret": "bool",
       "signature": "(axNodeEditor_NodeId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_ShowPinContextMenu": [
@@ -1871,7 +1955,8 @@
       "ov_cimguiname": "axNodeEditor_ShowPinContextMenu",
       "ret": "bool",
       "signature": "(axNodeEditor_PinId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_ShowLinkContextMenu": [
@@ -1893,7 +1978,8 @@
       "ov_cimguiname": "axNodeEditor_ShowLinkContextMenu",
       "ret": "bool",
       "signature": "(axNodeEditor_LinkId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_ShowBackgroundContextMenu": [
@@ -1910,7 +1996,8 @@
       "ov_cimguiname": "axNodeEditor_ShowBackgroundContextMenu",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EnableShortcuts": [
@@ -1932,7 +2019,8 @@
       "ov_cimguiname": "axNodeEditor_EnableShortcuts",
       "ret": "void",
       "signature": "(bool)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AreShortcutsEnabled": [
@@ -1949,7 +2037,8 @@
       "ov_cimguiname": "axNodeEditor_AreShortcutsEnabled",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_BeginShortcut": [
@@ -1966,7 +2055,8 @@
       "ov_cimguiname": "axNodeEditor_BeginShortcut",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptCut": [
@@ -1983,7 +2073,8 @@
       "ov_cimguiname": "axNodeEditor_AcceptCut",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptCopy": [
@@ -2000,7 +2091,8 @@
       "ov_cimguiname": "axNodeEditor_AcceptCopy",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptPaste": [
@@ -2017,7 +2109,8 @@
       "ov_cimguiname": "axNodeEditor_AcceptPaste",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptDuplicate": [
@@ -2034,7 +2127,8 @@
       "ov_cimguiname": "axNodeEditor_AcceptDuplicate",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_AcceptCreateNode": [
@@ -2051,7 +2145,8 @@
       "ov_cimguiname": "axNodeEditor_AcceptCreateNode",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetActionContextSize": [
@@ -2068,7 +2163,8 @@
       "ov_cimguiname": "axNodeEditor_GetActionContextSize",
       "ret": "int",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetActionContextNodes": [
@@ -2094,7 +2190,8 @@
       "ov_cimguiname": "axNodeEditor_GetActionContextNodes",
       "ret": "int",
       "signature": "(axNodeEditor_NodeId*,int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetActionContextLinks": [
@@ -2120,7 +2217,8 @@
       "ov_cimguiname": "axNodeEditor_GetActionContextLinks",
       "ret": "int",
       "signature": "(axNodeEditor_LinkId*,int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_EndShortcut": [
@@ -2137,7 +2235,8 @@
       "ov_cimguiname": "axNodeEditor_EndShortcut",
       "ret": "void",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetCurrentZoom": [
@@ -2154,7 +2253,8 @@
       "ov_cimguiname": "axNodeEditor_GetCurrentZoom",
       "ret": "float",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetHoveredNode": [
@@ -2171,7 +2271,8 @@
       "ov_cimguiname": "axNodeEditor_GetHoveredNode",
       "ret": "axNodeEditor_NodeId",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetHoveredPin": [
@@ -2188,7 +2289,8 @@
       "ov_cimguiname": "axNodeEditor_GetHoveredPin",
       "ret": "axNodeEditor_PinId",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetHoveredLink": [
@@ -2205,7 +2307,8 @@
       "ov_cimguiname": "axNodeEditor_GetHoveredLink",
       "ret": "axNodeEditor_LinkId",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetDoubleClickedNode": [
@@ -2222,7 +2325,8 @@
       "ov_cimguiname": "axNodeEditor_GetDoubleClickedNode",
       "ret": "axNodeEditor_NodeId",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetDoubleClickedPin": [
@@ -2239,7 +2343,8 @@
       "ov_cimguiname": "axNodeEditor_GetDoubleClickedPin",
       "ret": "axNodeEditor_PinId",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetDoubleClickedLink": [
@@ -2256,7 +2361,8 @@
       "ov_cimguiname": "axNodeEditor_GetDoubleClickedLink",
       "ret": "axNodeEditor_LinkId",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_IsBackgroundClicked": [
@@ -2273,7 +2379,8 @@
       "ov_cimguiname": "axNodeEditor_IsBackgroundClicked",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_IsBackgroundDoubleClicked": [
@@ -2290,7 +2397,8 @@
       "ov_cimguiname": "axNodeEditor_IsBackgroundDoubleClicked",
       "ret": "bool",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetBackgroundClickButtonIndex": [
@@ -2307,7 +2415,8 @@
       "ov_cimguiname": "axNodeEditor_GetBackgroundClickButtonIndex",
       "ret": "int",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetBackgroundDoubleClickButtonIndex": [
@@ -2324,7 +2433,8 @@
       "ov_cimguiname": "axNodeEditor_GetBackgroundDoubleClickButtonIndex",
       "ret": "int",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetLinkPins": [
@@ -2354,7 +2464,8 @@
       "ov_cimguiname": "axNodeEditor_GetLinkPins",
       "ret": "bool",
       "signature": "(axNodeEditor_LinkId,axNodeEditor_PinId*,axNodeEditor_PinId*)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_PinHadAnyLinks": [
@@ -2376,7 +2487,8 @@
       "ov_cimguiname": "axNodeEditor_PinHadAnyLinks",
       "ret": "bool",
       "signature": "(axNodeEditor_PinId)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetScreenSize": [
@@ -2393,16 +2505,17 @@
       "ov_cimguiname": "axNodeEditor_GetScreenSize",
       "ret": "ImVec2",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_ScreenToCanvas": [
     {
-      "args": "(const ImVec2* pos)",
+      "args": "(ImVec2* pos)",
       "argsT": [
         {
           "name": "pos",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 pos)",
@@ -2414,17 +2527,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_ScreenToCanvas",
       "ret": "ImVec2",
-      "signature": "(const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_CanvasToScreen": [
     {
-      "args": "(const ImVec2* pos)",
+      "args": "(ImVec2* pos)",
       "argsT": [
         {
           "name": "pos",
-          "type": "const ImVec2*"
+          "type": "ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 pos)",
@@ -2436,8 +2550,9 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_CanvasToScreen",
       "ret": "ImVec2",
-      "signature": "(const ImVec2*)",
-      "stname": ""
+      "signature": "(ImVec2*)",
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetNodeCount": [
@@ -2454,7 +2569,8 @@
       "ov_cimguiname": "axNodeEditor_GetNodeCount",
       "ret": "int",
       "signature": "()",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
   "axNodeEditor_GetOrderedNodeIds": [
@@ -2480,301 +2596,58 @@
       "ov_cimguiname": "axNodeEditor_GetOrderedNodeIds",
       "ret": "int",
       "signature": "(axNodeEditor_NodeId*,int)",
-      "stname": ""
+      "stname": "",
+      "templated": false
     }
   ],
-  "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_operator_equal": [
+  "axNodeEditorDetails_SafeType_operator_equal": [
     {
-      "args": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* __0)",
+      "args": "(axNodeEditorDetails_SafeType* __self, axNodeEditorDetails_SafeType_T_Tag* __0)",
       "argsT": [
         {
           "name": "__self",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*"
+          "type": "axNodeEditorDetails_SafeType*"
         },
         {
           "name": "__0",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*"
+          "type": "axNodeEditorDetails_SafeType_T_Tag*"
         }
       ],
-      "argsoriginal": "(const SafeType\u003Cunsigned long long, NodeId\u003E \u0026 __0)",
+      "argsoriginal": "(const SafeType\u003CT, Tag\u003E \u0026 __0)",
       "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_operator_equal",
+      "cimguiname": "axNodeEditorDetails_SafeType_operator_equal",
       "defaults": {},
       "funcname": "operator=",
       "location": "",
       "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_operator_equal",
-      "ret": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*",
-      "signature": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*,axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*)",
-      "stname": ""
+      "ov_cimguiname": "axNodeEditorDetails_SafeType_operator_equal",
+      "ret": "axNodeEditorDetails_SafeType_T_Tag*",
+      "signature": "(axNodeEditorDetails_SafeType*,axNodeEditorDetails_SafeType_T_Tag*)",
+      "stname": "axNodeEditorDetails_SafeType",
+      "templated": true
     }
   ],
-  "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_Get": [
+  "axNodeEditorDetails_SafeType_Get": [
     {
-      "args": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId* __self)",
+      "args": "(axNodeEditorDetails_SafeType* __self)",
       "argsT": [
         {
           "name": "__self",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*"
+          "type": "axNodeEditorDetails_SafeType*"
         }
       ],
       "argsoriginal": "()",
       "call_args": "()",
-      "cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_Get",
+      "cimguiname": "axNodeEditorDetails_SafeType_Get",
       "defaults": {},
       "funcname": "Get",
       "location": "",
       "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId_Get",
-      "ret": "unsigned long long",
-      "signature": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_NodeId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_operator_equal": [
-    {
-      "args": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*"
-        }
-      ],
-      "argsoriginal": "(const SafeType\u003Cunsigned long long, LinkId\u003E \u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_operator_equal",
-      "ret": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*",
-      "signature": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*,axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_Get": [
-    {
-      "args": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId* __self)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*"
-        }
-      ],
-      "argsoriginal": "()",
-      "call_args": "()",
-      "cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_Get",
-      "defaults": {},
-      "funcname": "Get",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId_Get",
-      "ret": "unsigned long long",
-      "signature": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_LinkId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_operator_equal": [
-    {
-      "args": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* __self, axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*"
-        }
-      ],
-      "argsoriginal": "(const SafeType\u003Cunsigned long long, PinId\u003E \u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_operator_equal",
-      "ret": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*",
-      "signature": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*,axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_Get": [
-    {
-      "args": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId* __self)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*"
-        }
-      ],
-      "argsoriginal": "()",
-      "call_args": "()",
-      "cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_Get",
-      "defaults": {},
-      "funcname": "Get",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId_Get",
-      "ret": "unsigned long long",
-      "signature": "(axNodeEditorDetails_SafeType_unsignedlonglong_axNodeEditor_PinId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal": [
-    {
-      "args": "(axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*"
-        }
-      ],
-      "argsoriginal": "(const SafePointerType\u003CNodeId\u003E \u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal",
-      "ret": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*",
-      "signature": "(axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*,axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*)",
-      "stname": ""
-    },
-    {
-      "args": "(axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*"
-        }
-      ],
-      "argsoriginal": "(SafePointerType\u003CNodeId\u003E \u0026\u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId_operator_equal1",
-      "ret": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*",
-      "signature": "(axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*,axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal": [
-    {
-      "args": "(axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*"
-        }
-      ],
-      "argsoriginal": "(const SafePointerType\u003CLinkId\u003E \u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal",
-      "ret": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*",
-      "signature": "(axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*,axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*)",
-      "stname": ""
-    },
-    {
-      "args": "(axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*"
-        }
-      ],
-      "argsoriginal": "(SafePointerType\u003CLinkId\u003E \u0026\u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId_operator_equal1",
-      "ret": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*",
-      "signature": "(axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*,axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId*)",
-      "stname": ""
-    }
-  ],
-  "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal": [
-    {
-      "args": "(axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*"
-        }
-      ],
-      "argsoriginal": "(const SafePointerType\u003CPinId\u003E \u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal",
-      "ret": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*",
-      "signature": "(axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*,axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*)",
-      "stname": ""
-    },
-    {
-      "args": "(axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __self, axNodeEditorDetails_SafePointerType_axNodeEditor_PinId* __0)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*"
-        }
-      ],
-      "argsoriginal": "(SafePointerType\u003CPinId\u003E \u0026\u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId_operator_equal1",
-      "ret": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*",
-      "signature": "(axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*,axNodeEditorDetails_SafePointerType_axNodeEditor_PinId*)",
-      "stname": ""
+      "ov_cimguiname": "axNodeEditorDetails_SafeType_Get",
+      "ret": "T",
+      "signature": "(axNodeEditorDetails_SafeType*)",
+      "stname": "axNodeEditorDetails_SafeType",
+      "templated": true
     }
   ]
 }

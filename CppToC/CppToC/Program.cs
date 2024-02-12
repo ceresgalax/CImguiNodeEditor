@@ -51,7 +51,8 @@ if (parseError != CXErrorCode.CXError_Success) {
 
 Console.WriteLine($"Num diagnostics: {cxTranslationUnit.NumDiagnostics}");
 for (uint i = 0, ilen = cxTranslationUnit.NumDiagnostics; i < ilen; ++i) {
-    Console.WriteLine(cxTranslationUnit.GetDiagnostic(i).ToString());
+    CXDiagnostic diagnostic = cxTranslationUnit.GetDiagnostic(i);
+    Console.WriteLine($"{diagnostic.Location}: {diagnostic.ToString()}");
 }
 
 using TranslationUnit translationUnit = TranslationUnit.GetOrCreate(cxTranslationUnit);

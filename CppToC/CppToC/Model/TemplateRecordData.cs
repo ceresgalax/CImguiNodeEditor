@@ -10,10 +10,20 @@ public class TemplateArgumentSet : IEquatable<TemplateArgumentSet>
     
     public TemplateArgumentSet(IEnumerable<TemplateArgument> args)
     {
-        Args = args.ToArray().AsReadOnly();
+        TemplateArgument[] ownedArgs = args.ToArray();
 
         List<string> argStrings = new();
-        foreach (TemplateArgument arg in Args) {
+        for (int i = 0, ilen = ownedArgs.Length ; i <ilen; ++i) {
+            TemplateArgument arg = ownedArgs[i];
+
+            if (CUtil.TemplateArgumentStack.Count > 0) {
+                if (arg.AsType is TemplateTypeParmType ttp) {
+                    TemplateArgumentSet set = CUtil.TemplateArgumentStack[(int)ttp.Depth];
+                    arg = set.Args[(int)ttp.Index];
+                    ownedArgs[i] = arg;
+                }
+            }
+            
             string valString = arg.Kind switch {
                 CXTemplateArgumentKind.CXTemplateArgumentKind_Type => CUtil.GetCType(arg.AsType)
                 , CXTemplateArgumentKind.CXTemplateArgumentKind_Integral => arg.AsIntegral.ToString()
@@ -23,6 +33,7 @@ public class TemplateArgumentSet : IEquatable<TemplateArgumentSet>
         }
 
         Str = string.Join(',', argStrings);
+        Args = ownedArgs;
     }
     
     public bool Equals(TemplateArgumentSet? other)
@@ -51,5 +62,5 @@ public class TemplateRecordData
 {
     public RecordData Inner = new();
     public HashSet<TemplateArgumentSet> Instantiations = new();
-    public IReadOnlyList<TemplateArgument> Args;
+    public IReadOnlyList<NamedDecl> Parameters;
 }

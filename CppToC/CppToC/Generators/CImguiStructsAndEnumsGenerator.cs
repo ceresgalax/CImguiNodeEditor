@@ -1,7 +1,10 @@
 ﻿using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ClangSharp;
+using ClangSharp.Interop;
 using CppToC.Model;
+using static ClangSharp.Interop.CXTemplateArgumentKind;
 
 namespace CppToC.Generators;
 
@@ -17,8 +20,14 @@ public class CImguiStructsAndEnumsGenerator
     public class StructField
     {
         [JsonPropertyName("name")] public string Name = "";
-        [JsonPropertyName("template_type")] public string TemplateType = "";
+        
         [JsonPropertyName("type")] public string Type = "";
+        
+        /// <summary>
+        /// If type describes a template, this is the type name of the template parameter(s).
+        /// (Note that Type will still contain the full template name (e.g: ImVector_char for ImVector&lt;char&gt;. )
+        /// </summary>
+        [JsonPropertyName("template_type")] public string TemplateType = "";
     }
     
     public class StructsAndEnums
@@ -53,21 +62,86 @@ public class CImguiStructsAndEnumsGenerator
         }
 
         foreach (RecordData record in builder.Records) {
-            List<StructField> fields = record.Fields
-                .Select(f => new StructField {
-                    Name = f.Name,
-                    Type = CUtil.GetCType(f.Type)
-                })
-                .ToList();
-
-            string cName = CUtil.GetNamespacedName(record.Namespace, record.Name, record.TemplateArgs);
-            outData.Structs[cName] = fields;
+            string cName = CUtil.GetNamespacedName(record.Namespace, record.Name, Array.Empty<TemplateArgument>());
+            outData.Structs[cName] = GetStructFields(record);
             outData.Locations[cName] = ""; // TODO
+        }
+
+        foreach (ForwardDeclaredRecordData record in builder.ForwardDeclaredRecords) {
+            string cName = CUtil.GetNamespacedName(record.Namespace, record.Name);
+            outData.Structs[cName] = new List<StructField>();
+            outData.Locations[cName] = ""; // TODO
+        }
+
+        foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
+            string name = CUtil.GetNamespacedName(templateRecordData.Inner.Namespace, templateRecordData.Inner.Name);
+            outData.TemplatedStructs[name] = GetStructFields(templateRecordData.Inner);
+            outData.Locations[name] = ""; // TODO
+
+            string GetNTTPDString(NonTypeTemplateParmDecl decl)
+            {
+                string s = $"{decl.Type.AsString} {decl.Name}";
+                if (decl.HasDefaultArgument) {
+                    s += $" = {decl.DefaultArgument.Spelling}";
+                }
+                return s;
+            }
+            
+            string GetParameterString(NamedDecl decl)
+            {
+                return decl switch {
+                    TemplateTypeParmDecl typeParm => typeParm.Name,
+                    NonTypeTemplateParmDecl nonTypeParm => GetNTTPDString(nonTypeParm),
+                    _ => throw new NotImplementedException()
+                }; 
+            }
+            
+            outData.Typenames[name] = string.Join(", ", templateRecordData.Parameters.Select(GetParameterString));
+
+            Dictionary<string, bool> done = new();
+            outData.TemplatesDone[name] = done;
+            
+            foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
+                CUtil.TemplateArgumentStack.Add(set);
+                string argsString = string.Join(", ", set.Args.Select(GetArgString));
+                done[argsString] = true;
+                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+            }
         }
 
         JsonSerializerOptions opts = new();
         opts.IncludeFields = true;
         opts.WriteIndented = true;
         writer.Write(JsonSerializer.Serialize(outData, opts));
+    }
+    
+    private static string GetArgString(TemplateArgument arg)
+    {
+        return arg.Kind switch {
+            CXTemplateArgumentKind_Type => CUtil.GetCType(arg.AsType),
+            CXTemplateArgumentKind_Integral => arg.AsIntegral.ToString(),
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    private static List<StructField> GetStructFields(RecordData record)
+    {
+        string GetTemplateType(FieldData field)
+        {
+            // if (field.Type.ClangType is TemplateSpecializationType tst) {
+            //     return string.Join(", ", tst.Args
+            //         .Select(GetArgString)
+            //     );
+            // }
+            return "";
+        }
+        
+        return record.Fields
+            .Select(f => new StructField {
+                Name = f.Name,
+                Type = CUtil.GetCType(f.Type),
+                TemplateType = GetTemplateType(f)
+            })
+            .ToList();
     }
 }

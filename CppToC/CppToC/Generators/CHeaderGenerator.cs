@@ -31,6 +31,14 @@ public class CHeaderGenerator
             writer.WriteLine($"struct {recordCName};");
             writer.WriteLine($"typedef struct {recordCName} {recordCName};");
         }
+        foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
+            foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
+                RecordData data = templateRecordData.Inner;
+                string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, set.Args);
+                writer.WriteLine($"struct {recordCName};");
+                writer.WriteLine($"typedef struct {recordCName} {recordCName};");
+            }
+        }
         foreach (ForwardDeclaredRecordData data in builder.ForwardDeclaredRecords) {
             string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name);
             writer.WriteLine($"struct {recordCName};");
@@ -40,26 +48,21 @@ public class CHeaderGenerator
         
         // Output structs!
         foreach (RecordData data in builder.Records) {
-            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, data.TemplateArgs); 
+            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>()); 
+            WriteStructInner(writer, recordCName, data);
+        }
 
-            writer.WriteLine($"struct {recordCName} {{");
+        foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
+            foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
+                CUtil.TemplateArgumentStack.Add(set);
+                
+                RecordData data = templateRecordData.Inner;
+                string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, set.Args);
 
-            if (data.BaseTypes.Count > 0) {
-                foreach (TypeRef baseType in data.BaseTypes) {
-                    // TODO: If there are multiple bases, is the order in the AST guaranteed to be in the order of how
-                    // the derived fields will be laid out in C++?
-                    string baseCType = CUtil.GetCType(baseType);
-                    writer.WriteLine($"\t{baseCType,-20} _base_{baseCType}");
-                }
-                writer.WriteLine();    
+                WriteStructInner(writer, recordCName, data);
+                
+                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
             }
-            
-            foreach (FieldData field in data.Fields) {
-                writer.WriteLine($"\t{CUtil.GetCType(field.Type),-20} {field.Name};");
-            }
-            
-            writer.WriteLine("};");
-            writer.WriteLine();
         }
         
         writer.WriteLine("#else");
@@ -73,11 +76,23 @@ public class CHeaderGenerator
         }
         
         foreach (RecordData data in builder.Records) {
-            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, data.TemplateArgs);
+            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
             string recordCppName = CUtil.GetRecordCppSpelling(data);
             writer.WriteLine($"typedef {recordCppName} {recordCName};");
         }
-        
+        foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
+            foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
+                CUtil.TemplateArgumentStack.Add(set);
+                
+                RecordData data = templateRecordData.Inner;
+                string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, set.Args);
+                string recordCppName = CUtil.GetRecordCppSpelling(data.Namespace, data.Name, set.Args);
+                writer.WriteLine($"typedef {recordCppName} {recordCName};");
+                
+                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+            }
+        }
+
         foreach (ForwardDeclaredRecordData data in builder.ForwardDeclaredRecords) {
             string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
             string recordCppName = CUtil.GetRecordCppSpelling(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
@@ -94,11 +109,46 @@ public class CHeaderGenerator
         }
         
         // Output methods
+        RecordMethodOwner recordMethodOwner = new(new RecordData());
         foreach (RecordData record in builder.Records) {
+            recordMethodOwner.SetRecord(record);
             foreach (FunctionData function in record.Methods) {
-                writer.WriteLine($"{CUtil.GetCFunctionLine(function, record)};");
+                writer.WriteLine($"{CUtil.GetCFunctionLine(function, recordMethodOwner)};");
             }
         }
+        InstantiatedTemplateRecordMethodOwner itrMethodOwner = new();
+        foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
+            foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
+                itrMethodOwner.Set(templateRecordData.Inner, set);
+                CUtil.TemplateArgumentStack.Add(set);
+                foreach (FunctionData function in templateRecordData.Inner.Methods) {
+                    writer.WriteLine($"{CUtil.GetCFunctionLine(function, itrMethodOwner)};");
+                }
+                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+            }
+        }
+    }
+
+    private static void WriteStructInner(TextWriter writer, string cName, RecordData data)
+    {
+        writer.WriteLine($"struct {cName} {{");
+
+        if (data.BaseTypes.Count > 0) {
+            foreach (TypeRef baseType in data.BaseTypes) {
+                // TODO: If there are multiple bases, is the order in the AST guaranteed to be in the order of how
+                // the derived fields will be laid out in C++?
+                string baseCType = CUtil.GetCType(baseType);
+                writer.WriteLine($"\t{baseCType,-20} _base_{baseCType}");
+            }
+            writer.WriteLine();    
+        }
+            
+        foreach (FieldData field in data.Fields) {
+            writer.WriteLine($"\t{CUtil.GetCType(field.Type),-20} {field.Name};");
+        }
+            
+        writer.WriteLine("};");
+        writer.WriteLine();
     }
 
 }
