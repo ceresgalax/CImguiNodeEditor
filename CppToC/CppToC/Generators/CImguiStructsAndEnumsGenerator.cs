@@ -1,8 +1,6 @@
-﻿using System.Security.Cryptography;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using ClangSharp;
-using ClangSharp.Interop;
 using CppToC.Model;
 using static ClangSharp.Interop.CXTemplateArgumentKind;
 
@@ -22,6 +20,8 @@ public class CImguiStructsAndEnumsGenerator
         [JsonPropertyName("name")] public string Name = "";
         
         [JsonPropertyName("type")] public string Type = "";
+
+        [JsonPropertyName("size")] public int Size;
         
         /// <summary>
         /// If type describes a template, this is the type name of the template parameter(s).
@@ -41,8 +41,10 @@ public class CImguiStructsAndEnumsGenerator
         [JsonPropertyName("typenames")] public Dictionary<string, string> Typenames = new();
     }
     
-    public static void Generate(TextWriter writer, Builder builder)
+    public static void Generate(TextWriter writer, Builder builder, string[] nsPrefixToOmit)
     {
+        CTypeTranslator cTypeTranslator = new();
+        
         StructsAndEnums outData = new();
 
         foreach (EnumData data in builder.Enums) {
@@ -54,7 +56,7 @@ public class CImguiStructsAndEnumsGenerator
                 })
                 .ToList();
 
-            string cName = CUtil.GetNamespacedName(data.Namespace, data.Name); 
+            string cName = CUtil.GetNamespacedName(OmittedNs(data.Namespace, nsPrefixToOmit), data.Name); 
             
             outData.Enums[cName] = entries;
             outData.EnumTypes[cName] = "int"; // TODO
@@ -62,50 +64,35 @@ public class CImguiStructsAndEnumsGenerator
         }
 
         foreach (RecordData record in builder.Records) {
-            string cName = CUtil.GetNamespacedName(record.Namespace, record.Name, Array.Empty<TemplateArgument>());
-            outData.Structs[cName] = GetStructFields(record);
+            string cName = cTypeTranslator.GetNamespacedName(OmittedNs(record.Namespace, nsPrefixToOmit), record.Name, Array.Empty<TemplateArgument>());
+            outData.Structs[cName] = GetStructFields(record, cTypeTranslator, builder);
             outData.Locations[cName] = ""; // TODO
         }
 
         foreach (ForwardDeclaredRecordData record in builder.ForwardDeclaredRecords) {
-            string cName = CUtil.GetNamespacedName(record.Namespace, record.Name);
+            string cName = CUtil.GetNamespacedName(OmittedNs(record.Namespace, nsPrefixToOmit), record.Name);
             outData.Structs[cName] = new List<StructField>();
             outData.Locations[cName] = ""; // TODO
         }
+        
+        //
+        // CImgui doesn't handle template classes very well.
+        // More specifically, the Imgui.NET generator doesn't know how to create template classes, all templated classes
+        // in ImGui.NET are special case. (And translate the ImGui containers to the .NET System equivalents)
+        // This is understandable, as the cimgui json "schema" doesn't define mappings from template parameters to 
+        // instantiated c class names.
+        //
 
         foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
-            string name = CUtil.GetNamespacedName(templateRecordData.Inner.Namespace, templateRecordData.Inner.Name);
-            outData.TemplatedStructs[name] = GetStructFields(templateRecordData.Inner);
-            outData.Locations[name] = ""; // TODO
-
-            string GetNTTPDString(NonTypeTemplateParmDecl decl)
-            {
-                string s = $"{decl.Type.AsString} {decl.Name}";
-                if (decl.HasDefaultArgument) {
-                    s += $" = {decl.DefaultArgument.Spelling}";
-                }
-                return s;
-            }
-            
-            string GetParameterString(NamedDecl decl)
-            {
-                return decl switch {
-                    TemplateTypeParmDecl typeParm => typeParm.Name,
-                    NonTypeTemplateParmDecl nonTypeParm => GetNTTPDString(nonTypeParm),
-                    _ => throw new NotImplementedException()
-                }; 
-            }
-            
-            outData.Typenames[name] = string.Join(", ", templateRecordData.Parameters.Select(GetParameterString));
-
-            Dictionary<string, bool> done = new();
-            outData.TemplatesDone[name] = done;
-            
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
-                CUtil.TemplateArgumentStack.Add(set);
-                string argsString = string.Join(", ", set.Args.Select(GetArgString));
-                done[argsString] = true;
-                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+                cTypeTranslator.PushTemplateArgumentSet(set);
+                
+                string cName = cTypeTranslator.GetNamespacedName(OmittedNs(templateRecordData.Inner.Namespace, nsPrefixToOmit), templateRecordData.Inner.Name, set.Args);
+
+                outData.Structs[cName] = GetStructFields(templateRecordData.Inner, cTypeTranslator, builder);
+                outData.Locations[cName] = ""; // TODO
+                
+                cTypeTranslator.PopTemplateArgumentSet();
             }
         }
 
@@ -115,33 +102,85 @@ public class CImguiStructsAndEnumsGenerator
         writer.Write(JsonSerializer.Serialize(outData, opts));
     }
     
-    private static string GetArgString(TemplateArgument arg)
+    private static string GetArgString(TemplateArgument arg, CTypeTranslator translator)
     {
         return arg.Kind switch {
-            CXTemplateArgumentKind_Type => CUtil.GetCType(arg.AsType),
+            CXTemplateArgumentKind_Type => translator.GetCType(arg.AsType),
             CXTemplateArgumentKind_Integral => arg.AsIntegral.ToString(),
             _ => throw new NotImplementedException()
         };
     }
 
-    private static List<StructField> GetStructFields(RecordData record)
+    private static List<StructField> GetStructFields(RecordData record, CTypeTranslator translator, Builder builder)
     {
-        string GetTemplateType(FieldData field)
+        string GetTemplateType(ClangSharp.Type type)
         {
-            // if (field.Type.ClangType is TemplateSpecializationType tst) {
-            //     return string.Join(", ", tst.Args
-            //         .Select(GetArgString)
-            //     );
-            // }
+            // Only output a template type if it's not from our parsed headers.
+            Decl? typeDecl = type.Declaration;
+            if (typeDecl != null) {
+                if (builder.IsDeclPartOfSourceFile(typeDecl)) {
+                    return "";
+                }
+            } 
+            
+            if (type is ElaboratedType) {
+                return GetTemplateType(type.Desugar);
+            }
+            if (type is TemplateSpecializationType tst) {
+                return string.Join(", ", tst.Args
+                    .Select(a => GetArgString(a, translator))
+                );
+            }
             return "";
         }
+
+        string GetType(ClangSharp.Type type)
+        {
+            // TODO: Perf.
+            CTypeTranslator noSizeTranslator = new(translator.TemplateArgumentStack);
+            noSizeTranslator.IncludeConstantArraySizes = false;
+            return noSizeTranslator.GetCType(type);
+        }
         
-        return record.Fields
+        int GetSize(ClangSharp.Type type)
+        {
+            if (type.CanonicalType is ConstantArrayType at) {
+                return (int)at.Size;
+            }
+            return 0;
+        }
+
+        IEnumerable<StructField> bases = record.BaseTypes
+            .Select(bt => {
+                string cName = translator.GetCType(bt);
+                return new StructField {
+                    Name = $"_base_{cName}",
+                    Type = GetType(bt.ClangType),
+                    Size = GetSize(bt.ClangType),
+                    TemplateType = GetTemplateType(bt.ClangType)
+                };
+            });
+        
+        IEnumerable<StructField> fields = record.Fields
             .Select(f => new StructField {
                 Name = f.Name,
-                Type = CUtil.GetCType(f.Type),
-                TemplateType = GetTemplateType(f)
-            })
-            .ToList();
+                Type = GetType(f.Type.ClangType),
+                Size = GetSize(f.Type.ClangType),
+                TemplateType = GetTemplateType(f.Type.ClangType)
+            });
+
+        return bases.Concat(fields).ToList();
+    }
+
+    private static string[] OmittedNs(string[] ns, string[] nsPrefixToOmit)
+    {
+        // Whoa, a programming interview whiteboard question in the wild!?
+        // (Future employers please don't look.. it's almost midnight and I just want to generate some bindings before I got to sleep.. ;-;)
+        return ns.Zip(nsPrefixToOmit)
+            .Select(x => (x.First == x.Second) ? null : x.First)
+            .Where(x => x != null)
+            .Select(x => x!) // I wish NRTs worked better with Linq expressions like these...
+            .Concat(ns[nsPrefixToOmit.Length..])
+            .ToArray();
     }
 }

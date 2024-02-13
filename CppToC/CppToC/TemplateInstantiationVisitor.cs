@@ -7,6 +7,7 @@ namespace CppToC;
 public class TemplateInstantiationVisitor : ICursorVisitor
 {
     private readonly Builder _builder;
+    private readonly List<TemplateArgumentSet> _currentTemplateArguments = new();
     
     public TemplateInstantiationVisitor(Builder builder)
     {
@@ -26,12 +27,9 @@ public class TemplateInstantiationVisitor : ICursorVisitor
                 CursorVisitor.VisitManyWithExceptions(cursor.CursorChildren, Array.Empty<Cursor>(), this);
                 break;
         }
-        
-
-        
     }
-
-    public void CheckType(ClangSharp.Type type)
+    
+    private void CheckType(ClangSharp.Type type)
     {
         if (type is ElaboratedType elaboratedType) {
             type = elaboratedType.NamedType;
@@ -44,19 +42,19 @@ public class TemplateInstantiationVisitor : ICursorVisitor
             
             TemplateRecordData data = _builder.GetOrCreateTemplateRecordData(decl);
 
-            TemplateArgumentSet newSet = new TemplateArgumentSet(tsType.Args);
+            TemplateArgumentSet newSet = new TemplateArgumentSet(tsType.Args, _currentTemplateArguments);
 
             if (data.Instantiations.Contains(newSet)) {
                 return;
             }
             
             // Push to the stack.
-            CUtil.TemplateArgumentStack.Add(newSet);
+            _currentTemplateArguments.Add(newSet);
             
             CursorVisitor.VisitManyWithExceptions(decl.CursorChildren, Array.Empty<Cursor>(), this);
             
             // Pop it off.
-            CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+            _currentTemplateArguments.RemoveAt(_currentTemplateArguments.Count - 1);
 
             data.Instantiations.Add(newSet);
         }

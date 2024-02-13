@@ -15,17 +15,12 @@ public static class CSourceGenerator
         writer.WriteLine("#include <utility> // std::move ");
         writer.WriteLine();
         //writer.WriteLine("extern \"C\" {");
-        
-        // Output C struct ot CPP Record typedefs
-        // foreach (RecordData data in builder.Records) {
-        //     string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, data.TemplateArgs);
-        //     string cppName = CUtil.GetRecordSpelling(data);
-        //     writer.WriteLine($"typedef {recordCName} {cppName};");
-        // }
+
+        CTypeTranslator cTypeTranslator = new();
         
         // Function impls
         foreach (FunctionData data in builder.Functions) {
-            writer.WriteLine($"{CUtil.GetCFunctionLine(data, selfOf: null)} {{");
+            writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(data, selfOf: null)} {{");
             writer.Write("\t");
             
             (string prefix, string postfix) = GetExpressionWrapper(data.ReturnType?.ClangType);
@@ -52,7 +47,7 @@ public static class CSourceGenerator
         foreach (RecordData data in builder.Records) {
             recordMethodOwner.SetRecord(data);
             foreach (FunctionData function in data.Methods) {
-                WriteMethod(writer, function, recordMethodOwner);
+                WriteMethod(writer, function, recordMethodOwner, cTypeTranslator);
             }
         }
 
@@ -60,13 +55,13 @@ public static class CSourceGenerator
         foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
                 itrMethodOwner.Set(templateRecordData.Inner, set);
-                CUtil.TemplateArgumentStack.Add(set);
+                cTypeTranslator.PushTemplateArgumentSet(set);
                 
                 foreach (FunctionData function in templateRecordData.Inner.Methods) {
-                    WriteMethod(writer, function, recordMethodOwner);    
+                    WriteMethod(writer, function, recordMethodOwner, cTypeTranslator);    
                 }
                 
-                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+                cTypeTranslator.PopTemplateArgumentSet();
             }
         }
         
@@ -104,9 +99,9 @@ public static class CSourceGenerator
         return parameter.Name;
     }
 
-    private static void WriteMethod(TextWriter writer, FunctionData function, IMethodOwner selfOf)
+    private static void WriteMethod(TextWriter writer, FunctionData function, IMethodOwner selfOf, CTypeTranslator translator)
     {
-        writer.WriteLine($"{CUtil.GetCFunctionLine(function, selfOf)} {{");
+        writer.WriteLine($"{translator.GetCFunctionLine(function, selfOf)} {{");
         writer.Write("\t");
 
         (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType);

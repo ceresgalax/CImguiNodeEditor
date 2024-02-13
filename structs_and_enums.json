@@ -1,6 +1,6 @@
 {
   "enums": {
-    "axNodeEditor_PinKind": [
+    "PinKind": [
       {
         "calc_value": 0,
         "name": "Input",
@@ -12,7 +12,7 @@
         "value": "1"
       }
     ],
-    "axNodeEditor_FlowDirection": [
+    "FlowDirection": [
       {
         "calc_value": 0,
         "name": "Forward",
@@ -24,7 +24,7 @@
         "value": "1"
       }
     ],
-    "axNodeEditor_CanvasSizeMode": [
+    "CanvasSizeMode": [
       {
         "calc_value": 0,
         "name": "FitVerticalView",
@@ -41,7 +41,7 @@
         "value": "2"
       }
     ],
-    "axNodeEditor_SaveReasonFlags": [
+    "SaveReasonFlags": [
       {
         "calc_value": 0,
         "name": "None",
@@ -83,7 +83,7 @@
         "value": "64"
       }
     ],
-    "axNodeEditor_StyleColor": [
+    "StyleColor": [
       {
         "calc_value": 0,
         "name": "StyleColor_Bg",
@@ -185,7 +185,7 @@
         "value": "19"
       }
     ],
-    "axNodeEditor_StyleVar": [
+    "StyleVar": [
       {
         "calc_value": 0,
         "name": "StyleVar_NodePadding",
@@ -329,283 +329,377 @@
     ]
   },
   "enumtypes": {
-    "axNodeEditor_PinKind": "int",
-    "axNodeEditor_FlowDirection": "int",
-    "axNodeEditor_CanvasSizeMode": "int",
-    "axNodeEditor_SaveReasonFlags": "int",
-    "axNodeEditor_StyleColor": "int",
-    "axNodeEditor_StyleVar": "int"
+    "PinKind": "int",
+    "FlowDirection": "int",
+    "CanvasSizeMode": "int",
+    "SaveReasonFlags": "int",
+    "StyleColor": "int",
+    "StyleVar": "int"
   },
   "locations": {
-    "axNodeEditor_PinKind": "",
-    "axNodeEditor_FlowDirection": "",
-    "axNodeEditor_CanvasSizeMode": "",
-    "axNodeEditor_SaveReasonFlags": "",
-    "axNodeEditor_StyleColor": "",
-    "axNodeEditor_StyleVar": "",
-    "axNodeEditor_Config": "",
-    "axNodeEditor_Style": "",
-    "axNodeEditor_NodeId": "",
-    "axNodeEditor_LinkId": "",
-    "axNodeEditor_PinId": "",
-    "axNodeEditor_EditorContext": "",
-    "axNodeEditorDetails_SafeType": "",
-    "axNodeEditorDetails_SafePointerType": ""
+    "PinKind": "",
+    "FlowDirection": "",
+    "CanvasSizeMode": "",
+    "SaveReasonFlags": "",
+    "StyleColor": "",
+    "StyleVar": "",
+    "Config": "",
+    "Style": "",
+    "NodeId": "",
+    "LinkId": "",
+    "PinId": "",
+    "EditorContext": "",
+    "Details_SafeType_voidptr_axNodeEditor_NodeId": "",
+    "Details_SafeType_voidptr_axNodeEditor_LinkId": "",
+    "Details_SafeType_voidptr_axNodeEditor_PinId": "",
+    "Details_SafePointerType_axNodeEditor_NodeId": "",
+    "Details_SafePointerType_axNodeEditor_LinkId": "",
+    "Details_SafePointerType_axNodeEditor_PinId": ""
   },
   "structs": {
-    "axNodeEditor_Config": [
+    "Config": [
       {
         "name": "SettingsFile",
         "type": "const char*",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "BeginSaveSession",
         "type": "void (*)(void*)",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "EndSaveSession",
         "type": "void (*)(void*)",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SaveSettings",
         "type": "bool (*)(const char*,void*,axNodeEditor_SaveReasonFlags,void*)",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "LoadSettings",
         "type": "void* (*)(char*,void*)",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SaveNodeSettings",
         "type": "bool (*)(axNodeEditor_NodeId,const char*,void*,axNodeEditor_SaveReasonFlags,void*)",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "LoadNodeSettings",
         "type": "void* (*)(axNodeEditor_NodeId,char*,void*)",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "UserPointer",
         "type": "void*",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "CustomZoomLevels",
         "type": "ImVector_float",
-        "template_type": ""
+        "size": 0,
+        "template_type": "float"
       },
       {
         "name": "CanvasSizeMode",
         "type": "axNodeEditor_CanvasSizeMode",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "DragButtonIndex",
         "type": "int",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SelectButtonIndex",
         "type": "int",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "NavigateButtonIndex",
         "type": "int",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "ContextMenuButtonIndex",
         "type": "int",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "EnableSmoothZoom",
         "type": "bool",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SmoothZoomPower",
         "type": "float",
+        "size": 0,
         "template_type": ""
       }
     ],
-    "axNodeEditor_Style": [
+    "Style": [
       {
         "name": "NodePadding",
         "type": "ImVec4",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "NodeRounding",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "NodeBorderWidth",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "HoveredNodeBorderWidth",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "HoverNodeBorderOffset",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SelectedNodeBorderWidth",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SelectedNodeBorderOffset",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PinRounding",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PinBorderWidth",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "LinkStrength",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SourceDirection",
         "type": "ImVec2",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "TargetDirection",
         "type": "ImVec2",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "ScrollDuration",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "FlowMarkerDistance",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "FlowSpeed",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "FlowDuration",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PivotAlignment",
         "type": "ImVec2",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PivotSize",
         "type": "ImVec2",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PivotScale",
         "type": "ImVec2",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PinCorners",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PinRadius",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PinArrowSize",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "PinArrowWidth",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "GroupRounding",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "GroupBorderWidth",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "HighlightConnectedLinks",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "SnapLinkToPinDir",
         "type": "float",
+        "size": 0,
         "template_type": ""
       },
       {
         "name": "Colors",
-        "type": "ImVec4[19]",
+        "type": "ImVec4",
+        "size": 19,
         "template_type": ""
       }
     ],
-    "axNodeEditor_NodeId": [],
-    "axNodeEditor_LinkId": [],
-    "axNodeEditor_PinId": [],
-    "axNodeEditor_EditorContext": []
-  },
-  "templated_structs": {
-    "axNodeEditorDetails_SafeType": [
+    "NodeId": [
+      {
+        "name": "_base_axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId",
+        "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "LinkId": [
+      {
+        "name": "_base_axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId",
+        "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "PinId": [
+      {
+        "name": "_base_axNodeEditorDetails_SafePointerType_axNodeEditor_PinId",
+        "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "EditorContext": [],
+    "Details_SafeType_voidptr_axNodeEditor_NodeId": [
       {
         "name": "m_Value",
-        "type": "T",
+        "type": "void*",
+        "size": 0,
         "template_type": ""
       }
     ],
-    "axNodeEditorDetails_SafePointerType": []
+    "Details_SafeType_voidptr_axNodeEditor_LinkId": [
+      {
+        "name": "m_Value",
+        "type": "void*",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "Details_SafeType_voidptr_axNodeEditor_PinId": [
+      {
+        "name": "m_Value",
+        "type": "void*",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "Details_SafePointerType_axNodeEditor_NodeId": [
+      {
+        "name": "_base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId",
+        "type": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "Details_SafePointerType_axNodeEditor_LinkId": [
+      {
+        "name": "_base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId",
+        "type": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId",
+        "size": 0,
+        "template_type": ""
+      }
+    ],
+    "Details_SafePointerType_axNodeEditor_PinId": [
+      {
+        "name": "_base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId",
+        "type": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId",
+        "size": 0,
+        "template_type": ""
+      }
+    ]
   },
-  "templates_done": {
-    "axNodeEditorDetails_SafeType": {
-      "void*, axNodeEditor_NodeId": true,
-      "void*, axNodeEditor_LinkId": true,
-      "void*, axNodeEditor_PinId": true
-    },
-    "axNodeEditorDetails_SafePointerType": {
-      "axNodeEditor_NodeId": true,
-      "axNodeEditor_LinkId": true,
-      "axNodeEditor_PinId": true
-    }
-  },
-  "typenames": {
-    "axNodeEditorDetails_SafeType": "T, Tag",
-    "axNodeEditorDetails_SafePointerType": "Tag"
-  }
+  "templated_structs": {},
+  "templates_done": {},
+  "typenames": {}
 }

@@ -84,7 +84,7 @@ OverloadUtil.ProcessOverloads(builder);
 {
     Console.WriteLine("Writing cimgui-style structs_and_enums.json...");
     using StreamWriter writer = File.CreateText(cimguiStructsAndEnumsOutputPath);
-    CImguiStructsAndEnumsGenerator.Generate(writer, builder);
+    CImguiStructsAndEnumsGenerator.Generate(writer, builder, ["ax", "NodeEditor"]);
 }
 
 Console.WriteLine("Done!");

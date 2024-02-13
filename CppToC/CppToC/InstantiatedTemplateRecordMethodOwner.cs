@@ -11,7 +11,7 @@ public class InstantiatedTemplateRecordMethodOwner : IMethodOwner
     public InstantiatedTemplateRecordMethodOwner()
     {
         _inner = new RecordData();
-        _arguments = new TemplateArgumentSet(Array.Empty<TemplateArgument>());
+        _arguments = new TemplateArgumentSet(Array.Empty<TemplateArgument>(), Array.Empty<TemplateArgumentSet>());
     }
     
     public InstantiatedTemplateRecordMethodOwner(RecordData inner, TemplateArgumentSet arguments)

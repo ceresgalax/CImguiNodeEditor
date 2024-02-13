@@ -8,24 +8,27 @@ public class TemplateArgumentSet : IEquatable<TemplateArgumentSet>
     public readonly string Str;
     public readonly IReadOnlyList<TemplateArgument> Args;
     
-    public TemplateArgumentSet(IEnumerable<TemplateArgument> args)
+    public TemplateArgumentSet(IEnumerable<TemplateArgument> args, IReadOnlyList<TemplateArgumentSet> currentTemplateArguments)
     {
         TemplateArgument[] ownedArgs = args.ToArray();
 
+        CTypeTranslator cTypeTranslator = new();
+        cTypeTranslator.TemplateArgumentStack.AddRange(currentTemplateArguments);
+        
         List<string> argStrings = new();
         for (int i = 0, ilen = ownedArgs.Length ; i <ilen; ++i) {
             TemplateArgument arg = ownedArgs[i];
 
-            if (CUtil.TemplateArgumentStack.Count > 0) {
+            if (currentTemplateArguments.Count > 0) {
                 if (arg.AsType is TemplateTypeParmType ttp) {
-                    TemplateArgumentSet set = CUtil.TemplateArgumentStack[(int)ttp.Depth];
+                    TemplateArgumentSet set = currentTemplateArguments[(int)ttp.Depth];
                     arg = set.Args[(int)ttp.Index];
                     ownedArgs[i] = arg;
                 }
             }
             
             string valString = arg.Kind switch {
-                CXTemplateArgumentKind.CXTemplateArgumentKind_Type => CUtil.GetCType(arg.AsType)
+                CXTemplateArgumentKind.CXTemplateArgumentKind_Type => cTypeTranslator.GetCType(arg.AsType)
                 , CXTemplateArgumentKind.CXTemplateArgumentKind_Integral => arg.AsIntegral.ToString()
                 , _ => throw new ArgumentOutOfRangeException()
             };
@@ -62,5 +65,5 @@ public class TemplateRecordData
 {
     public RecordData Inner = new();
     public HashSet<TemplateArgumentSet> Instantiations = new();
-    public IReadOnlyList<NamedDecl> Parameters;
+    public IReadOnlyList<NamedDecl> Parameters = Array.Empty<NamedDecl>();
 }

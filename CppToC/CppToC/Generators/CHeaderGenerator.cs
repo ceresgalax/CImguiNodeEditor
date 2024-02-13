@@ -11,6 +11,8 @@ public class CHeaderGenerator
         writer.WriteLine("#pragma once");
         writer.WriteLine("#if !FOR_WRAPPER_IMPL");
         writer.WriteLine();
+
+        CTypeTranslator cTypeTranslator = new();
         
         // Output enums!
         foreach (EnumData data in builder.Enums) {
@@ -34,7 +36,7 @@ public class CHeaderGenerator
         foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
                 RecordData data = templateRecordData.Inner;
-                string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, set.Args);
+                string recordCName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name, set.Args);
                 writer.WriteLine($"struct {recordCName};");
                 writer.WriteLine($"typedef struct {recordCName} {recordCName};");
             }
@@ -48,20 +50,20 @@ public class CHeaderGenerator
         
         // Output structs!
         foreach (RecordData data in builder.Records) {
-            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>()); 
-            WriteStructInner(writer, recordCName, data);
+            string recordCName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>()); 
+            WriteStructInner(writer, recordCName, data, cTypeTranslator);
         }
 
         foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
-                CUtil.TemplateArgumentStack.Add(set);
+                cTypeTranslator.PushTemplateArgumentSet(set);
                 
                 RecordData data = templateRecordData.Inner;
-                string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, set.Args);
+                string recordCName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name, set.Args);
 
-                WriteStructInner(writer, recordCName, data);
+                WriteStructInner(writer, recordCName, data, cTypeTranslator);
                 
-                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+                cTypeTranslator.PopTemplateArgumentSet();
             }
         }
         
@@ -76,25 +78,25 @@ public class CHeaderGenerator
         }
         
         foreach (RecordData data in builder.Records) {
-            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
+            string recordCName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
             string recordCppName = CUtil.GetRecordCppSpelling(data);
             writer.WriteLine($"typedef {recordCppName} {recordCName};");
         }
         foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
-                CUtil.TemplateArgumentStack.Add(set);
+                cTypeTranslator.PushTemplateArgumentSet(set);
                 
                 RecordData data = templateRecordData.Inner;
-                string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, set.Args);
+                string recordCName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name, set.Args);
                 string recordCppName = CUtil.GetRecordCppSpelling(data.Namespace, data.Name, set.Args);
                 writer.WriteLine($"typedef {recordCppName} {recordCName};");
                 
-                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+                cTypeTranslator.PopTemplateArgumentSet();
             }
         }
 
         foreach (ForwardDeclaredRecordData data in builder.ForwardDeclaredRecords) {
-            string recordCName = CUtil.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
+            string recordCName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
             string recordCppName = CUtil.GetRecordCppSpelling(data.Namespace, data.Name, Array.Empty<TemplateArgument>());
             writer.WriteLine($"typedef {recordCppName} {recordCName};");
         }
@@ -105,7 +107,7 @@ public class CHeaderGenerator
         
         // Output functions!
         foreach (FunctionData data in builder.Functions) {
-            writer.WriteLine($"{CUtil.GetCFunctionLine(data, selfOf: null)};");
+            writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(data, selfOf: null)};");
         }
         
         // Output methods
@@ -113,23 +115,23 @@ public class CHeaderGenerator
         foreach (RecordData record in builder.Records) {
             recordMethodOwner.SetRecord(record);
             foreach (FunctionData function in record.Methods) {
-                writer.WriteLine($"{CUtil.GetCFunctionLine(function, recordMethodOwner)};");
+                writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(function, recordMethodOwner)};");
             }
         }
         InstantiatedTemplateRecordMethodOwner itrMethodOwner = new();
         foreach (TemplateRecordData templateRecordData in builder.TemplateRecords.Values) {
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
                 itrMethodOwner.Set(templateRecordData.Inner, set);
-                CUtil.TemplateArgumentStack.Add(set);
+                cTypeTranslator.PushTemplateArgumentSet(set);
                 foreach (FunctionData function in templateRecordData.Inner.Methods) {
-                    writer.WriteLine($"{CUtil.GetCFunctionLine(function, itrMethodOwner)};");
+                    writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(function, itrMethodOwner)};");
                 }
-                CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
+                cTypeTranslator.PopTemplateArgumentSet();
             }
         }
     }
 
-    private static void WriteStructInner(TextWriter writer, string cName, RecordData data)
+    private static void WriteStructInner(TextWriter writer, string cName, RecordData data, CTypeTranslator translator)
     {
         writer.WriteLine($"struct {cName} {{");
 
@@ -137,14 +139,14 @@ public class CHeaderGenerator
             foreach (TypeRef baseType in data.BaseTypes) {
                 // TODO: If there are multiple bases, is the order in the AST guaranteed to be in the order of how
                 // the derived fields will be laid out in C++?
-                string baseCType = CUtil.GetCType(baseType);
+                string baseCType = translator.GetCType(baseType);
                 writer.WriteLine($"\t{baseCType,-20} _base_{baseCType}");
             }
             writer.WriteLine();    
         }
             
         foreach (FieldData field in data.Fields) {
-            writer.WriteLine($"\t{CUtil.GetCType(field.Type),-20} {field.Name};");
+            writer.WriteLine($"\t{translator.GetCType(field.Type),-20} {field.Name};");
         }
             
         writer.WriteLine("};");
