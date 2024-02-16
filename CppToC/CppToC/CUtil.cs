@@ -27,8 +27,12 @@ public static class CUtil
         return GetNamespacedName(GetNsFromCursor(decl), decl.Name);
     }
     
-    public static string[] GetNsFromCursor(Cursor cursor)
+    public static string[] GetNsFromCursor(Cursor? cursor)
     {
+        if (cursor == null) {
+            return Array.Empty<string>();
+        }
+        
         Stack<string> parts = new();
         Cursor? lexicalParent = cursor.LexicalParentCursor;
         while (lexicalParent != null) {
@@ -38,7 +42,7 @@ public static class CUtil
             parts.Push(lexicalParent.Spelling);
             lexicalParent = lexicalParent.LexicalParentCursor;
         }
-        return parts.ToArray();
+        return parts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
     }
 
     public static string GetOperatorOverloadName(CX_OverloadedOperatorKind kind)
@@ -69,7 +73,7 @@ public static class CUtil
 
             for (int i = 0, ilen = templateArgs.Count; i < ilen; ++i) {
                 TemplateArgument arg = templateArgs[i];
-                builder.Append(arg.AsType.AsString);
+                builder.Append(GetNamespacedCppName(GetNsFromCursor(arg.AsType.Declaration), arg.AsType.AsString));
                 if (i + 1 < ilen) {
                     builder.Append(", ");
                 }

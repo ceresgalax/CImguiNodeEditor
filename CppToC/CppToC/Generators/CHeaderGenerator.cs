@@ -6,9 +6,10 @@ namespace CppToC.Model;
 
 public class CHeaderGenerator
 {
-    public static void Generate(TextWriter writer, Builder builder)
+    public static void Generate(TextWriter writer, Builder builder, string exportHeaderIncludePath, string exportMacro)
     {
         writer.WriteLine("#pragma once");
+        writer.WriteLine($"#include \"{exportHeaderIncludePath}\"");
         writer.WriteLine("#if !FOR_WRAPPER_IMPL");
         writer.WriteLine();
 
@@ -105,9 +106,13 @@ public class CHeaderGenerator
         writer.WriteLine();
         
         
+        writer.WriteLine("#ifdef __cplusplus");
+        writer.WriteLine("extern \"C\" {");
+        writer.WriteLine("#endif // __cplusplus");
+        
         // Output functions!
         foreach (FunctionData data in builder.Functions) {
-            writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(data, selfOf: null)};");
+            writer.WriteLine($"{exportMacro} {cTypeTranslator.GetCFunctionLine(data, selfOf: null)};");
         }
         
         // Output methods
@@ -115,7 +120,7 @@ public class CHeaderGenerator
         foreach (RecordData record in builder.Records) {
             recordMethodOwner.SetRecord(record);
             foreach (FunctionData function in record.Methods) {
-                writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(function, recordMethodOwner)};");
+                writer.WriteLine($"{exportMacro} {cTypeTranslator.GetCFunctionLine(function, recordMethodOwner)};");
             }
         }
         InstantiatedTemplateRecordMethodOwner itrMethodOwner = new();
@@ -124,11 +129,15 @@ public class CHeaderGenerator
                 itrMethodOwner.Set(templateRecordData.Inner, set);
                 cTypeTranslator.PushTemplateArgumentSet(set);
                 foreach (FunctionData function in templateRecordData.Inner.Methods) {
-                    writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(function, itrMethodOwner)};");
+                    writer.WriteLine($"{exportMacro} {cTypeTranslator.GetCFunctionLine(function, itrMethodOwner)};");
                 }
                 cTypeTranslator.PopTemplateArgumentSet();
             }
         }
+        
+        writer.WriteLine("#ifdef __cplusplus");
+        writer.WriteLine("} // extern \"C\"");
+        writer.WriteLine("#endif // __cplusplus");
     }
 
     private static void WriteStructInner(TextWriter writer, string cName, RecordData data, CTypeTranslator translator)

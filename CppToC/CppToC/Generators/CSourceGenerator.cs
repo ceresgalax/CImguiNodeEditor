@@ -7,14 +7,16 @@ namespace CppToC;
 
 public static class CSourceGenerator
 {
-    public static void Generate(TextWriter writer, Builder builder, string headerFileName, string sourceHeaderFileName)
+    public static void Generate(TextWriter writer, Builder builder, List<string> sourceHeaderFileNames, string headerFileName)
     {
         writer.WriteLine("#define FOR_WRAPPER_IMPL 1");
-        writer.WriteLine($"#include \"{sourceHeaderFileName}\" // This needs to be included first!");
+        foreach (string sourceHeaderFileName in sourceHeaderFileNames) {
+            writer.WriteLine($"#include \"{sourceHeaderFileName}\"");   
+        }
         writer.WriteLine($"#include \"{headerFileName}\"");
         writer.WriteLine("#include <utility> // std::move ");
         writer.WriteLine();
-        //writer.WriteLine("extern \"C\" {");
+        writer.WriteLine("extern \"C\" {");
 
         CTypeTranslator cTypeTranslator = new();
         
@@ -23,7 +25,7 @@ public static class CSourceGenerator
             writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(data, selfOf: null)} {{");
             writer.Write("\t");
             
-            (string prefix, string postfix) = GetExpressionWrapper(data.ReturnType?.ClangType);
+            (string prefix, string postfix) = GetExpressionWrapper(data.ReturnType?.ClangType, data.ReturnType != null ? cTypeTranslator.GetCType(data.ReturnType) : "");
             writer.Write(prefix);
             
             string cppSpelling = CUtil.GetCppFunctionSpelling(data);
@@ -58,17 +60,17 @@ public static class CSourceGenerator
                 cTypeTranslator.PushTemplateArgumentSet(set);
                 
                 foreach (FunctionData function in templateRecordData.Inner.Methods) {
-                    WriteMethod(writer, function, recordMethodOwner, cTypeTranslator);    
+                    WriteMethod(writer, function, itrMethodOwner, cTypeTranslator);    
                 }
                 
                 cTypeTranslator.PopTemplateArgumentSet();
             }
         }
         
-        //writer.WriteLine("} // extern \"C\""); // end extern "C"
+        writer.WriteLine("} // extern \"C\"");
     }
 
-    private static (string prefix, string postfix) GetExpressionWrapper(ClangSharp.Type? returnType)
+    private static (string prefix, string postfix) GetExpressionWrapper(ClangSharp.Type? returnType, string cReturnType)
     {
         if (returnType == null || returnType.Kind == CXType_Void) {
             return ("", "");
@@ -78,12 +80,17 @@ public static class CSourceGenerator
 
         if (rvKind == CXType_Elaborated) {
             ElaboratedType et = (ElaboratedType)returnType;
-            return GetExpressionWrapper(et.CanonicalType);
+            return GetExpressionWrapper(et.CanonicalType, cReturnType);
         }
         
         if (rvKind is CXType_LValueReference or CXType_RValueReference) {
             return ("return &", "");
         }
+
+        if (cReturnType == "void*") {
+            return ($"return reinterpret_cast<{cReturnType}>(", ")");
+        }
+        
         return ("return ", "");
     }
 
@@ -104,7 +111,7 @@ public static class CSourceGenerator
         writer.WriteLine($"{translator.GetCFunctionLine(function, selfOf)} {{");
         writer.Write("\t");
 
-        (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType);
+        (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType, function.ReturnType != null ? translator.GetCType(function.ReturnType) : "");
         writer.Write(prefix);
 
         string cppFuncSpelling = CUtil.GetCppFunctionSpelling(function); 

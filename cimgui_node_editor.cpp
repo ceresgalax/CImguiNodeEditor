@@ -1,8 +1,9 @@
 #define FOR_WRAPPER_IMPL 1
-#include "imgui_node_editor.h" // This needs to be included first!
+#include "imgui_node_editor.h"
 #include "cimgui_node_editor.h"
 #include <utility> // std::move 
 
+extern "C" {
 axNodeEditor_SaveReasonFlags axNodeEditor_operator_pipe(axNodeEditor_SaveReasonFlags lhs, axNodeEditor_SaveReasonFlags rhs) {
 	return ax::NodeEditor::operator|(lhs, rhs);
 }
@@ -19,7 +20,7 @@ axNodeEditor_EditorContext* axNodeEditor_GetCurrentEditor() {
 	return ax::NodeEditor::GetCurrentEditor();
 }
 
-axNodeEditor_EditorContext* axNodeEditor_CreateEditor(axNodeEditor_Config* config) {
+axNodeEditor_EditorContext* axNodeEditor_CreateEditor(const axNodeEditor_Config* config) {
 	return ax::NodeEditor::CreateEditor(config);
 }
 
@@ -27,7 +28,7 @@ void axNodeEditor_DestroyEditor(axNodeEditor_EditorContext* ctx) {
 	ax::NodeEditor::DestroyEditor(ctx);
 }
 
-axNodeEditor_Config* axNodeEditor_GetConfig(axNodeEditor_EditorContext* ctx) {
+const axNodeEditor_Config* axNodeEditor_GetConfig(axNodeEditor_EditorContext* ctx) {
 	return &ax::NodeEditor::GetConfig(ctx);
 }
 
@@ -39,7 +40,7 @@ const char* axNodeEditor_GetStyleColorName(axNodeEditor_StyleColor colorIndex) {
 	return ax::NodeEditor::GetStyleColorName(colorIndex);
 }
 
-void axNodeEditor_PushStyleColor(axNodeEditor_StyleColor colorIndex, ImVec4* color) {
+void axNodeEditor_PushStyleColor(axNodeEditor_StyleColor colorIndex, const ImVec4* color) {
 	ax::NodeEditor::PushStyleColor(colorIndex, *color);
 }
 
@@ -51,11 +52,11 @@ void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, float value) {
 	ax::NodeEditor::PushStyleVar(varIndex, value);
 }
 
-void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, ImVec2* value) {
+void axNodeEditor_PushStyleVar1(axNodeEditor_StyleVar varIndex, const ImVec2* value) {
 	ax::NodeEditor::PushStyleVar(varIndex, *value);
 }
 
-void axNodeEditor_PushStyleVar(axNodeEditor_StyleVar varIndex, ImVec4* value) {
+void axNodeEditor_PushStyleVar2(axNodeEditor_StyleVar varIndex, const ImVec4* value) {
 	ax::NodeEditor::PushStyleVar(varIndex, *value);
 }
 
@@ -63,7 +64,7 @@ void axNodeEditor_PopStyleVar(int count) {
 	ax::NodeEditor::PopStyleVar(count);
 }
 
-void axNodeEditor_Begin(const char* id, ImVec2* size) {
+void axNodeEditor_Begin(const char* id, const ImVec2* size) {
 	ax::NodeEditor::Begin(id, *size);
 }
 
@@ -79,23 +80,23 @@ void axNodeEditor_BeginPin(axNodeEditor_PinId id, axNodeEditor_PinKind kind) {
 	ax::NodeEditor::BeginPin(id, kind);
 }
 
-void axNodeEditor_PinRect(ImVec2* a, ImVec2* b) {
+void axNodeEditor_PinRect(const ImVec2* a, const ImVec2* b) {
 	ax::NodeEditor::PinRect(*a, *b);
 }
 
-void axNodeEditor_PinPivotRect(ImVec2* a, ImVec2* b) {
+void axNodeEditor_PinPivotRect(const ImVec2* a, const ImVec2* b) {
 	ax::NodeEditor::PinPivotRect(*a, *b);
 }
 
-void axNodeEditor_PinPivotSize(ImVec2* size) {
+void axNodeEditor_PinPivotSize(const ImVec2* size) {
 	ax::NodeEditor::PinPivotSize(*size);
 }
 
-void axNodeEditor_PinPivotScale(ImVec2* scale) {
+void axNodeEditor_PinPivotScale(const ImVec2* scale) {
 	ax::NodeEditor::PinPivotScale(*scale);
 }
 
-void axNodeEditor_PinPivotAlignment(ImVec2* alignment) {
+void axNodeEditor_PinPivotAlignment(const ImVec2* alignment) {
 	ax::NodeEditor::PinPivotAlignment(*alignment);
 }
 
@@ -103,7 +104,7 @@ void axNodeEditor_EndPin() {
 	ax::NodeEditor::EndPin();
 }
 
-void axNodeEditor_Group(ImVec2* size) {
+void axNodeEditor_Group(const ImVec2* size) {
 	ax::NodeEditor::Group(*size);
 }
 
@@ -139,7 +140,7 @@ ImDrawList* axNodeEditor_GetNodeBackgroundDrawList(axNodeEditor_NodeId nodeId) {
 	return ax::NodeEditor::GetNodeBackgroundDrawList(nodeId);
 }
 
-bool axNodeEditor_Link(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, ImVec4* color, float thickness) {
+bool axNodeEditor_Link(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, const ImVec4* color, float thickness) {
 	return ax::NodeEditor::Link(id, startPinId, endPinId, *color, thickness);
 }
 
@@ -147,7 +148,7 @@ void axNodeEditor_Flow(axNodeEditor_LinkId linkId, axNodeEditor_FlowDirection di
 	ax::NodeEditor::Flow(linkId, direction);
 }
 
-bool axNodeEditor_BeginCreate(ImVec4* color, float thickness) {
+bool axNodeEditor_BeginCreate(const ImVec4* color, float thickness) {
 	return ax::NodeEditor::BeginCreate(*color, thickness);
 }
 
@@ -155,7 +156,7 @@ bool axNodeEditor_QueryNewLink(axNodeEditor_PinId* startId, axNodeEditor_PinId* 
 	return ax::NodeEditor::QueryNewLink(startId, endId);
 }
 
-bool axNodeEditor_QueryNewLink(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, ImVec4* color, float thickness) {
+bool axNodeEditor_QueryNewLink1(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, const ImVec4* color, float thickness) {
 	return ax::NodeEditor::QueryNewLink(startId, endId, *color, thickness);
 }
 
@@ -163,7 +164,7 @@ bool axNodeEditor_QueryNewNode(axNodeEditor_PinId* pinId) {
 	return ax::NodeEditor::QueryNewNode(pinId);
 }
 
-bool axNodeEditor_QueryNewNode(axNodeEditor_PinId* pinId, ImVec4* color, float thickness) {
+bool axNodeEditor_QueryNewNode1(axNodeEditor_PinId* pinId, const ImVec4* color, float thickness) {
 	return ax::NodeEditor::QueryNewNode(pinId, *color, thickness);
 }
 
@@ -171,7 +172,7 @@ bool axNodeEditor_AcceptNewItem() {
 	return ax::NodeEditor::AcceptNewItem();
 }
 
-bool axNodeEditor_AcceptNewItem(ImVec4* color, float thickness) {
+bool axNodeEditor_AcceptNewItem1(const ImVec4* color, float thickness) {
 	return ax::NodeEditor::AcceptNewItem(*color, thickness);
 }
 
@@ -179,7 +180,7 @@ void axNodeEditor_RejectNewItem() {
 	ax::NodeEditor::RejectNewItem();
 }
 
-void axNodeEditor_RejectNewItem(ImVec4* color, float thickness) {
+void axNodeEditor_RejectNewItem1(const ImVec4* color, float thickness) {
 	ax::NodeEditor::RejectNewItem(*color, thickness);
 }
 
@@ -211,11 +212,11 @@ void axNodeEditor_EndDelete() {
 	ax::NodeEditor::EndDelete();
 }
 
-void axNodeEditor_SetNodePosition(axNodeEditor_NodeId nodeId, ImVec2* editorPosition) {
+void axNodeEditor_SetNodePosition(axNodeEditor_NodeId nodeId, const ImVec2* editorPosition) {
 	ax::NodeEditor::SetNodePosition(nodeId, *editorPosition);
 }
 
-void axNodeEditor_SetGroupSize(axNodeEditor_NodeId nodeId, ImVec2* size) {
+void axNodeEditor_SetGroupSize(axNodeEditor_NodeId nodeId, const ImVec2* size) {
 	ax::NodeEditor::SetGroupSize(nodeId, *size);
 }
 
@@ -315,7 +316,7 @@ bool axNodeEditor_HasAnyLinks(axNodeEditor_NodeId nodeId) {
 	return ax::NodeEditor::HasAnyLinks(nodeId);
 }
 
-bool axNodeEditor_HasAnyLinks(axNodeEditor_PinId pinId) {
+bool axNodeEditor_HasAnyLinks1(axNodeEditor_PinId pinId) {
 	return ax::NodeEditor::HasAnyLinks(pinId);
 }
 
@@ -323,7 +324,7 @@ int axNodeEditor_BreakLinks(axNodeEditor_NodeId nodeId) {
 	return ax::NodeEditor::BreakLinks(nodeId);
 }
 
-int axNodeEditor_BreakLinks(axNodeEditor_PinId pinId) {
+int axNodeEditor_BreakLinks1(axNodeEditor_PinId pinId) {
 	return ax::NodeEditor::BreakLinks(pinId);
 }
 
@@ -455,11 +456,11 @@ ImVec2 axNodeEditor_GetScreenSize() {
 	return ax::NodeEditor::GetScreenSize();
 }
 
-ImVec2 axNodeEditor_ScreenToCanvas(ImVec2* pos) {
+ImVec2 axNodeEditor_ScreenToCanvas(const ImVec2* pos) {
 	return ax::NodeEditor::ScreenToCanvas(*pos);
 }
 
-ImVec2 axNodeEditor_CanvasToScreen(ImVec2* pos) {
+ImVec2 axNodeEditor_CanvasToScreen(const ImVec2* pos) {
 	return ax::NodeEditor::CanvasToScreen(*pos);
 }
 
@@ -471,27 +472,28 @@ int axNodeEditor_GetOrderedNodeIds(axNodeEditor_NodeId* nodes, int size) {
 	return ax::NodeEditor::GetOrderedNodeIds(nodes, size);
 }
 
-axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* axNodeEditor_PinId_operator_equal(axNodeEditor_PinId* __self, axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __0) {
+axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self, const axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __0) {
 	return &__self->operator=(*__0);
 }
 
-void* axNodeEditor_PinId_Get(axNodeEditor_PinId* __self) {
-	return __self->Get();
+void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self) {
+	return reinterpret_cast<void*>(__self->Get());
 }
 
-axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* axNodeEditor_PinId_operator_equal(axNodeEditor_PinId* __self, axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __0) {
+axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __self, const axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __0) {
 	return &__self->operator=(*__0);
 }
 
-void* axNodeEditor_PinId_Get(axNodeEditor_PinId* __self) {
-	return __self->Get();
+void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __self) {
+	return reinterpret_cast<void*>(__self->Get());
 }
 
-axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* axNodeEditor_PinId_operator_equal(axNodeEditor_PinId* __self, axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __0) {
+axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __self, const axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __0) {
 	return &__self->operator=(*__0);
 }
 
-void* axNodeEditor_PinId_Get(axNodeEditor_PinId* __self) {
-	return __self->Get();
+void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId* __self) {
+	return reinterpret_cast<void*>(__self->Get());
 }
 
+} // extern "C"

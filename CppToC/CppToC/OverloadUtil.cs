@@ -6,19 +6,20 @@ public static class OverloadUtil
 {
     public static void ProcessOverloads(Builder builder)
     {
+        ProcessOverloads(builder.Functions);
         foreach (RecordData record in builder.Records) {
-            ProcessOverloads(record);
+            ProcessOverloads(record.Methods);    
         }
     }
 
-    public static void ProcessOverloads(RecordData record)
+    public static void ProcessOverloads(IEnumerable<FunctionData> functions)
     {
         Dictionary<string, int> overloadIndices = new();
 
-        foreach (FunctionData method in record.Methods) {
-            overloadIndices.TryGetValue(method.Name, out int index);
-            method.OverloadIndex = index;
-            overloadIndices[method.Name] = index + 1;
+        foreach (FunctionData func in functions) {
+            overloadIndices.TryGetValue(func.Name, out int index);
+            func.OverloadIndex = index;
+            overloadIndices[func.Name] = index + 1;
         }
     }
 }

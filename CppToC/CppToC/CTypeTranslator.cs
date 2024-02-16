@@ -16,12 +16,16 @@ public class CTypeTranslator
     public readonly List<TemplateArgumentSet> TemplateArgumentStack = new();
     public bool IncludeConstantArraySizes = true;
     public bool IncludeTemplateArgs = true;
+    public IReadOnlyList<string> NsPrefixToOmit = Array.Empty<string>();
 
     public CTypeTranslator() { }
 
-    public CTypeTranslator(IEnumerable<TemplateArgumentSet> templateArgumentStack)
+    public CTypeTranslator(CTypeTranslator other)
     {
-        TemplateArgumentStack = templateArgumentStack.ToList();
+        TemplateArgumentStack = other.TemplateArgumentStack.ToList();
+        IncludeConstantArraySizes = other.IncludeConstantArraySizes;
+        IncludeTemplateArgs = other.IncludeTemplateArgs;
+        NsPrefixToOmit = other.NsPrefixToOmit;
     }
 
     public void PushTemplateArgumentSet(TemplateArgumentSet set)
@@ -122,11 +126,7 @@ public class CTypeTranslator
                 if (tagType.Decl is ClassTemplateSpecializationDecl ctsDecl) {
                     return GetTemplateSpecializationCType(ctsDecl);
                 }
-                string prefix = "";
-                if (type.IsLocalConstQualified) {
-                    prefix = "const ";
-                }
-                return prefix + CUtil.GetNamespacedName(CUtil.GetNsFromCursor(tagType.Decl), tagType.Decl.Name);
+                return GetNamespacedName(CUtil.GetNsFromCursor(tagType.Decl), tagType.Decl.Name);
             }
             case CXType_Typedef:
                 return GetTypedefCType((TypedefType)type);
@@ -151,7 +151,11 @@ public class CTypeTranslator
                 throw new NotImplementedException();
             case CXType_Elaborated: {
                 ElaboratedType et = (ElaboratedType)type;
-                return GetCType(et.NamedType);
+                string prefix = "";
+                if (type.IsLocalConstQualified) {
+                    prefix = "const ";
+                }
+                return prefix + GetCType(et.NamedType);
             }
             case CXType_Pipe:
                 throw new NotImplementedException();
@@ -186,7 +190,7 @@ public class CTypeTranslator
             case CX_TypeClass_TemplateSpecialization: {
                 TemplateSpecializationType specializationType = (TemplateSpecializationType)type;
                 if (!IncludeTemplateArgs) {
-                    return CUtil.GetNamespacedName(specializationType.TemplateName.AsTemplateDecl);
+                    return GetNamespacedName(specializationType.TemplateName.AsTemplateDecl);
                 }
                 return GetTemplateSpecializationCType(specializationType.TemplateName.AsTemplateDecl, specializationType.Args);
             }
@@ -202,6 +206,8 @@ public class CTypeTranslator
             }
             case CX_TypeClass_InjectedClassName:
                 return GetUnexposedCType(((InjectedClassNameType)type).InjectedTST);
+            case CX_TypeClass_Using:
+                return GetCType(type.Desugar);
             default:
                 throw new NotImplementedException();
         }
@@ -214,7 +220,7 @@ public class CTypeTranslator
     
     public string GetTemplateSpecializationCType(NamedDecl templateDecl, IReadOnlyList<TemplateArgument> args)
     {
-        return $"{CUtil.GetNamespacedName(templateDecl)}_{GetTemplateParamCtypePostfix(args)}";
+        return $"{GetNamespacedName(templateDecl)}_{GetTemplateParamCtypePostfix(args)}";
     }
     
     public string GetTemplateParamCtypePostfix(IReadOnlyList<TemplateArgument> args)
@@ -260,7 +266,7 @@ public class CTypeTranslator
     
     public string GetNamespacedName(string[] ns, string name, IReadOnlyList<TemplateArgument> templateArgs)
     {
-        string prefix = CUtil.GetNamespacedName(ns, name);
+        string prefix = GetNamespacedName(ns, name);
         string postfix = GetTemplateParamCtypePostfix(templateArgs);
         if (string.IsNullOrEmpty(postfix)) {
             return prefix;
@@ -290,8 +296,34 @@ public class CTypeTranslator
             name = $"{GetNamespacedName(selfOf)}_{name}";
         }
         
-        name = CUtil.GetNamespacedName(function.Namespace, name);
+        name = GetNamespacedName(function.Namespace, name);
         
         return name;
+    }
+    
+    public string[] OmittedNs(string[] ns)
+    {
+        // Whoa, a programming interview whiteboard question in the wild!?
+        // (Future employers please don't look.. it's almost midnight and I just want to generate some bindings before I got to sleep.. ;-;)
+        return ns.Zip(NsPrefixToOmit)
+            .Select(x => (x.First == x.Second) ? null : x.First)
+            .Where(x => x != null)
+            .Select(x => x!) // I wish NRTs worked better with Linq expressions like these...
+            .Concat(ns.Length > NsPrefixToOmit.Count ? ns[NsPrefixToOmit.Count..] : Array.Empty<string>())
+            .ToArray();
+    }
+    
+    public string GetNamespacedName(string[] ns, string name)
+    {
+        string prefix = CUtil.GetNamespacePrefix(OmittedNs(ns));
+        if (string.IsNullOrEmpty(prefix)) {
+            return name;
+        }
+        return $"{prefix}_{name}";
+    }
+    
+    public string GetNamespacedName(NamedDecl decl)
+    {
+        return GetNamespacedName(CUtil.GetNsFromCursor(decl), decl.Name);
     }
 }

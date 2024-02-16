@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Net;
 using ClangSharp;
 using ClangSharp.Interop;
 using CppToC;
@@ -9,12 +8,23 @@ using CppToC.Model;
 
 string pwd = Directory.GetCurrentDirectory();
 
-string sourceFile = $"{pwd}/imgui-node-editor/imgui_node_editor.h";
-string includeDirectory = $"{pwd}/imgui";
+//string sourceFile = $"{pwd}/imgui-node-editor/imgui_node_editor.h";
+List<string> includeDirectories = new() {
+    $"{pwd}/imgui",
+    $"{pwd}/imgui-node-editor"
+};
+
 string headerOutputPath = $"{pwd}/cimgui_node_editor.h";
 string sourceOutputPath = $"{pwd}/cimgui_node_editor.cpp";
 string cimguiDefsOutputPath = $"{pwd}/definitions.json";
 string cimguiStructsAndEnumsOutputPath = $"{pwd}/structs_and_enums.json";
+
+List<string> sourceFilePaths = new() {
+    $"{pwd}/imgui-node-editor/imgui_node_editor.h",
+    // $"{pwd}/imgui-node-editor/examples/blueprints-example/utilities/builders.h",
+    // $"{pwd}/imgui-node-editor/examples/blueprints-example/utilities/drawing.h",
+    // $"{pwd}/imgui-node-editor/examples/blueprints-example/utilities/widgets.h",
+};
 
 
 string clangVersion;
@@ -35,56 +45,85 @@ catch
 }
 
 
-string[] commandLineArgs = [
+List<string> commandLineArgs = [
     "--language=c++",
     "-Wno-pragma-once-outside-header",
-    "--include-directory=" + includeDirectory
 ];
+commandLineArgs.AddRange(includeDirectories.Select(x => $"-I{x}"));
 
 CXIndex cxIndex = CXIndex.Create();
-// TODO: WHAT ARE THE CORRECT OPTIONS HERE? (If we want to generate for bindings for macros, we may need an option to enable detailed preprocessor record)
-CXErrorCode parseError = CXTranslationUnit.TryParse(cxIndex, sourceFile, commandLineArgs: commandLineArgs, unsavedFiles: Array.Empty<CXUnsavedFile>(), options: CXTranslationUnit_Flags.CXTranslationUnit_None, out CXTranslationUnit cxTranslationUnit);
-if (parseError != CXErrorCode.CXError_Success) {
-    Console.WriteLine($"Error: Parsing failed due to '{parseError}'.");
+
+Builder builder = new();
+builder.SetSourcePaths(sourceFilePaths);
+
+bool hadFailure = false;
+
+List<TranslationUnit> translationUnits = new();
+
+foreach (string sourceFile in sourceFilePaths) {
+    // Note: If we want to generate for bindings for macros, we may need an option to enable detailed preprocessor record.
+    CXErrorCode parseError = CXTranslationUnit.TryParse(
+        cxIndex,
+        sourceFile,
+        commandLineArgs: commandLineArgs.ToArray(),
+        unsavedFiles: Array.Empty<CXUnsavedFile>(),
+        options: CXTranslationUnit_Flags.CXTranslationUnit_None,
+        out CXTranslationUnit cxTranslationUnit
+    );
+    if (parseError != CXErrorCode.CXError_Success) {
+        Console.WriteLine($"Error: Parsing {sourceFile} failed due to '{parseError}'.");
+        hadFailure = true;
+        continue;
+    }
+    
+    Console.WriteLine($"Num diagnostics for source file {sourceFile}: {cxTranslationUnit.NumDiagnostics}");
+    for (uint i = 0, ilen = cxTranslationUnit.NumDiagnostics; i < ilen; ++i) {
+        CXDiagnostic diagnostic = cxTranslationUnit.GetDiagnostic(i);
+        Console.WriteLine($"{diagnostic.Location}: {diagnostic.ToString()}");
+    }
+    
+    TranslationUnit translationUnit = TranslationUnit.GetOrCreate(cxTranslationUnit);
+    translationUnits.Add(translationUnit);
+}
+
+if (hadFailure) {
     return;
 }
 
-Console.WriteLine($"Num diagnostics: {cxTranslationUnit.NumDiagnostics}");
-for (uint i = 0, ilen = cxTranslationUnit.NumDiagnostics; i < ilen; ++i) {
-    CXDiagnostic diagnostic = cxTranslationUnit.GetDiagnostic(i);
-    Console.WriteLine($"{diagnostic.Location}: {diagnostic.ToString()}");
+
+foreach (TranslationUnit translationUnit in translationUnits) {
+    CursorVisitor.Visit(translationUnit.TranslationUnitDecl, builder);    
 }
-
-using TranslationUnit translationUnit = TranslationUnit.GetOrCreate(cxTranslationUnit);
-
-Builder builder = new();
-builder.AddSourcePath(sourceFile);
-CursorVisitor.Visit(translationUnit.TranslationUnitDecl, builder);
 
 OverloadUtil.ProcessOverloads(builder);
 
 {
     Console.WriteLine("Generating Header...");
     using StreamWriter writer = File.CreateText(headerOutputPath);
-    CHeaderGenerator.Generate(writer, builder);
+    CHeaderGenerator.Generate(writer, builder, "cimgui_node_editor_export.h", "CIMGUI_NODE_EDITOR_EXPORT");
 }
 
 {
     Console.WriteLine("Generator Source...");
     using StreamWriter writer = File.CreateText(sourceOutputPath);
-    CSourceGenerator.Generate(writer, builder, Path.GetFileName(headerOutputPath),  Path.GetFileName(sourceFile));
+    List<string> headerFileNames = sourceFilePaths
+        .Select(p => Path.GetRelativePath($"{pwd}/imgui-node-editor", p))
+        .ToList();
+    CSourceGenerator.Generate(writer, builder, headerFileNames, Path.GetFileName(headerOutputPath));
 }
+
+string[] cimguiOmittedNsPrefix = ["ax", "NodeEditor"];
 
 {
     Console.WriteLine("Writing cimgui-style definitions.json...");
     using StreamWriter writer = File.CreateText(cimguiDefsOutputPath);
-    CimguiDefinitionsGenerator.Generate(writer, builder);
+    CimguiDefinitionsGenerator.Generate(writer, builder, cimguiOmittedNsPrefix);
 }
 
 {
     Console.WriteLine("Writing cimgui-style structs_and_enums.json...");
     using StreamWriter writer = File.CreateText(cimguiStructsAndEnumsOutputPath);
-    CImguiStructsAndEnumsGenerator.Generate(writer, builder, ["ax", "NodeEditor"]);
+    CImguiStructsAndEnumsGenerator.Generate(writer, builder, cimguiOmittedNsPrefix);
 }
 
 Console.WriteLine("Done!");

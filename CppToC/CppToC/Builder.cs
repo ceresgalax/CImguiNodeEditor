@@ -6,7 +6,7 @@ namespace CppToC;
 
 public class Builder
 {
-    private readonly HashSet<string> _normalizedSourcePaths = new();
+    private HashSet<string> _normalizedSourcePaths = new();
 
     private readonly List<string> _namespaceStack = new();
 
@@ -36,9 +36,9 @@ public class Builder
         return fullPath;
     }
     
-    public void AddSourcePath(string path)
+    public void SetSourcePaths(IEnumerable<string> paths)
     {
-        _normalizedSourcePaths.Add(NormalizePath(path));
+        _normalizedSourcePaths = paths.Select(NormalizePath).ToHashSet();
     }
 
     public void PushNamespace(string name)

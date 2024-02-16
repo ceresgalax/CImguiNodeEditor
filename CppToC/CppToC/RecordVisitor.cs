@@ -1,5 +1,6 @@
 ﻿using ClangSharp;
 using CppToC.Model;
+using static ClangSharp.Interop.CX_CXXAccessSpecifier;
 using static ClangSharp.Interop.CX_DeclKind;
 using static ClangSharp.Interop.CXCursorKind;
 
@@ -17,6 +18,7 @@ public class RecordVisitor : ICursorVisitor
 
     public void Visit(Cursor cursor)
     {
+        
         if (cursor is Decl decl) {
             switch (decl.Kind) {
                 // case CX_DeclKind_ClassTemplateSpecialization:
@@ -60,6 +62,9 @@ public class RecordVisitor : ICursorVisitor
                 case CX_DeclKind_ConstructorUsingShadow:
                     VisitConstructorUsingShadow((ConstructorUsingShadowDecl)cursor);
                     break;
+                case CX_DeclKind_Enum:
+                    VisitEnum((EnumDecl)decl);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -77,18 +82,6 @@ public class RecordVisitor : ICursorVisitor
                 throw new ArgumentOutOfRangeException();
         }
     }
-
-    // public void VisitClassTemplateSpecialization(ClassTemplateSpecializationDecl decl)
-    // {
-    //     Data.TemplateArgs = decl.TemplateArgs.ToArray();
-    //     
-    //     // Oddly, these cursors do not have children. Maybe that is a ClangSharp bug?
-    //     // Anyways, use the properties instead to gather the members of the class template specialization.
-    //     CursorVisitor.VisitManyWithExceptions(decl.Decls, Array.Empty<Cursor>(), this);
-    //     CursorVisitor.VisitManyWithExceptions(decl.Bases, Array.Empty<Cursor>(), this);
-    //     
-    //     //VisitRecord(decl);
-    // }
 
     public void VisitRecord(CXXRecordDecl decl)
     {
@@ -123,22 +116,17 @@ public class RecordVisitor : ICursorVisitor
 
     public void VisitFunctionTemplate(FunctionTemplateDecl decl)
     {
-        // if (decl.IsThisDeclarationADefinition && decl.Body == null) {
-        //     // This must be explicitley deleted. (Not sure how default is defined?)
-        //     return;
-        // }
-
         foreach (FunctionDecl function in decl.Specializations) {
             throw new NotImplementedException();
         }
-        
-        // FunctionTemplateData data = new();
-        // DeclVisitor.ParseFunctionTemplate(data, decl);
-        // Data.TemplateMethods.Add(data);
     }
 
     public void VisitMethod(CXXMethodDecl decl)
     {
+        if (decl.Access != CX_CXXPublic) {
+            return;
+        }
+        
         FunctionData data = new();
         data.Name = decl.Name;
         data.ReturnType = new TypeRef(decl.ReturnType);
@@ -174,20 +162,12 @@ public class RecordVisitor : ICursorVisitor
 
     public void VisitField(FieldDecl decl)
     {
-        //CheckForTemplateSpecialization(decl.Type);
-        // TemplateInstantiationVisitor visitor = new(_builder);
-        // visitor.CheckType(decl.Type);
-        
-        FieldData data = new(decl.Name, new TypeRef(decl.Type));
+        FieldData data = new(decl.Name, new TypeRef(decl.Type), isPublic: decl.Access == CX_CXXPublic);
         Data.Fields.Add(data);
     }
 
     public void VisitBaseSpecifier(CXXBaseSpecifier baseSpecifier)
     {
-        // TemplateInstantiationVisitor visitor = new(_builder);
-        // visitor.CheckType(baseSpecifier.Type);
-        
-        //CheckForTemplateSpecialization(baseSpecifier.Type);
         Data.BaseTypes.Add(new TypeRef(baseSpecifier.Type));
     }
 
@@ -206,39 +186,11 @@ public class RecordVisitor : ICursorVisitor
         }
     }
 
-    // public void CheckForTemplateSpecialization(ClangSharp.Type type)
-    // {
-    //     if (type is ElaboratedType elaboratedType) {
-    //         type = elaboratedType.NamedType;
-    //     }
-    //     if (type is TemplateSpecializationType tsType) {
-    //         ClassTemplateDecl decl = (ClassTemplateDecl) tsType.TemplateName.AsTemplateDecl;
-    //         if (!_builder.IsDeclPartOfSourceFile(decl)) {
-    //             return;
-    //         }
-    //         
-    //         Console.WriteLine($"** SPEC TYPE!! {tsType} **");
-    //         TemplateRecordData data = _builder.GetOrCreateTemplateRecordData(decl);
-    //
-    //         TemplateArgumentSet newSet = new TemplateArgumentSet(tsType.Args);
-    //
-    //         if (data.Instantiations.Contains(newSet)) {
-    //             Console.WriteLine("** We've already noted this specialization.");
-    //             return;
-    //         }
-    //         
-    //         // Push to the stack.
-    //         CUtil.TemplateArgumentStack.Add(newSet);
-    //         
-    //         
-    //         
-    //         // Pop it off.
-    //         CUtil.TemplateArgumentStack.RemoveAt(CUtil.TemplateArgumentStack.Count - 1);
-    //         
-    //         
-    //         
-    //         
-    //     }
-    // }
+    public void VisitEnum(EnumDecl enumDecl)
+    {
+        _builder.PushNamespace(Data.Name);
+        DeclVisitor.VisitEnum(enumDecl, _builder);
+        _builder.PopNamespace();
+    }
 
 }

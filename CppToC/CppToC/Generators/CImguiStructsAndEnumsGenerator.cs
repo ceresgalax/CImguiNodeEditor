@@ -44,6 +44,7 @@ public class CImguiStructsAndEnumsGenerator
     public static void Generate(TextWriter writer, Builder builder, string[] nsPrefixToOmit)
     {
         CTypeTranslator cTypeTranslator = new();
+        cTypeTranslator.NsPrefixToOmit = nsPrefixToOmit;
         
         StructsAndEnums outData = new();
 
@@ -56,7 +57,7 @@ public class CImguiStructsAndEnumsGenerator
                 })
                 .ToList();
 
-            string cName = CUtil.GetNamespacedName(OmittedNs(data.Namespace, nsPrefixToOmit), data.Name); 
+            string cName = cTypeTranslator.GetNamespacedName(data.Namespace, data.Name); 
             
             outData.Enums[cName] = entries;
             outData.EnumTypes[cName] = "int"; // TODO
@@ -64,13 +65,13 @@ public class CImguiStructsAndEnumsGenerator
         }
 
         foreach (RecordData record in builder.Records) {
-            string cName = cTypeTranslator.GetNamespacedName(OmittedNs(record.Namespace, nsPrefixToOmit), record.Name, Array.Empty<TemplateArgument>());
+            string cName = cTypeTranslator.GetNamespacedName(record.Namespace, record.Name, Array.Empty<TemplateArgument>());
             outData.Structs[cName] = GetStructFields(record, cTypeTranslator, builder);
             outData.Locations[cName] = ""; // TODO
         }
 
         foreach (ForwardDeclaredRecordData record in builder.ForwardDeclaredRecords) {
-            string cName = CUtil.GetNamespacedName(OmittedNs(record.Namespace, nsPrefixToOmit), record.Name);
+            string cName = cTypeTranslator.GetNamespacedName(record.Namespace, record.Name);
             outData.Structs[cName] = new List<StructField>();
             outData.Locations[cName] = ""; // TODO
         }
@@ -87,7 +88,7 @@ public class CImguiStructsAndEnumsGenerator
             foreach (TemplateArgumentSet set in templateRecordData.Instantiations) {
                 cTypeTranslator.PushTemplateArgumentSet(set);
                 
-                string cName = cTypeTranslator.GetNamespacedName(OmittedNs(templateRecordData.Inner.Namespace, nsPrefixToOmit), templateRecordData.Inner.Name, set.Args);
+                string cName = cTypeTranslator.GetNamespacedName(templateRecordData.Inner.Namespace, templateRecordData.Inner.Name, set.Args);
 
                 outData.Structs[cName] = GetStructFields(templateRecordData.Inner, cTypeTranslator, builder);
                 outData.Locations[cName] = ""; // TODO
@@ -137,7 +138,7 @@ public class CImguiStructsAndEnumsGenerator
         string GetType(ClangSharp.Type type)
         {
             // TODO: Perf.
-            CTypeTranslator noSizeTranslator = new(translator.TemplateArgumentStack);
+            CTypeTranslator noSizeTranslator = new(translator);
             noSizeTranslator.IncludeConstantArraySizes = false;
             return noSizeTranslator.GetCType(type);
         }
@@ -170,17 +171,5 @@ public class CImguiStructsAndEnumsGenerator
             });
 
         return bases.Concat(fields).ToList();
-    }
-
-    private static string[] OmittedNs(string[] ns, string[] nsPrefixToOmit)
-    {
-        // Whoa, a programming interview whiteboard question in the wild!?
-        // (Future employers please don't look.. it's almost midnight and I just want to generate some bindings before I got to sleep.. ;-;)
-        return ns.Zip(nsPrefixToOmit)
-            .Select(x => (x.First == x.Second) ? null : x.First)
-            .Where(x => x != null)
-            .Select(x => x!) // I wish NRTs worked better with Linq expressions like these...
-            .Concat(ns[nsPrefixToOmit.Length..])
-            .ToArray();
     }
 }

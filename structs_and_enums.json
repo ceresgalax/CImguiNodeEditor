@@ -349,12 +349,12 @@
     "LinkId": "",
     "PinId": "",
     "EditorContext": "",
-    "Details_SafeType_voidptr_axNodeEditor_NodeId": "",
-    "Details_SafeType_voidptr_axNodeEditor_LinkId": "",
-    "Details_SafeType_voidptr_axNodeEditor_PinId": "",
-    "Details_SafePointerType_axNodeEditor_NodeId": "",
-    "Details_SafePointerType_axNodeEditor_LinkId": "",
-    "Details_SafePointerType_axNodeEditor_PinId": ""
+    "Details_SafeType_voidptr_NodeId": "",
+    "Details_SafeType_voidptr_LinkId": "",
+    "Details_SafeType_voidptr_PinId": "",
+    "Details_SafePointerType_NodeId": "",
+    "Details_SafePointerType_LinkId": "",
+    "Details_SafePointerType_PinId": ""
   },
   "structs": {
     "Config": [
@@ -378,7 +378,7 @@
       },
       {
         "name": "SaveSettings",
-        "type": "bool (*)(const char*,void*,axNodeEditor_SaveReasonFlags,void*)",
+        "type": "bool (*)(const char*,void*,SaveReasonFlags,void*)",
         "size": 0,
         "template_type": ""
       },
@@ -390,13 +390,13 @@
       },
       {
         "name": "SaveNodeSettings",
-        "type": "bool (*)(axNodeEditor_NodeId,const char*,void*,axNodeEditor_SaveReasonFlags,void*)",
+        "type": "bool (*)(NodeId,const char*,void*,SaveReasonFlags,void*)",
         "size": 0,
         "template_type": ""
       },
       {
         "name": "LoadNodeSettings",
-        "type": "void* (*)(axNodeEditor_NodeId,char*,void*)",
+        "type": "void* (*)(NodeId,char*,void*)",
         "size": 0,
         "template_type": ""
       },
@@ -414,7 +414,7 @@
       },
       {
         "name": "CanvasSizeMode",
-        "type": "axNodeEditor_CanvasSizeMode",
+        "type": "CanvasSizeMode",
         "size": 0,
         "template_type": ""
       },
@@ -627,30 +627,30 @@
     ],
     "NodeId": [
       {
-        "name": "_base_axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId",
-        "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_NodeId",
+        "name": "_base_Details_SafePointerType_NodeId",
+        "type": "Details_SafePointerType_NodeId",
         "size": 0,
         "template_type": ""
       }
     ],
     "LinkId": [
       {
-        "name": "_base_axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId",
-        "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_LinkId",
+        "name": "_base_Details_SafePointerType_LinkId",
+        "type": "Details_SafePointerType_LinkId",
         "size": 0,
         "template_type": ""
       }
     ],
     "PinId": [
       {
-        "name": "_base_axNodeEditorDetails_SafePointerType_axNodeEditor_PinId",
-        "type": "axNodeEditorDetails_SafePointerType_axNodeEditor_PinId",
+        "name": "_base_Details_SafePointerType_PinId",
+        "type": "Details_SafePointerType_PinId",
         "size": 0,
         "template_type": ""
       }
     ],
     "EditorContext": [],
-    "Details_SafeType_voidptr_axNodeEditor_NodeId": [
+    "Details_SafeType_voidptr_NodeId": [
       {
         "name": "m_Value",
         "type": "void*",
@@ -658,7 +658,7 @@
         "template_type": ""
       }
     ],
-    "Details_SafeType_voidptr_axNodeEditor_LinkId": [
+    "Details_SafeType_voidptr_LinkId": [
       {
         "name": "m_Value",
         "type": "void*",
@@ -666,7 +666,7 @@
         "template_type": ""
       }
     ],
-    "Details_SafeType_voidptr_axNodeEditor_PinId": [
+    "Details_SafeType_voidptr_PinId": [
       {
         "name": "m_Value",
         "type": "void*",
@@ -674,26 +674,26 @@
         "template_type": ""
       }
     ],
-    "Details_SafePointerType_axNodeEditor_NodeId": [
+    "Details_SafePointerType_NodeId": [
       {
-        "name": "_base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId",
-        "type": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId",
+        "name": "_base_Details_SafeType_voidptr_NodeId",
+        "type": "Details_SafeType_voidptr_NodeId",
         "size": 0,
         "template_type": ""
       }
     ],
-    "Details_SafePointerType_axNodeEditor_LinkId": [
+    "Details_SafePointerType_LinkId": [
       {
-        "name": "_base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId",
-        "type": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId",
+        "name": "_base_Details_SafeType_voidptr_LinkId",
+        "type": "Details_SafeType_voidptr_LinkId",
         "size": 0,
         "template_type": ""
       }
     ],
-    "Details_SafePointerType_axNodeEditor_PinId": [
+    "Details_SafePointerType_PinId": [
       {
-        "name": "_base_axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId",
-        "type": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId",
+        "name": "_base_Details_SafeType_voidptr_PinId",
+        "type": "Details_SafeType_voidptr_PinId",
         "size": 0,
         "template_type": ""
       }

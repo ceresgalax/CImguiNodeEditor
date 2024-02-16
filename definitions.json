@@ -1,65 +1,11 @@
 {
-  "axNodeEditor_operator_pipe": [
+  "SetCurrentEditor": [
     {
-      "args": "(axNodeEditor_SaveReasonFlags lhs, axNodeEditor_SaveReasonFlags rhs)",
-      "argsT": [
-        {
-          "name": "lhs",
-          "type": "axNodeEditor_SaveReasonFlags"
-        },
-        {
-          "name": "rhs",
-          "type": "axNodeEditor_SaveReasonFlags"
-        }
-      ],
-      "argsoriginal": "(SaveReasonFlags lhs,SaveReasonFlags rhs)",
-      "call_args": "(lhs,rhs)",
-      "cimguiname": "axNodeEditor_operator_pipe",
-      "defaults": {},
-      "funcname": "operator|",
-      "location": "",
-      "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_operator_pipe",
-      "ret": "axNodeEditor_SaveReasonFlags",
-      "signature": "(axNodeEditor_SaveReasonFlags,axNodeEditor_SaveReasonFlags)",
-      "stname": "",
-      "templated": false
-    }
-  ],
-  "axNodeEditor_operator_amp": [
-    {
-      "args": "(axNodeEditor_SaveReasonFlags lhs, axNodeEditor_SaveReasonFlags rhs)",
-      "argsT": [
-        {
-          "name": "lhs",
-          "type": "axNodeEditor_SaveReasonFlags"
-        },
-        {
-          "name": "rhs",
-          "type": "axNodeEditor_SaveReasonFlags"
-        }
-      ],
-      "argsoriginal": "(SaveReasonFlags lhs,SaveReasonFlags rhs)",
-      "call_args": "(lhs,rhs)",
-      "cimguiname": "axNodeEditor_operator_amp",
-      "defaults": {},
-      "funcname": "operator\u0026",
-      "location": "",
-      "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_operator_amp",
-      "ret": "axNodeEditor_SaveReasonFlags",
-      "signature": "(axNodeEditor_SaveReasonFlags,axNodeEditor_SaveReasonFlags)",
-      "stname": "",
-      "templated": false
-    }
-  ],
-  "axNodeEditor_SetCurrentEditor": [
-    {
-      "args": "(axNodeEditor_EditorContext* ctx)",
+      "args": "(EditorContext* ctx)",
       "argsT": [
         {
           "name": "ctx",
-          "type": "axNodeEditor_EditorContext*"
+          "type": "EditorContext*"
         }
       ],
       "argsoriginal": "(EditorContext * ctx)",
@@ -71,12 +17,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SetCurrentEditor",
       "ret": "void",
-      "signature": "(axNodeEditor_EditorContext*)",
+      "signature": "(EditorContext*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetCurrentEditor": [
+  "GetCurrentEditor": [
     {
       "args": "()",
       "argsT": [],
@@ -88,19 +34,19 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetCurrentEditor",
-      "ret": "axNodeEditor_EditorContext*",
+      "ret": "EditorContext*",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_CreateEditor": [
+  "CreateEditor": [
     {
-      "args": "(axNodeEditor_Config* config)",
+      "args": "(const Config* config)",
       "argsT": [
         {
           "name": "config",
-          "type": "axNodeEditor_Config*"
+          "type": "const Config*"
         }
       ],
       "argsoriginal": "(const Config * config)",
@@ -111,19 +57,19 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_CreateEditor",
-      "ret": "axNodeEditor_EditorContext*",
-      "signature": "(axNodeEditor_Config*)",
+      "ret": "EditorContext*",
+      "signature": "(const Config*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_DestroyEditor": [
+  "DestroyEditor": [
     {
-      "args": "(axNodeEditor_EditorContext* ctx)",
+      "args": "(EditorContext* ctx)",
       "argsT": [
         {
           "name": "ctx",
-          "type": "axNodeEditor_EditorContext*"
+          "type": "EditorContext*"
         }
       ],
       "argsoriginal": "(EditorContext * ctx)",
@@ -135,18 +81,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_DestroyEditor",
       "ret": "void",
-      "signature": "(axNodeEditor_EditorContext*)",
+      "signature": "(EditorContext*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetConfig": [
+  "GetConfig": [
     {
-      "args": "(axNodeEditor_EditorContext* ctx)",
+      "args": "(EditorContext* ctx)",
       "argsT": [
         {
           "name": "ctx",
-          "type": "axNodeEditor_EditorContext*"
+          "type": "EditorContext*"
         }
       ],
       "argsoriginal": "(EditorContext * ctx)",
@@ -157,13 +103,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetConfig",
-      "ret": "axNodeEditor_Config*",
-      "signature": "(axNodeEditor_EditorContext*)",
+      "ret": "const Config*",
+      "signature": "(EditorContext*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetStyle": [
+  "GetStyle": [
     {
       "args": "()",
       "argsT": [],
@@ -175,19 +121,19 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetStyle",
-      "ret": "axNodeEditor_Style*",
+      "ret": "Style*",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetStyleColorName": [
+  "GetStyleColorName": [
     {
-      "args": "(axNodeEditor_StyleColor colorIndex)",
+      "args": "(StyleColor colorIndex)",
       "argsT": [
         {
           "name": "colorIndex",
-          "type": "axNodeEditor_StyleColor"
+          "type": "StyleColor"
         }
       ],
       "argsoriginal": "(StyleColor colorIndex)",
@@ -199,22 +145,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetStyleColorName",
       "ret": "const char*",
-      "signature": "(axNodeEditor_StyleColor)",
+      "signature": "(StyleColor)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PushStyleColor": [
+  "PushStyleColor": [
     {
-      "args": "(axNodeEditor_StyleColor colorIndex, ImVec4* color)",
+      "args": "(StyleColor colorIndex, const ImVec4* color)",
       "argsT": [
         {
           "name": "colorIndex",
-          "type": "axNodeEditor_StyleColor"
+          "type": "StyleColor"
         },
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         }
       ],
       "argsoriginal": "(StyleColor colorIndex,const ImVec4 \u0026 color)",
@@ -226,12 +172,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PushStyleColor",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleColor,ImVec4*)",
+      "signature": "(StyleColor,const ImVec4*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PopStyleColor": [
+  "PopStyleColor": [
     {
       "args": "(int count)",
       "argsT": [
@@ -254,13 +200,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_PushStyleVar": [
+  "PushStyleVar": [
     {
-      "args": "(axNodeEditor_StyleVar varIndex, float value)",
+      "args": "(StyleVar varIndex, float value)",
       "argsT": [
         {
           "name": "varIndex",
-          "type": "axNodeEditor_StyleVar"
+          "type": "StyleVar"
         },
         {
           "name": "value",
@@ -276,20 +222,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PushStyleVar",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleVar,float)",
+      "signature": "(StyleVar,float)",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "PushStyleVar1": [
     {
-      "args": "(axNodeEditor_StyleVar varIndex, ImVec2* value)",
+      "args": "(StyleVar varIndex, const ImVec2* value)",
       "argsT": [
         {
           "name": "varIndex",
-          "type": "axNodeEditor_StyleVar"
+          "type": "StyleVar"
         },
         {
           "name": "value",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(StyleVar varIndex,const ImVec2 \u0026 value)",
@@ -299,22 +247,24 @@
       "funcname": "PushStyleVar",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_PushStyleVar",
+      "ov_cimguiname": "axNodeEditor_PushStyleVar1",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleVar,ImVec2*)",
+      "signature": "(StyleVar,const ImVec2*)",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "PushStyleVar2": [
     {
-      "args": "(axNodeEditor_StyleVar varIndex, ImVec4* value)",
+      "args": "(StyleVar varIndex, const ImVec4* value)",
       "argsT": [
         {
           "name": "varIndex",
-          "type": "axNodeEditor_StyleVar"
+          "type": "StyleVar"
         },
         {
           "name": "value",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         }
       ],
       "argsoriginal": "(StyleVar varIndex,const ImVec4 \u0026 value)",
@@ -324,14 +274,14 @@
       "funcname": "PushStyleVar",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_PushStyleVar",
+      "ov_cimguiname": "axNodeEditor_PushStyleVar2",
       "ret": "void",
-      "signature": "(axNodeEditor_StyleVar,ImVec4*)",
+      "signature": "(StyleVar,const ImVec4*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PopStyleVar": [
+  "PopStyleVar": [
     {
       "args": "(int count)",
       "argsT": [
@@ -354,9 +304,9 @@
       "templated": false
     }
   ],
-  "axNodeEditor_Begin": [
+  "Begin": [
     {
-      "args": "(const char* id, ImVec2* size)",
+      "args": "(const char* id, const ImVec2* size)",
       "argsT": [
         {
           "name": "id",
@@ -364,7 +314,7 @@
         },
         {
           "name": "size",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const char * id,const ImVec2 \u0026 size)",
@@ -376,12 +326,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Begin",
       "ret": "void",
-      "signature": "(const char*,ImVec2*)",
+      "signature": "(const char*,const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_End": [
+  "End": [
     {
       "args": "()",
       "argsT": [],
@@ -399,13 +349,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_BeginNode": [
+  "BeginNode": [
     {
-      "args": "(axNodeEditor_NodeId id)",
+      "args": "(NodeId id)",
       "argsT": [
         {
           "name": "id",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId id)",
@@ -417,22 +367,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_BeginNode",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_BeginPin": [
+  "BeginPin": [
     {
-      "args": "(axNodeEditor_PinId id, axNodeEditor_PinKind kind)",
+      "args": "(PinId id, PinKind kind)",
       "argsT": [
         {
           "name": "id",
-          "type": "axNodeEditor_PinId"
+          "type": "PinId"
         },
         {
           "name": "kind",
-          "type": "axNodeEditor_PinKind"
+          "type": "PinKind"
         }
       ],
       "argsoriginal": "(PinId id,PinKind kind)",
@@ -444,22 +394,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_BeginPin",
       "ret": "void",
-      "signature": "(axNodeEditor_PinId,axNodeEditor_PinKind)",
+      "signature": "(PinId,PinKind)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PinRect": [
+  "PinRect": [
     {
-      "args": "(ImVec2* a, ImVec2* b)",
+      "args": "(const ImVec2* a, const ImVec2* b)",
       "argsT": [
         {
           "name": "a",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         },
         {
           "name": "b",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 a,const ImVec2 \u0026 b)",
@@ -471,22 +421,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinRect",
       "ret": "void",
-      "signature": "(ImVec2*,ImVec2*)",
+      "signature": "(const ImVec2*,const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PinPivotRect": [
+  "PinPivotRect": [
     {
-      "args": "(ImVec2* a, ImVec2* b)",
+      "args": "(const ImVec2* a, const ImVec2* b)",
       "argsT": [
         {
           "name": "a",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         },
         {
           "name": "b",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 a,const ImVec2 \u0026 b)",
@@ -498,18 +448,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotRect",
       "ret": "void",
-      "signature": "(ImVec2*,ImVec2*)",
+      "signature": "(const ImVec2*,const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PinPivotSize": [
+  "PinPivotSize": [
     {
-      "args": "(ImVec2* size)",
+      "args": "(const ImVec2* size)",
       "argsT": [
         {
           "name": "size",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 size)",
@@ -521,18 +471,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotSize",
       "ret": "void",
-      "signature": "(ImVec2*)",
+      "signature": "(const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PinPivotScale": [
+  "PinPivotScale": [
     {
-      "args": "(ImVec2* scale)",
+      "args": "(const ImVec2* scale)",
       "argsT": [
         {
           "name": "scale",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 scale)",
@@ -544,18 +494,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotScale",
       "ret": "void",
-      "signature": "(ImVec2*)",
+      "signature": "(const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PinPivotAlignment": [
+  "PinPivotAlignment": [
     {
-      "args": "(ImVec2* alignment)",
+      "args": "(const ImVec2* alignment)",
       "argsT": [
         {
           "name": "alignment",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 alignment)",
@@ -567,12 +517,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinPivotAlignment",
       "ret": "void",
-      "signature": "(ImVec2*)",
+      "signature": "(const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_EndPin": [
+  "EndPin": [
     {
       "args": "()",
       "argsT": [],
@@ -590,13 +540,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_Group": [
+  "Group": [
     {
-      "args": "(ImVec2* size)",
+      "args": "(const ImVec2* size)",
       "argsT": [
         {
           "name": "size",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 size)",
@@ -608,12 +558,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Group",
       "ret": "void",
-      "signature": "(ImVec2*)",
+      "signature": "(const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_EndNode": [
+  "EndNode": [
     {
       "args": "()",
       "argsT": [],
@@ -631,13 +581,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_BeginGroupHint": [
+  "BeginGroupHint": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -649,12 +599,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_BeginGroupHint",
       "ret": "bool",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetGroupMin": [
+  "GetGroupMin": [
     {
       "args": "()",
       "argsT": [],
@@ -672,7 +622,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetGroupMax": [
+  "GetGroupMax": [
     {
       "args": "()",
       "argsT": [],
@@ -690,7 +640,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetHintForegroundDrawList": [
+  "GetHintForegroundDrawList": [
     {
       "args": "()",
       "argsT": [],
@@ -708,7 +658,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetHintBackgroundDrawList": [
+  "GetHintBackgroundDrawList": [
     {
       "args": "()",
       "argsT": [],
@@ -726,7 +676,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_EndGroupHint": [
+  "EndGroupHint": [
     {
       "args": "()",
       "argsT": [],
@@ -744,13 +694,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetNodeBackgroundDrawList": [
+  "GetNodeBackgroundDrawList": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -762,30 +712,30 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetNodeBackgroundDrawList",
       "ret": "ImDrawList*",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_Link": [
+  "Link": [
     {
-      "args": "(axNodeEditor_LinkId id, axNodeEditor_PinId startPinId, axNodeEditor_PinId endPinId, ImVec4* color, float thickness)",
+      "args": "(LinkId id, PinId startPinId, PinId endPinId, const ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "id",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         },
         {
           "name": "startPinId",
-          "type": "axNodeEditor_PinId"
+          "type": "PinId"
         },
         {
           "name": "endPinId",
-          "type": "axNodeEditor_PinId"
+          "type": "PinId"
         },
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         },
         {
           "name": "thickness",
@@ -801,22 +751,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Link",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId,axNodeEditor_PinId,axNodeEditor_PinId,ImVec4*,float)",
+      "signature": "(LinkId,PinId,PinId,const ImVec4*,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_Flow": [
+  "Flow": [
     {
-      "args": "(axNodeEditor_LinkId linkId, axNodeEditor_FlowDirection direction)",
+      "args": "(LinkId linkId, FlowDirection direction)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         },
         {
           "name": "direction",
-          "type": "axNodeEditor_FlowDirection"
+          "type": "FlowDirection"
         }
       ],
       "argsoriginal": "(LinkId linkId,FlowDirection direction)",
@@ -828,18 +778,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_Flow",
       "ret": "void",
-      "signature": "(axNodeEditor_LinkId,axNodeEditor_FlowDirection)",
+      "signature": "(LinkId,FlowDirection)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_BeginCreate": [
+  "BeginCreate": [
     {
-      "args": "(ImVec4* color, float thickness)",
+      "args": "(const ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         },
         {
           "name": "thickness",
@@ -855,22 +805,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_BeginCreate",
       "ret": "bool",
-      "signature": "(ImVec4*,float)",
+      "signature": "(const ImVec4*,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_QueryNewLink": [
+  "QueryNewLink": [
     {
-      "args": "(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId)",
+      "args": "(PinId* startId, PinId* endId)",
       "argsT": [
         {
           "name": "startId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         },
         {
           "name": "endId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         }
       ],
       "argsoriginal": "(PinId * startId,PinId * endId)",
@@ -882,24 +832,26 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_QueryNewLink",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*,axNodeEditor_PinId*)",
+      "signature": "(PinId*,PinId*)",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "QueryNewLink1": [
     {
-      "args": "(axNodeEditor_PinId* startId, axNodeEditor_PinId* endId, ImVec4* color, float thickness)",
+      "args": "(PinId* startId, PinId* endId, const ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "startId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         },
         {
           "name": "endId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         },
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         },
         {
           "name": "thickness",
@@ -913,20 +865,20 @@
       "funcname": "QueryNewLink",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_QueryNewLink",
+      "ov_cimguiname": "axNodeEditor_QueryNewLink1",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*,axNodeEditor_PinId*,ImVec4*,float)",
+      "signature": "(PinId*,PinId*,const ImVec4*,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_QueryNewNode": [
+  "QueryNewNode": [
     {
-      "args": "(axNodeEditor_PinId* pinId)",
+      "args": "(PinId* pinId)",
       "argsT": [
         {
           "name": "pinId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         }
       ],
       "argsoriginal": "(PinId * pinId)",
@@ -938,20 +890,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_QueryNewNode",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*)",
+      "signature": "(PinId*)",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "QueryNewNode1": [
     {
-      "args": "(axNodeEditor_PinId* pinId, ImVec4* color, float thickness)",
+      "args": "(PinId* pinId, const ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "pinId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         },
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         },
         {
           "name": "thickness",
@@ -965,14 +919,14 @@
       "funcname": "QueryNewNode",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_QueryNewNode",
+      "ov_cimguiname": "axNodeEditor_QueryNewNode1",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*,ImVec4*,float)",
+      "signature": "(PinId*,const ImVec4*,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptNewItem": [
+  "AcceptNewItem": [
     {
       "args": "()",
       "argsT": [],
@@ -988,13 +942,15 @@
       "signature": "()",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "AcceptNewItem1": [
     {
-      "args": "(ImVec4* color, float thickness)",
+      "args": "(const ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         },
         {
           "name": "thickness",
@@ -1008,14 +964,14 @@
       "funcname": "AcceptNewItem",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_AcceptNewItem",
+      "ov_cimguiname": "axNodeEditor_AcceptNewItem1",
       "ret": "bool",
-      "signature": "(ImVec4*,float)",
+      "signature": "(const ImVec4*,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_RejectNewItem": [
+  "RejectNewItem": [
     {
       "args": "()",
       "argsT": [],
@@ -1031,13 +987,15 @@
       "signature": "()",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "RejectNewItem1": [
     {
-      "args": "(ImVec4* color, float thickness)",
+      "args": "(const ImVec4* color, float thickness)",
       "argsT": [
         {
           "name": "color",
-          "type": "ImVec4*"
+          "type": "const ImVec4*"
         },
         {
           "name": "thickness",
@@ -1051,14 +1009,14 @@
       "funcname": "RejectNewItem",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_RejectNewItem",
+      "ov_cimguiname": "axNodeEditor_RejectNewItem1",
       "ret": "void",
-      "signature": "(ImVec4*,float)",
+      "signature": "(const ImVec4*,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_EndCreate": [
+  "EndCreate": [
     {
       "args": "()",
       "argsT": [],
@@ -1076,7 +1034,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_BeginDelete": [
+  "BeginDelete": [
     {
       "args": "()",
       "argsT": [],
@@ -1094,21 +1052,21 @@
       "templated": false
     }
   ],
-  "axNodeEditor_QueryDeletedLink": [
+  "QueryDeletedLink": [
     {
-      "args": "(axNodeEditor_LinkId* linkId, axNodeEditor_PinId* startId, axNodeEditor_PinId* endId)",
+      "args": "(LinkId* linkId, PinId* startId, PinId* endId)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId*"
+          "type": "LinkId*"
         },
         {
           "name": "startId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         },
         {
           "name": "endId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         }
       ],
       "argsoriginal": "(LinkId * linkId,PinId * startId,PinId * endId)",
@@ -1120,18 +1078,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_QueryDeletedLink",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId*,axNodeEditor_PinId*,axNodeEditor_PinId*)",
+      "signature": "(LinkId*,PinId*,PinId*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_QueryDeletedNode": [
+  "QueryDeletedNode": [
     {
-      "args": "(axNodeEditor_NodeId* nodeId)",
+      "args": "(NodeId* nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId*"
+          "type": "NodeId*"
         }
       ],
       "argsoriginal": "(NodeId * nodeId)",
@@ -1143,12 +1101,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_QueryDeletedNode",
       "ret": "bool",
-      "signature": "(axNodeEditor_NodeId*)",
+      "signature": "(NodeId*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptDeletedItem": [
+  "AcceptDeletedItem": [
     {
       "args": "(bool deleteDependencies)",
       "argsT": [
@@ -1171,7 +1129,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_RejectDeletedItem": [
+  "RejectDeletedItem": [
     {
       "args": "()",
       "argsT": [],
@@ -1189,7 +1147,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_EndDelete": [
+  "EndDelete": [
     {
       "args": "()",
       "argsT": [],
@@ -1207,17 +1165,17 @@
       "templated": false
     }
   ],
-  "axNodeEditor_SetNodePosition": [
+  "SetNodePosition": [
     {
-      "args": "(axNodeEditor_NodeId nodeId, ImVec2* editorPosition)",
+      "args": "(NodeId nodeId, const ImVec2* editorPosition)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         },
         {
           "name": "editorPosition",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(NodeId nodeId,const ImVec2 \u0026 editorPosition)",
@@ -1229,22 +1187,22 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SetNodePosition",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId,ImVec2*)",
+      "signature": "(NodeId,const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_SetGroupSize": [
+  "SetGroupSize": [
     {
-      "args": "(axNodeEditor_NodeId nodeId, ImVec2* size)",
+      "args": "(NodeId nodeId, const ImVec2* size)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         },
         {
           "name": "size",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(NodeId nodeId,const ImVec2 \u0026 size)",
@@ -1256,18 +1214,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SetGroupSize",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId,ImVec2*)",
+      "signature": "(NodeId,const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetNodePosition": [
+  "GetNodePosition": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1279,18 +1237,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetNodePosition",
       "ret": "ImVec2",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetNodeSize": [
+  "GetNodeSize": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1302,18 +1260,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetNodeSize",
       "ret": "ImVec2",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_CenterNodeOnScreen": [
+  "CenterNodeOnScreen": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1325,18 +1283,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_CenterNodeOnScreen",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_SetNodeZPosition": [
+  "SetNodeZPosition": [
     {
-      "args": "(axNodeEditor_NodeId nodeId, float z)",
+      "args": "(NodeId nodeId, float z)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         },
         {
           "name": "z",
@@ -1352,18 +1310,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SetNodeZPosition",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId,float)",
+      "signature": "(NodeId,float)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetNodeZPosition": [
+  "GetNodeZPosition": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1375,18 +1333,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetNodeZPosition",
       "ret": "float",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_RestoreNodeState": [
+  "RestoreNodeState": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1398,12 +1356,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_RestoreNodeState",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_Suspend": [
+  "Suspend": [
     {
       "args": "()",
       "argsT": [],
@@ -1421,7 +1379,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_Resume": [
+  "Resume": [
     {
       "args": "()",
       "argsT": [],
@@ -1439,7 +1397,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_IsSuspended": [
+  "IsSuspended": [
     {
       "args": "()",
       "argsT": [],
@@ -1457,7 +1415,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_IsActive": [
+  "IsActive": [
     {
       "args": "()",
       "argsT": [],
@@ -1475,7 +1433,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_HasSelectionChanged": [
+  "HasSelectionChanged": [
     {
       "args": "()",
       "argsT": [],
@@ -1493,7 +1451,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetSelectedObjectCount": [
+  "GetSelectedObjectCount": [
     {
       "args": "()",
       "argsT": [],
@@ -1511,13 +1469,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetSelectedNodes": [
+  "GetSelectedNodes": [
     {
-      "args": "(axNodeEditor_NodeId* nodes, int size)",
+      "args": "(NodeId* nodes, int size)",
       "argsT": [
         {
           "name": "nodes",
-          "type": "axNodeEditor_NodeId*"
+          "type": "NodeId*"
         },
         {
           "name": "size",
@@ -1533,18 +1491,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetSelectedNodes",
       "ret": "int",
-      "signature": "(axNodeEditor_NodeId*,int)",
+      "signature": "(NodeId*,int)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetSelectedLinks": [
+  "GetSelectedLinks": [
     {
-      "args": "(axNodeEditor_LinkId* links, int size)",
+      "args": "(LinkId* links, int size)",
       "argsT": [
         {
           "name": "links",
-          "type": "axNodeEditor_LinkId*"
+          "type": "LinkId*"
         },
         {
           "name": "size",
@@ -1560,18 +1518,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetSelectedLinks",
       "ret": "int",
-      "signature": "(axNodeEditor_LinkId*,int)",
+      "signature": "(LinkId*,int)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_IsNodeSelected": [
+  "IsNodeSelected": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1583,18 +1541,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_IsNodeSelected",
       "ret": "bool",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_IsLinkSelected": [
+  "IsLinkSelected": [
     {
-      "args": "(axNodeEditor_LinkId linkId)",
+      "args": "(LinkId linkId)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         }
       ],
       "argsoriginal": "(LinkId linkId)",
@@ -1606,12 +1564,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_IsLinkSelected",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId)",
+      "signature": "(LinkId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_ClearSelection": [
+  "ClearSelection": [
     {
       "args": "()",
       "argsT": [],
@@ -1629,13 +1587,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_SelectNode": [
+  "SelectNode": [
     {
-      "args": "(axNodeEditor_NodeId nodeId, bool append)",
+      "args": "(NodeId nodeId, bool append)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         },
         {
           "name": "append",
@@ -1651,18 +1609,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SelectNode",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId,bool)",
+      "signature": "(NodeId,bool)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_SelectLink": [
+  "SelectLink": [
     {
-      "args": "(axNodeEditor_LinkId linkId, bool append)",
+      "args": "(LinkId linkId, bool append)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         },
         {
           "name": "append",
@@ -1678,18 +1636,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_SelectLink",
       "ret": "void",
-      "signature": "(axNodeEditor_LinkId,bool)",
+      "signature": "(LinkId,bool)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_DeselectNode": [
+  "DeselectNode": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1701,18 +1659,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_DeselectNode",
       "ret": "void",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_DeselectLink": [
+  "DeselectLink": [
     {
-      "args": "(axNodeEditor_LinkId linkId)",
+      "args": "(LinkId linkId)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         }
       ],
       "argsoriginal": "(LinkId linkId)",
@@ -1724,18 +1682,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_DeselectLink",
       "ret": "void",
-      "signature": "(axNodeEditor_LinkId)",
+      "signature": "(LinkId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_DeleteNode": [
+  "DeleteNode": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1747,18 +1705,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_DeleteNode",
       "ret": "bool",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_DeleteLink": [
+  "DeleteLink": [
     {
-      "args": "(axNodeEditor_LinkId linkId)",
+      "args": "(LinkId linkId)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         }
       ],
       "argsoriginal": "(LinkId linkId)",
@@ -1770,18 +1728,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_DeleteLink",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId)",
+      "signature": "(LinkId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_HasAnyLinks": [
+  "HasAnyLinks": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1793,16 +1751,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_HasAnyLinks",
       "ret": "bool",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "HasAnyLinks1": [
     {
-      "args": "(axNodeEditor_PinId pinId)",
+      "args": "(PinId pinId)",
       "argsT": [
         {
           "name": "pinId",
-          "type": "axNodeEditor_PinId"
+          "type": "PinId"
         }
       ],
       "argsoriginal": "(PinId pinId)",
@@ -1812,20 +1772,20 @@
       "funcname": "HasAnyLinks",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_HasAnyLinks",
+      "ov_cimguiname": "axNodeEditor_HasAnyLinks1",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId)",
+      "signature": "(PinId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_BreakLinks": [
+  "BreakLinks": [
     {
-      "args": "(axNodeEditor_NodeId nodeId)",
+      "args": "(NodeId nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId"
+          "type": "NodeId"
         }
       ],
       "argsoriginal": "(NodeId nodeId)",
@@ -1837,16 +1797,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_BreakLinks",
       "ret": "int",
-      "signature": "(axNodeEditor_NodeId)",
+      "signature": "(NodeId)",
       "stname": "",
       "templated": false
-    },
+    }
+  ],
+  "BreakLinks1": [
     {
-      "args": "(axNodeEditor_PinId pinId)",
+      "args": "(PinId pinId)",
       "argsT": [
         {
           "name": "pinId",
-          "type": "axNodeEditor_PinId"
+          "type": "PinId"
         }
       ],
       "argsoriginal": "(PinId pinId)",
@@ -1856,14 +1818,14 @@
       "funcname": "BreakLinks",
       "location": "",
       "namespace": "ax::NodeEditor",
-      "ov_cimguiname": "axNodeEditor_BreakLinks",
+      "ov_cimguiname": "axNodeEditor_BreakLinks1",
       "ret": "int",
-      "signature": "(axNodeEditor_PinId)",
+      "signature": "(PinId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_NavigateToContent": [
+  "NavigateToContent": [
     {
       "args": "(float duration)",
       "argsT": [
@@ -1886,7 +1848,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_NavigateToSelection": [
+  "NavigateToSelection": [
     {
       "args": "(bool zoomIn, float duration)",
       "argsT": [
@@ -1913,13 +1875,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_ShowNodeContextMenu": [
+  "ShowNodeContextMenu": [
     {
-      "args": "(axNodeEditor_NodeId* nodeId)",
+      "args": "(NodeId* nodeId)",
       "argsT": [
         {
           "name": "nodeId",
-          "type": "axNodeEditor_NodeId*"
+          "type": "NodeId*"
         }
       ],
       "argsoriginal": "(NodeId * nodeId)",
@@ -1931,18 +1893,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_ShowNodeContextMenu",
       "ret": "bool",
-      "signature": "(axNodeEditor_NodeId*)",
+      "signature": "(NodeId*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_ShowPinContextMenu": [
+  "ShowPinContextMenu": [
     {
-      "args": "(axNodeEditor_PinId* pinId)",
+      "args": "(PinId* pinId)",
       "argsT": [
         {
           "name": "pinId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         }
       ],
       "argsoriginal": "(PinId * pinId)",
@@ -1954,18 +1916,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_ShowPinContextMenu",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId*)",
+      "signature": "(PinId*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_ShowLinkContextMenu": [
+  "ShowLinkContextMenu": [
     {
-      "args": "(axNodeEditor_LinkId* linkId)",
+      "args": "(LinkId* linkId)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId*"
+          "type": "LinkId*"
         }
       ],
       "argsoriginal": "(LinkId * linkId)",
@@ -1977,12 +1939,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_ShowLinkContextMenu",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId*)",
+      "signature": "(LinkId*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_ShowBackgroundContextMenu": [
+  "ShowBackgroundContextMenu": [
     {
       "args": "()",
       "argsT": [],
@@ -2000,7 +1962,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_EnableShortcuts": [
+  "EnableShortcuts": [
     {
       "args": "(bool enable)",
       "argsT": [
@@ -2023,7 +1985,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_AreShortcutsEnabled": [
+  "AreShortcutsEnabled": [
     {
       "args": "()",
       "argsT": [],
@@ -2041,7 +2003,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_BeginShortcut": [
+  "BeginShortcut": [
     {
       "args": "()",
       "argsT": [],
@@ -2059,7 +2021,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptCut": [
+  "AcceptCut": [
     {
       "args": "()",
       "argsT": [],
@@ -2077,7 +2039,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptCopy": [
+  "AcceptCopy": [
     {
       "args": "()",
       "argsT": [],
@@ -2095,7 +2057,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptPaste": [
+  "AcceptPaste": [
     {
       "args": "()",
       "argsT": [],
@@ -2113,7 +2075,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptDuplicate": [
+  "AcceptDuplicate": [
     {
       "args": "()",
       "argsT": [],
@@ -2131,7 +2093,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_AcceptCreateNode": [
+  "AcceptCreateNode": [
     {
       "args": "()",
       "argsT": [],
@@ -2149,7 +2111,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetActionContextSize": [
+  "GetActionContextSize": [
     {
       "args": "()",
       "argsT": [],
@@ -2167,13 +2129,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetActionContextNodes": [
+  "GetActionContextNodes": [
     {
-      "args": "(axNodeEditor_NodeId* nodes, int size)",
+      "args": "(NodeId* nodes, int size)",
       "argsT": [
         {
           "name": "nodes",
-          "type": "axNodeEditor_NodeId*"
+          "type": "NodeId*"
         },
         {
           "name": "size",
@@ -2189,18 +2151,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetActionContextNodes",
       "ret": "int",
-      "signature": "(axNodeEditor_NodeId*,int)",
+      "signature": "(NodeId*,int)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetActionContextLinks": [
+  "GetActionContextLinks": [
     {
-      "args": "(axNodeEditor_LinkId* links, int size)",
+      "args": "(LinkId* links, int size)",
       "argsT": [
         {
           "name": "links",
-          "type": "axNodeEditor_LinkId*"
+          "type": "LinkId*"
         },
         {
           "name": "size",
@@ -2216,12 +2178,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetActionContextLinks",
       "ret": "int",
-      "signature": "(axNodeEditor_LinkId*,int)",
+      "signature": "(LinkId*,int)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_EndShortcut": [
+  "EndShortcut": [
     {
       "args": "()",
       "argsT": [],
@@ -2239,7 +2201,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetCurrentZoom": [
+  "GetCurrentZoom": [
     {
       "args": "()",
       "argsT": [],
@@ -2257,7 +2219,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetHoveredNode": [
+  "GetHoveredNode": [
     {
       "args": "()",
       "argsT": [],
@@ -2269,13 +2231,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetHoveredNode",
-      "ret": "axNodeEditor_NodeId",
+      "ret": "NodeId",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetHoveredPin": [
+  "GetHoveredPin": [
     {
       "args": "()",
       "argsT": [],
@@ -2287,13 +2249,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetHoveredPin",
-      "ret": "axNodeEditor_PinId",
+      "ret": "PinId",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetHoveredLink": [
+  "GetHoveredLink": [
     {
       "args": "()",
       "argsT": [],
@@ -2305,13 +2267,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetHoveredLink",
-      "ret": "axNodeEditor_LinkId",
+      "ret": "LinkId",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetDoubleClickedNode": [
+  "GetDoubleClickedNode": [
     {
       "args": "()",
       "argsT": [],
@@ -2323,13 +2285,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetDoubleClickedNode",
-      "ret": "axNodeEditor_NodeId",
+      "ret": "NodeId",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetDoubleClickedPin": [
+  "GetDoubleClickedPin": [
     {
       "args": "()",
       "argsT": [],
@@ -2341,13 +2303,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetDoubleClickedPin",
-      "ret": "axNodeEditor_PinId",
+      "ret": "PinId",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetDoubleClickedLink": [
+  "GetDoubleClickedLink": [
     {
       "args": "()",
       "argsT": [],
@@ -2359,13 +2321,13 @@
       "location": "",
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetDoubleClickedLink",
-      "ret": "axNodeEditor_LinkId",
+      "ret": "LinkId",
       "signature": "()",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_IsBackgroundClicked": [
+  "IsBackgroundClicked": [
     {
       "args": "()",
       "argsT": [],
@@ -2383,7 +2345,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_IsBackgroundDoubleClicked": [
+  "IsBackgroundDoubleClicked": [
     {
       "args": "()",
       "argsT": [],
@@ -2401,7 +2363,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetBackgroundClickButtonIndex": [
+  "GetBackgroundClickButtonIndex": [
     {
       "args": "()",
       "argsT": [],
@@ -2419,7 +2381,7 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetBackgroundDoubleClickButtonIndex": [
+  "GetBackgroundDoubleClickButtonIndex": [
     {
       "args": "()",
       "argsT": [],
@@ -2437,21 +2399,21 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetLinkPins": [
+  "GetLinkPins": [
     {
-      "args": "(axNodeEditor_LinkId linkId, axNodeEditor_PinId* startPinId, axNodeEditor_PinId* endPinId)",
+      "args": "(LinkId linkId, PinId* startPinId, PinId* endPinId)",
       "argsT": [
         {
           "name": "linkId",
-          "type": "axNodeEditor_LinkId"
+          "type": "LinkId"
         },
         {
           "name": "startPinId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         },
         {
           "name": "endPinId",
-          "type": "axNodeEditor_PinId*"
+          "type": "PinId*"
         }
       ],
       "argsoriginal": "(LinkId linkId,PinId * startPinId,PinId * endPinId)",
@@ -2463,18 +2425,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetLinkPins",
       "ret": "bool",
-      "signature": "(axNodeEditor_LinkId,axNodeEditor_PinId*,axNodeEditor_PinId*)",
+      "signature": "(LinkId,PinId*,PinId*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_PinHadAnyLinks": [
+  "PinHadAnyLinks": [
     {
-      "args": "(axNodeEditor_PinId pinId)",
+      "args": "(PinId pinId)",
       "argsT": [
         {
           "name": "pinId",
-          "type": "axNodeEditor_PinId"
+          "type": "PinId"
         }
       ],
       "argsoriginal": "(PinId pinId)",
@@ -2486,12 +2448,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_PinHadAnyLinks",
       "ret": "bool",
-      "signature": "(axNodeEditor_PinId)",
+      "signature": "(PinId)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetScreenSize": [
+  "GetScreenSize": [
     {
       "args": "()",
       "argsT": [],
@@ -2509,13 +2471,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_ScreenToCanvas": [
+  "ScreenToCanvas": [
     {
-      "args": "(ImVec2* pos)",
+      "args": "(const ImVec2* pos)",
       "argsT": [
         {
           "name": "pos",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 pos)",
@@ -2527,18 +2489,18 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_ScreenToCanvas",
       "ret": "ImVec2",
-      "signature": "(ImVec2*)",
+      "signature": "(const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_CanvasToScreen": [
+  "CanvasToScreen": [
     {
-      "args": "(ImVec2* pos)",
+      "args": "(const ImVec2* pos)",
       "argsT": [
         {
           "name": "pos",
-          "type": "ImVec2*"
+          "type": "const ImVec2*"
         }
       ],
       "argsoriginal": "(const ImVec2 \u0026 pos)",
@@ -2550,12 +2512,12 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_CanvasToScreen",
       "ret": "ImVec2",
-      "signature": "(ImVec2*)",
+      "signature": "(const ImVec2*)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditor_GetNodeCount": [
+  "GetNodeCount": [
     {
       "args": "()",
       "argsT": [],
@@ -2573,13 +2535,13 @@
       "templated": false
     }
   ],
-  "axNodeEditor_GetOrderedNodeIds": [
+  "GetOrderedNodeIds": [
     {
-      "args": "(axNodeEditor_NodeId* nodes, int size)",
+      "args": "(NodeId* nodes, int size)",
       "argsT": [
         {
           "name": "nodes",
-          "type": "axNodeEditor_NodeId*"
+          "type": "NodeId*"
         },
         {
           "name": "size",
@@ -2595,59 +2557,78 @@
       "namespace": "ax::NodeEditor",
       "ov_cimguiname": "axNodeEditor_GetOrderedNodeIds",
       "ret": "int",
-      "signature": "(axNodeEditor_NodeId*,int)",
+      "signature": "(NodeId*,int)",
       "stname": "",
       "templated": false
     }
   ],
-  "axNodeEditorDetails_SafeType_operator_equal": [
+  "Details_SafeType_voidptr_NodeId_Get": [
     {
-      "args": "(axNodeEditorDetails_SafeType* __self, axNodeEditorDetails_SafeType_T_Tag* __0)",
+      "args": "(Details_SafeType_voidptr_NodeId* __self)",
       "argsT": [
         {
           "name": "__self",
-          "type": "axNodeEditorDetails_SafeType*"
-        },
-        {
-          "name": "__0",
-          "type": "axNodeEditorDetails_SafeType_T_Tag*"
-        }
-      ],
-      "argsoriginal": "(const SafeType\u003CT, Tag\u003E \u0026 __0)",
-      "call_args": "(__0)",
-      "cimguiname": "axNodeEditorDetails_SafeType_operator_equal",
-      "defaults": {},
-      "funcname": "operator=",
-      "location": "",
-      "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_operator_equal",
-      "ret": "axNodeEditorDetails_SafeType_T_Tag*",
-      "signature": "(axNodeEditorDetails_SafeType*,axNodeEditorDetails_SafeType_T_Tag*)",
-      "stname": "axNodeEditorDetails_SafeType",
-      "templated": true
-    }
-  ],
-  "axNodeEditorDetails_SafeType_Get": [
-    {
-      "args": "(axNodeEditorDetails_SafeType* __self)",
-      "argsT": [
-        {
-          "name": "__self",
-          "type": "axNodeEditorDetails_SafeType*"
+          "type": "Details_SafeType_voidptr_NodeId*"
         }
       ],
       "argsoriginal": "()",
       "call_args": "()",
-      "cimguiname": "axNodeEditorDetails_SafeType_Get",
+      "cimguiname": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_Get",
       "defaults": {},
       "funcname": "Get",
       "location": "",
       "namespace": "",
-      "ov_cimguiname": "axNodeEditorDetails_SafeType_Get",
-      "ret": "T",
-      "signature": "(axNodeEditorDetails_SafeType*)",
-      "stname": "axNodeEditorDetails_SafeType",
-      "templated": true
+      "ov_cimguiname": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_Get",
+      "ret": "void*",
+      "signature": "(Details_SafeType_voidptr_NodeId*)",
+      "stname": "Details_SafeType_voidptr_NodeId",
+      "templated": false
+    }
+  ],
+  "Details_SafeType_voidptr_LinkId_Get": [
+    {
+      "args": "(Details_SafeType_voidptr_LinkId* __self)",
+      "argsT": [
+        {
+          "name": "__self",
+          "type": "Details_SafeType_voidptr_LinkId*"
+        }
+      ],
+      "argsoriginal": "()",
+      "call_args": "()",
+      "cimguiname": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_Get",
+      "defaults": {},
+      "funcname": "Get",
+      "location": "",
+      "namespace": "",
+      "ov_cimguiname": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_Get",
+      "ret": "void*",
+      "signature": "(Details_SafeType_voidptr_LinkId*)",
+      "stname": "Details_SafeType_voidptr_LinkId",
+      "templated": false
+    }
+  ],
+  "Details_SafeType_voidptr_PinId_Get": [
+    {
+      "args": "(Details_SafeType_voidptr_PinId* __self)",
+      "argsT": [
+        {
+          "name": "__self",
+          "type": "Details_SafeType_voidptr_PinId*"
+        }
+      ],
+      "argsoriginal": "()",
+      "call_args": "()",
+      "cimguiname": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId_Get",
+      "defaults": {},
+      "funcname": "Get",
+      "location": "",
+      "namespace": "",
+      "ov_cimguiname": "axNodeEditorDetails_SafeType_voidptr_axNodeEditor_PinId_Get",
+      "ret": "void*",
+      "signature": "(Details_SafeType_voidptr_PinId*)",
+      "stname": "Details_SafeType_voidptr_PinId",
+      "templated": false
     }
   ]
 }

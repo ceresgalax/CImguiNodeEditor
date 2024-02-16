@@ -31,49 +31,56 @@ public class CimguiDefinition
 public static class CimguiDefinitionsGenerator
 {
 
-    public static void Generate(TextWriter writer, Builder builder)
+    public static void Generate(TextWriter writer, Builder builder, string[] omittedNsPrefix)
     {
         Dictionary<string, List<CimguiDefinition>> defs = new();
 
         CTypeTranslator translator = new ();
+        translator.NsPrefixToOmit = omittedNsPrefix;
 
-        foreach (FunctionData data in builder.Functions) {
-            CimguiDefinition def = GetCimguiDefForFunction(translator, data, selfOf: null, isTemplated: false);
-
-            if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
+        void AddDef(FunctionData funcData, IMethodOwner? methodOwner)
+        {
+            if (funcData.IsOperator) {
+                // TODO: Omitting operators should be an option, and omitting should be off by default.
+                // Some generators may handle operators just fine.
+                Console.WriteLine($"{nameof(CimguiDefinitionsGenerator)}: Omitting operator {funcData.Name}, as binding generators typically don't know how to wrap such methods.");
+                return;
+            }
+            
+            CimguiDefinition def = GetCimguiDefForFunction(translator, funcData, methodOwner, isTemplated: false);
+            
+            string name = translator.GetCFunctionName(funcData, methodOwner);
+            if (!defs.TryGetValue(name, out List<CimguiDefinition>? defList)) {
                 defList = new List<CimguiDefinition>();
-                defs[def.CimguiName] = defList;
+                defs[name] = defList;
             }
 
             defList.Add(def);
+        }
+        
+        foreach (FunctionData data in builder.Functions) {
+            AddDef(data, methodOwner: null);
         }
 
         RecordMethodOwner recordMethodOwner = new RecordMethodOwner(new RecordData());
         foreach (RecordData record in builder.Records) {
             recordMethodOwner.SetRecord(record);
             foreach (FunctionData method in record.Methods) {
-                CimguiDefinition def = GetCimguiDefForFunction(translator, method, recordMethodOwner, isTemplated: false);
-                
-                if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
-                    defList = new List<CimguiDefinition>();
-                    defs[def.CimguiName] = defList;
-                }
-
-                defList.Add(def);
+                AddDef(method, recordMethodOwner);
             }
         }
         
+        InstantiatedTemplateRecordMethodOwner itrMethodOwner = new();
         foreach (TemplateRecordData templateRecord in builder.TemplateRecords.Values) {
-            recordMethodOwner.SetRecord(templateRecord.Inner);
-            foreach (FunctionData method in templateRecord.Inner.Methods) {
-                CimguiDefinition def = GetCimguiDefForFunction(translator, method, recordMethodOwner, isTemplated: true);
-            
-                if (!defs.TryGetValue(def.CimguiName, out List<CimguiDefinition>? defList)) {
-                    defList = new List<CimguiDefinition>();
-                    defs[def.CimguiName] = defList;
+            foreach (TemplateArgumentSet set in templateRecord.Instantiations) {
+                itrMethodOwner.Set(templateRecord.Inner, set);
+                translator.PushTemplateArgumentSet(set);
+
+                foreach (FunctionData method in templateRecord.Inner.Methods) {
+                    AddDef(method, itrMethodOwner);
                 }
 
-                defList.Add(def);
+                translator.PopTemplateArgumentSet();
             }
         }
 
@@ -82,13 +89,13 @@ public static class CimguiDefinitionsGenerator
         opts.WriteIndented = true;
         writer.Write(JsonSerializer.Serialize(defs, opts));
     }
-
-    public static CimguiDefinition GetCimguiDefForFunction(CTypeTranslator translator, FunctionData data, RecordMethodOwner? selfOf, bool isTemplated)
+    
+    public static CimguiDefinition GetCimguiDefForFunction(CTypeTranslator translator, FunctionData data, IMethodOwner? selfOf, bool isTemplated)
     {
         IEnumerable<string> parameters = translator.GetParameters(data);
         string selfOfCName = "";
         if (selfOf != null) {
-            selfOfCName = CUtil.GetNamespacedName(selfOf.Namespace, selfOf.Name);
+            selfOfCName = translator.GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArguments);
             parameters = Enumerable.Repeat($"{selfOfCName}* __self", 1).Concat(parameters);
         }
         
@@ -96,7 +103,7 @@ public static class CimguiDefinitionsGenerator
             .Select(p => $"{p.Type.ClangType.AsString} {p.Name}");
 
         IEnumerable<CimguiDefinition.ArgType> argsT = data.Parameters
-            .Select(p => new CimguiDefinition.ArgType() { Name = p.Name, Type = translator.GetCType(p.Type.ClangType) });
+            .Select(p => new CimguiDefinition.ArgType { Name = p.Name, Type = translator.GetCType(p.Type.ClangType) });
         if (selfOf != null) {
             argsT = Enumerable.Repeat(new CimguiDefinition.ArgType
                     { Name = "__self", Type = $"{selfOfCName}*" }, 1)
@@ -107,21 +114,24 @@ public static class CimguiDefinitionsGenerator
         if (selfOf != null) {
             sigParts = Enumerable.Repeat<string>($"{selfOfCName}*", 1).Concat(sigParts);
         }
+
+        CTypeTranslator cimguiTranslator = new(translator);
+        cimguiTranslator.NsPrefixToOmit = Array.Empty<string>();
         
         CimguiDefinition def = new() {
             Args = $"({string.Join(", ", parameters)})",
             ArgsT = argsT.ToList(),
             ArgsOriginal = $"({string.Join(",", cppArgs)})",
             CallArgs = $"({string.Join(",", data.Parameters.Select(p => p.Name))})",
-            CimguiName = translator.GetCFunctionName(data, selfOf, withOverload: false),
+            CimguiName = cimguiTranslator.GetCFunctionName(data, selfOf, withOverload: false),
             // TODO: Defaults
             FuncName = data.Name,
             Location = "", // TODO
             Namespace = string.Join("::", data.Namespace),
-            OvCimguiName = translator.GetCFunctionName(data, selfOf),
+            OvCimguiName = cimguiTranslator.GetCFunctionName(data, selfOf),
             Ret = data.ReturnType == null ? "void" : translator.GetCType(data.ReturnType),
             Signature = $"({string.Join(",", sigParts)})",
-            StName = selfOf == null ? "" : translator.GetNamespacedName(selfOf),
+            StName = selfOf == null ? "" : translator.GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArguments),
             Templated = isTemplated
         };
 

@@ -44,6 +44,9 @@ public static class DeclVisitor
             case CX_DeclKind_FunctionTemplate:
                 
                 break;
+            case CX_DeclKind_Using:
+                // No-op.
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
