@@ -326,6 +326,38 @@
         "name": "StyleVar_Count",
         "value": "27"
       }
+    ],
+    "Drawing_IconType": [
+      {
+        "calc_value": 0,
+        "name": "Flow",
+        "value": "0"
+      },
+      {
+        "calc_value": 1,
+        "name": "Circle",
+        "value": "1"
+      },
+      {
+        "calc_value": 2,
+        "name": "Square",
+        "value": "2"
+      },
+      {
+        "calc_value": 3,
+        "name": "Grid",
+        "value": "3"
+      },
+      {
+        "calc_value": 4,
+        "name": "RoundSquare",
+        "value": "4"
+      },
+      {
+        "calc_value": 5,
+        "name": "Diamond",
+        "value": "5"
+      }
     ]
   },
   "enumtypes": {
@@ -334,7 +366,8 @@
     "CanvasSizeMode": "int",
     "SaveReasonFlags": "int",
     "StyleColor": "int",
-    "StyleVar": "int"
+    "StyleVar": "int",
+    "Drawing_IconType": "int"
   },
   "locations": {
     "PinKind": "",
@@ -343,6 +376,7 @@
     "SaveReasonFlags": "",
     "StyleColor": "",
     "StyleVar": "",
+    "Drawing_IconType": "",
     "Config": "",
     "Style": "",
     "NodeId": "",

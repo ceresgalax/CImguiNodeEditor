@@ -83,6 +83,15 @@ enum axNodeEditor_StyleVar {
 	StyleVar_Count = 27
 };
 
+enum axDrawing_IconType {
+	Flow = 0,
+	Circle = 1,
+	Square = 2,
+	Grid = 3,
+	RoundSquare = 4,
+	Diamond = 5
+};
+
 struct axNodeEditor_Config;
 typedef struct axNodeEditor_Config axNodeEditor_Config;
 struct axNodeEditor_Style;
@@ -207,6 +216,7 @@ typedef ax::NodeEditor::CanvasSizeMode axNodeEditor_CanvasSizeMode;
 typedef ax::NodeEditor::SaveReasonFlags axNodeEditor_SaveReasonFlags;
 typedef ax::NodeEditor::StyleColor axNodeEditor_StyleColor;
 typedef ax::NodeEditor::StyleVar axNodeEditor_StyleVar;
+typedef ax::Drawing::IconType axDrawing_IconType;
 typedef ax::NodeEditor::Config axNodeEditor_Config;
 typedef ax::NodeEditor::Style axNodeEditor_Style;
 typedef ax::NodeEditor::NodeId axNodeEditor_NodeId;
@@ -341,6 +351,8 @@ CIMGUI_NODE_EDITOR_EXPORT ImVec2 axNodeEditor_ScreenToCanvas(const ImVec2* pos);
 CIMGUI_NODE_EDITOR_EXPORT ImVec2 axNodeEditor_CanvasToScreen(const ImVec2* pos);
 CIMGUI_NODE_EDITOR_EXPORT int axNodeEditor_GetNodeCount();
 CIMGUI_NODE_EDITOR_EXPORT int axNodeEditor_GetOrderedNodeIds(axNodeEditor_NodeId* nodes, int size);
+CIMGUI_NODE_EDITOR_EXPORT void axDrawing_DrawIcon(ImDrawList* drawList, const ImVec2* a, const ImVec2* b, axDrawing_IconType type, bool filled, unsigned int color, unsigned int innerColor);
+CIMGUI_NODE_EDITOR_EXPORT void axWidgets_Icon(const ImVec2* size, axDrawing_IconType type, bool filled, const ImVec4* color, const ImVec4* innerColor);
 CIMGUI_NODE_EDITOR_EXPORT axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self, const axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __0);
 CIMGUI_NODE_EDITOR_EXPORT void* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_Get(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self);
 CIMGUI_NODE_EDITOR_EXPORT axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __self, const axNodeEditorDetails_SafeType_voidptr_axNodeEditor_LinkId* __0);

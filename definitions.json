@@ -2562,6 +2562,92 @@
       "templated": false
     }
   ],
+  "Drawing_DrawIcon": [
+    {
+      "args": "(ImDrawList* drawList, const ImVec2* a, const ImVec2* b, Drawing_IconType type, bool filled, unsigned int color, unsigned int innerColor)",
+      "argsT": [
+        {
+          "name": "drawList",
+          "type": "ImDrawList*"
+        },
+        {
+          "name": "a",
+          "type": "const ImVec2*"
+        },
+        {
+          "name": "b",
+          "type": "const ImVec2*"
+        },
+        {
+          "name": "type",
+          "type": "Drawing_IconType"
+        },
+        {
+          "name": "filled",
+          "type": "bool"
+        },
+        {
+          "name": "color",
+          "type": "unsigned int"
+        },
+        {
+          "name": "innerColor",
+          "type": "unsigned int"
+        }
+      ],
+      "argsoriginal": "(ImDrawList * drawList,const ImVec2 \u0026 a,const ImVec2 \u0026 b,IconType type,bool filled,ImU32 color,ImU32 innerColor)",
+      "call_args": "(drawList,a,b,type,filled,color,innerColor)",
+      "cimguiname": "axDrawing_DrawIcon",
+      "defaults": {},
+      "funcname": "DrawIcon",
+      "location": "",
+      "namespace": "ax::Drawing",
+      "ov_cimguiname": "axDrawing_DrawIcon",
+      "ret": "void",
+      "signature": "(ImDrawList*,const ImVec2*,const ImVec2*,Drawing_IconType,bool,unsigned int,unsigned int)",
+      "stname": "",
+      "templated": false
+    }
+  ],
+  "Widgets_Icon": [
+    {
+      "args": "(const ImVec2* size, Drawing_IconType type, bool filled, const ImVec4* color, const ImVec4* innerColor)",
+      "argsT": [
+        {
+          "name": "size",
+          "type": "const ImVec2*"
+        },
+        {
+          "name": "type",
+          "type": "Drawing_IconType"
+        },
+        {
+          "name": "filled",
+          "type": "bool"
+        },
+        {
+          "name": "color",
+          "type": "const ImVec4*"
+        },
+        {
+          "name": "innerColor",
+          "type": "const ImVec4*"
+        }
+      ],
+      "argsoriginal": "(const ImVec2 \u0026 size,IconType type,bool filled,const ImVec4 \u0026 color,const ImVec4 \u0026 innerColor)",
+      "call_args": "(size,type,filled,color,innerColor)",
+      "cimguiname": "axWidgets_Icon",
+      "defaults": {},
+      "funcname": "Icon",
+      "location": "",
+      "namespace": "ax::Widgets",
+      "ov_cimguiname": "axWidgets_Icon",
+      "ret": "void",
+      "signature": "(const ImVec2*,Drawing_IconType,bool,const ImVec4*,const ImVec4*)",
+      "stname": "",
+      "templated": false
+    }
+  ],
   "Details_SafeType_voidptr_NodeId_Get": [
     {
       "args": "(Details_SafeType_voidptr_NodeId* __self)",

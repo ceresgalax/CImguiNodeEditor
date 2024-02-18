@@ -1,5 +1,7 @@
 #define FOR_WRAPPER_IMPL 1
 #include "imgui_node_editor.h"
+#include "examples\blueprints-example\utilities\drawing.h"
+#include "examples\blueprints-example\utilities\widgets.h"
 #include "cimgui_node_editor.h"
 #include <utility> // std::move 
 
@@ -470,6 +472,14 @@ int axNodeEditor_GetNodeCount() {
 
 int axNodeEditor_GetOrderedNodeIds(axNodeEditor_NodeId* nodes, int size) {
 	return ax::NodeEditor::GetOrderedNodeIds(nodes, size);
+}
+
+void axDrawing_DrawIcon(ImDrawList* drawList, const ImVec2* a, const ImVec2* b, axDrawing_IconType type, bool filled, unsigned int color, unsigned int innerColor) {
+	ax::Drawing::DrawIcon(drawList, *a, *b, type, filled, color, innerColor);
+}
+
+void axWidgets_Icon(const ImVec2* size, axDrawing_IconType type, bool filled, const ImVec4* color, const ImVec4* innerColor) {
+	ax::Widgets::Icon(*size, type, filled, *color, *innerColor);
 }
 
 axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId_operator_equal(axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __self, const axNodeEditorDetails_SafeType_voidptr_axNodeEditor_NodeId* __0) {
