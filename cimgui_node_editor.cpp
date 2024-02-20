@@ -1,7 +1,7 @@
 #define FOR_WRAPPER_IMPL 1
 #include "imgui_node_editor.h"
-#include "examples\blueprints-example\utilities\drawing.h"
-#include "examples\blueprints-example\utilities\widgets.h"
+#include "examples/blueprints-example/utilities/drawing.h"
+#include "examples/blueprints-example/utilities/widgets.h"
 #include "cimgui_node_editor.h"
 #include <utility> // std::move 
 

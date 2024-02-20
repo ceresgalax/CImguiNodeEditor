@@ -94,6 +94,7 @@ OverloadUtil.ProcessOverloads(builder);
     using StreamWriter writer = File.CreateText(sourceOutputPath);
     List<string> headerFileNames = sourceFilePaths
         .Select(p => Path.GetRelativePath($"{pwd}/imgui-node-editor", p))
+        .Select(p => p.Replace('\\', '/'))
         .ToList();
     CSourceGenerator.Generate(writer, builder, headerFileNames, Path.GetFileName(headerOutputPath));
 }
