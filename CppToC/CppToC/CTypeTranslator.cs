@@ -244,11 +244,34 @@ public class CTypeTranslator
         }
         return builder.ToString();
     }
+
+    public bool ShouldPassReturnValueAsOutParameter(ClangSharp.Type type)
+    {
+        ClangSharp.Type returnClangType = type;
+        while (returnClangType.IsSugared) {
+            returnClangType = returnClangType.Desugar;
+        }
+        if (returnClangType is TagType tagType) {
+            if (tagType.Declaration is CXXRecordDecl) {
+                // Is a record! Gottta pass as an out parameter due to calling convention weirdness.
+                return true;
+            }
+        }
+
+        return false;
+    }
     
     public string GetCFunctionLine(FunctionData data, IMethodOwner? selfOf)
     {
-        string returnType = "void";
+        bool passReturnValueAsOutParameter = false;
+        
+        // Check if our return value needs to be passed as an out parameter.
         if (data.ReturnType != null) {
+            passReturnValueAsOutParameter = ShouldPassReturnValueAsOutParameter(data.ReturnType.ClangType);
+        }
+        
+        string returnType = "void";
+        if (data.ReturnType != null && !passReturnValueAsOutParameter) {
             returnType = GetCType(data.ReturnType);
         }
 
@@ -259,8 +282,13 @@ public class CTypeTranslator
             // TODO: If this is a const function, make the self pointer const.
             selfPrefix = Enumerable.Repeat($"{GetNamespacedName(selfOf)}* __self", 1);
         }
+
+        IEnumerable<string> outParameters = Array.Empty<string>();
+        if (passReturnValueAsOutParameter && data.ReturnType != null) {
+            outParameters = Enumerable.Repeat($"{GetCType(data.ReturnType)}* pOut", 1);
+        }
         
-        string parameters = string.Join(", ", selfPrefix.Concat(GetParameters(data)));
+        string parameters = string.Join(", ", selfPrefix.Concat(GetParameters(data).Concat(outParameters)));
         return $"{returnType} {name}({parameters})";
     }
     

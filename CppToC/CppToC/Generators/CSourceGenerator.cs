@@ -25,7 +25,7 @@ public static class CSourceGenerator
             writer.WriteLine($"{cTypeTranslator.GetCFunctionLine(data, selfOf: null)} {{");
             writer.Write("\t");
             
-            (string prefix, string postfix) = GetExpressionWrapper(data.ReturnType?.ClangType, data.ReturnType != null ? cTypeTranslator.GetCType(data.ReturnType) : "");
+            (string prefix, string postfix) = GetExpressionWrapper(data.ReturnType?.ClangType, cTypeTranslator);
             writer.Write(prefix);
             
             string cppSpelling = CUtil.GetCppFunctionSpelling(data);
@@ -70,20 +70,34 @@ public static class CSourceGenerator
         writer.WriteLine("} // extern \"C\"");
     }
 
-    private static (string prefix, string postfix) GetExpressionWrapper(ClangSharp.Type? returnType, string cReturnType)
+    private static (string prefix, string postfix) GetExpressionWrapper(ClangSharp.Type? returnType, CTypeTranslator translator)
     {
         if (returnType == null || returnType.Kind == CXType_Void) {
             return ("", "");
         }
 
         CXTypeKind rvKind = returnType.Kind;
-
+        
         if (rvKind == CXType_Elaborated) {
             ElaboratedType et = (ElaboratedType)returnType;
-            return GetExpressionWrapper(et.CanonicalType, cReturnType);
+            return GetExpressionWrapper(et.CanonicalType, translator);
         }
         
-        if (rvKind is CXType_LValueReference or CXType_RValueReference) {
+        bool shouldPassReturnValueAsOutParameter = translator.ShouldPassReturnValueAsOutParameter(returnType);
+        bool isReturnValuePointer = rvKind is CXType_LValueReference or CXType_RValueReference;
+
+        if (shouldPassReturnValueAsOutParameter) {
+            string prefix = "*pOut = ";
+            if (isReturnValuePointer) {
+                prefix += "*";
+            }
+            
+            return (prefix, "");
+        }
+        
+        string cReturnType = translator.GetCType(returnType);
+        
+        if (isReturnValuePointer) {
             return ("return &", "");
         }
 
@@ -111,7 +125,7 @@ public static class CSourceGenerator
         writer.WriteLine($"{translator.GetCFunctionLine(function, selfOf)} {{");
         writer.Write("\t");
 
-        (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType, function.ReturnType != null ? translator.GetCType(function.ReturnType) : "");
+        (string prefix, string postfix) = GetExpressionWrapper(function.ReturnType?.ClangType, translator);
         writer.Write(prefix);
 
         string cppFuncSpelling = CUtil.GetCppFunctionSpelling(function); 

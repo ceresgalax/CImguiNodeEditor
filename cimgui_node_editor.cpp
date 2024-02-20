@@ -118,12 +118,12 @@ bool axNodeEditor_BeginGroupHint(axNodeEditor_NodeId nodeId) {
 	return ax::NodeEditor::BeginGroupHint(nodeId);
 }
 
-ImVec2 axNodeEditor_GetGroupMin() {
-	return ax::NodeEditor::GetGroupMin();
+void axNodeEditor_GetGroupMin(ImVec2* pOut) {
+	*pOut = ax::NodeEditor::GetGroupMin();
 }
 
-ImVec2 axNodeEditor_GetGroupMax() {
-	return ax::NodeEditor::GetGroupMax();
+void axNodeEditor_GetGroupMax(ImVec2* pOut) {
+	*pOut = ax::NodeEditor::GetGroupMax();
 }
 
 ImDrawList* axNodeEditor_GetHintForegroundDrawList() {
@@ -222,12 +222,12 @@ void axNodeEditor_SetGroupSize(axNodeEditor_NodeId nodeId, const ImVec2* size) {
 	ax::NodeEditor::SetGroupSize(nodeId, *size);
 }
 
-ImVec2 axNodeEditor_GetNodePosition(axNodeEditor_NodeId nodeId) {
-	return ax::NodeEditor::GetNodePosition(nodeId);
+void axNodeEditor_GetNodePosition(axNodeEditor_NodeId nodeId, ImVec2* pOut) {
+	*pOut = ax::NodeEditor::GetNodePosition(nodeId);
 }
 
-ImVec2 axNodeEditor_GetNodeSize(axNodeEditor_NodeId nodeId) {
-	return ax::NodeEditor::GetNodeSize(nodeId);
+void axNodeEditor_GetNodeSize(axNodeEditor_NodeId nodeId, ImVec2* pOut) {
+	*pOut = ax::NodeEditor::GetNodeSize(nodeId);
 }
 
 void axNodeEditor_CenterNodeOnScreen(axNodeEditor_NodeId nodeId) {
@@ -406,28 +406,28 @@ float axNodeEditor_GetCurrentZoom() {
 	return ax::NodeEditor::GetCurrentZoom();
 }
 
-axNodeEditor_NodeId axNodeEditor_GetHoveredNode() {
-	return ax::NodeEditor::GetHoveredNode();
+void axNodeEditor_GetHoveredNode(axNodeEditor_NodeId* pOut) {
+	*pOut = ax::NodeEditor::GetHoveredNode();
 }
 
-axNodeEditor_PinId axNodeEditor_GetHoveredPin() {
-	return ax::NodeEditor::GetHoveredPin();
+void axNodeEditor_GetHoveredPin(axNodeEditor_PinId* pOut) {
+	*pOut = ax::NodeEditor::GetHoveredPin();
 }
 
-axNodeEditor_LinkId axNodeEditor_GetHoveredLink() {
-	return ax::NodeEditor::GetHoveredLink();
+void axNodeEditor_GetHoveredLink(axNodeEditor_LinkId* pOut) {
+	*pOut = ax::NodeEditor::GetHoveredLink();
 }
 
-axNodeEditor_NodeId axNodeEditor_GetDoubleClickedNode() {
-	return ax::NodeEditor::GetDoubleClickedNode();
+void axNodeEditor_GetDoubleClickedNode(axNodeEditor_NodeId* pOut) {
+	*pOut = ax::NodeEditor::GetDoubleClickedNode();
 }
 
-axNodeEditor_PinId axNodeEditor_GetDoubleClickedPin() {
-	return ax::NodeEditor::GetDoubleClickedPin();
+void axNodeEditor_GetDoubleClickedPin(axNodeEditor_PinId* pOut) {
+	*pOut = ax::NodeEditor::GetDoubleClickedPin();
 }
 
-axNodeEditor_LinkId axNodeEditor_GetDoubleClickedLink() {
-	return ax::NodeEditor::GetDoubleClickedLink();
+void axNodeEditor_GetDoubleClickedLink(axNodeEditor_LinkId* pOut) {
+	*pOut = ax::NodeEditor::GetDoubleClickedLink();
 }
 
 bool axNodeEditor_IsBackgroundClicked() {
@@ -454,16 +454,16 @@ bool axNodeEditor_PinHadAnyLinks(axNodeEditor_PinId pinId) {
 	return ax::NodeEditor::PinHadAnyLinks(pinId);
 }
 
-ImVec2 axNodeEditor_GetScreenSize() {
-	return ax::NodeEditor::GetScreenSize();
+void axNodeEditor_GetScreenSize(ImVec2* pOut) {
+	*pOut = ax::NodeEditor::GetScreenSize();
 }
 
-ImVec2 axNodeEditor_ScreenToCanvas(const ImVec2* pos) {
-	return ax::NodeEditor::ScreenToCanvas(*pos);
+void axNodeEditor_ScreenToCanvas(const ImVec2* pos, ImVec2* pOut) {
+	*pOut = ax::NodeEditor::ScreenToCanvas(*pos);
 }
 
-ImVec2 axNodeEditor_CanvasToScreen(const ImVec2* pos) {
-	return ax::NodeEditor::CanvasToScreen(*pos);
+void axNodeEditor_CanvasToScreen(const ImVec2* pos, ImVec2* pOut) {
+	*pOut = ax::NodeEditor::CanvasToScreen(*pos);
 }
 
 int axNodeEditor_GetNodeCount() {

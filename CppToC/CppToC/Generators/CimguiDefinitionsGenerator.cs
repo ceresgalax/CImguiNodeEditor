@@ -92,11 +92,22 @@ public static class CimguiDefinitionsGenerator
     
     public static CimguiDefinition GetCimguiDefForFunction(CTypeTranslator translator, FunctionData data, IMethodOwner? selfOf, bool isTemplated)
     {
+        bool shouldPassReturNValueAsOutParameter = false;
+        string outParameterType = "";
+        
+        if (data.ReturnType != null) {
+            shouldPassReturNValueAsOutParameter = translator.ShouldPassReturnValueAsOutParameter(data.ReturnType.ClangType);
+            outParameterType = translator.GetCType(data.ReturnType);
+        }
+        
         IEnumerable<string> parameters = translator.GetParameters(data);
         string selfOfCName = "";
         if (selfOf != null) {
             selfOfCName = translator.GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArguments);
             parameters = Enumerable.Repeat($"{selfOfCName}* __self", 1).Concat(parameters);
+        }
+        if (shouldPassReturNValueAsOutParameter) {
+            parameters = parameters.Concat(Enumerable.Repeat($"{outParameterType}* pOut", 1));
         }
         
         IEnumerable<string> cppArgs = data.Parameters
@@ -105,15 +116,25 @@ public static class CimguiDefinitionsGenerator
         IEnumerable<CimguiDefinition.ArgType> argsT = data.Parameters
             .Select(p => new CimguiDefinition.ArgType { Name = p.Name, Type = translator.GetCType(p.Type.ClangType) });
         if (selfOf != null) {
-            argsT = Enumerable.Repeat(new CimguiDefinition.ArgType
-                    { Name = "__self", Type = $"{selfOfCName}*" }, 1)
+            argsT = Enumerable.Repeat(new CimguiDefinition.ArgType { Name = "__self", Type = $"{selfOfCName}*" }, 1)
                 .Concat(argsT);
+        }
+        if (shouldPassReturNValueAsOutParameter) {
+            argsT = argsT.Concat(Enumerable.Repeat(new CimguiDefinition.ArgType {
+                Name = "pOut",
+                Type = $"{outParameterType}*"
+            }, 1));
         }
 
         IEnumerable<string> sigParts = data.Parameters.Select(p => translator.GetCType(p.Type));
+        
         if (selfOf != null) {
             sigParts = Enumerable.Repeat<string>($"{selfOfCName}*", 1).Concat(sigParts);
         }
+        if (shouldPassReturNValueAsOutParameter) {
+            sigParts = sigParts.Concat(Enumerable.Repeat<string>($"{outParameterType}* pOut", 1));    
+        }
+        
 
         CTypeTranslator cimguiTranslator = new(translator);
         cimguiTranslator.NsPrefixToOmit = Array.Empty<string>();
@@ -129,7 +150,7 @@ public static class CimguiDefinitionsGenerator
             Location = "", // TODO
             Namespace = string.Join("::", data.Namespace),
             OvCimguiName = cimguiTranslator.GetCFunctionName(data, selfOf),
-            Ret = data.ReturnType == null ? "void" : translator.GetCType(data.ReturnType),
+            Ret = data.ReturnType == null || shouldPassReturNValueAsOutParameter ? "void" : translator.GetCType(data.ReturnType),
             Signature = $"({string.Join(",", sigParts)})",
             StName = selfOf == null ? "" : translator.GetNamespacedName(selfOf.Namespace, selfOf.Name, selfOf.TemplateArguments),
             Templated = isTemplated
