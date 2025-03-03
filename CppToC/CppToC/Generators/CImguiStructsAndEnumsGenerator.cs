@@ -117,7 +117,7 @@ public class CImguiStructsAndEnumsGenerator
         string GetTemplateType(ClangSharp.Type type)
         {
             // Only output a template type if it's not from our parsed headers.
-            Decl? typeDecl = type.Declaration;
+            Decl? typeDecl = ClangTypeUtil.GetDeclaration(type);
             if (typeDecl != null) {
                 if (builder.IsDeclPartOfSourceFile(typeDecl)) {
                     return "";

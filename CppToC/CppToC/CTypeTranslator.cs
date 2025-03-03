@@ -252,8 +252,8 @@ public class CTypeTranslator
             returnClangType = returnClangType.Desugar;
         }
         if (returnClangType is TagType tagType) {
-            if (tagType.Declaration is CXXRecordDecl) {
-                // Is a record! Gottta pass as an out parameter due to calling convention weirdness.
+            if (tagType.AsCXXRecordDecl != null) {
+                // Is a record! Gotta pass as an out parameter due to calling convention weirdness.
                 return true;
             }
         }

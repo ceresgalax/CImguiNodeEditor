@@ -1,9 +1,6 @@
 [submodule "imgui-node-editor"]
 	path = imgui-node-editor
 	url = https://github.com/thedmd/imgui-node-editor
-[submodule "imgui"]
-	path = imgui
-	url = git@github.com:ocornut/imgui.git
 [submodule "CppToC/ClangSharp"]
 	path = CppToC/ClangSharp
 	url = https://github.com/ceresgalax/ClangSharp

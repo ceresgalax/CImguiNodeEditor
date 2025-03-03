@@ -73,7 +73,7 @@ public static class CUtil
 
             for (int i = 0, ilen = templateArgs.Count; i < ilen; ++i) {
                 TemplateArgument arg = templateArgs[i];
-                builder.Append(GetNamespacedCppName(GetNsFromCursor(arg.AsType.Declaration), arg.AsType.AsString));
+                builder.Append(GetNamespacedCppName(GetNsFromCursor(ClangTypeUtil.GetDeclaration(arg.AsType)), arg.AsType.AsString));
                 if (i + 1 < ilen) {
                     builder.Append(", ");
                 }

@@ -10,7 +10,7 @@ string pwd = Directory.GetCurrentDirectory();
 
 //string sourceFile = $"{pwd}/imgui-node-editor/imgui_node_editor.h";
 List<string> includeDirectories = new() {
-    $"{pwd}/imgui",
+    $"{pwd}/cimgui/imgui",
     $"{pwd}/imgui-node-editor"
 };
 
